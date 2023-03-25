@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  align-items: center;
+  background: #1C1C21;
+  padding: 16px 320px;
+  white-space: nowrap;
+}
+
+.nav {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}

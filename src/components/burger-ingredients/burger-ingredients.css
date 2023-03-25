@@ -1,0 +1,13 @@
+.ingredients {
+  max-width: 600px;
+}
+
+.ingredients__nav {
+  display: flex;
+}
+
+.ingredients__section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 32px 24px;
+}
