@@ -1,0 +1,10 @@
+.ingredient-card {
+  position: relative;
+  text-align: center;
+}
+
+.card-counter {
+  position: absolute;
+  top: 0;
+  right: 15px;
+}

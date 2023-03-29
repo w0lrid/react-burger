@@ -1,8 +1,9 @@
 .header {
+  margin-bottom: 56px;
+  padding: 16px 0;
   display: flex;
   align-items: center;
   background: #1C1C21;
-  padding: 16px 320px;
   white-space: nowrap;
 }
 
@@ -10,4 +11,15 @@
   list-style-type: none;
   display: flex;
   align-items: center;
+}
+
+.nav:last-of-type {
+  flex-basis: 50%;
+  justify-content: flex-end;
+}
+
+.logo {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
 }

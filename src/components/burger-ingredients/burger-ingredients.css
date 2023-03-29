@@ -1,13 +1,27 @@
 .ingredients {
-  max-width: 600px;
+  max-width: calc(600px + 8px);
 }
 
 .ingredients__nav {
   display: flex;
 }
+.sections {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+  margin-top: 40px;
+  height: 756px;
+  overflow-y: scroll;
+}
 
-.ingredients__section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 32px 24px;
+.sections::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sections::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.sections::-webkit-scrollbar-track {
+  background: #2F2F37;
 }

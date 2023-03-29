@@ -9,7 +9,9 @@ const AppHeader = () => {
         <NavItem text="Конструктор"><BurgerIcon type="primary" /></NavItem>
         <NavItem text="Лента заказов"><ListIcon type="primary"/></NavItem>
       </nav>
-      <Logo/>
+      <div className="logo">
+        <Logo />
+      </div>
       <nav className="nav">
         <NavItem text="Личный кабинет"><ProfileIcon type="primary" /></NavItem>
       </nav>
