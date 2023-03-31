@@ -8,7 +8,10 @@ const BurgerConstructor = ({isLocked}) => {
     <div>
       <div className={styles.constructor}>
         {data.map(({_id, name, image, price}, index) => (
-            <div className={styles.element}>
+            <div
+              className={styles.element}
+              key={_id}
+            >
               {!isLocked && (
                 <DragIcon type="primary"/>
               )}
@@ -19,7 +22,6 @@ const BurgerConstructor = ({isLocked}) => {
                     ? "bottom"
                     : ""
                 }
-                key={_id}
                 text={name}
                 thumbnail={image}
                 price={price}
