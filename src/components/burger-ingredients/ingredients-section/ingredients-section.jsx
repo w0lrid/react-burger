@@ -1,11 +1,11 @@
 import Ingredient from "../ingredient/ingredient";
-import "./ingredients-section.css"
+import styles from "./ingredients-section.module.css"
 
 const IngredientsSection = ({ heading, ingredients }) => {
   return (
-    <section className="ingredients__section">
-      <h3 className="ingredients__heading text text_type_main-medium pb-6">{heading}</h3>
-      <div className="ingredients__list">
+    <section className={styles.section}>
+      <h3 className={`${styles.heading} text text_type_main-medium pb-6`}>{heading}</h3>
+      <div className={styles.list}>
         {ingredients.map(({ _id, name, image, price}) => (
           <Ingredient
             key={_id}

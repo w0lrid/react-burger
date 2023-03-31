@@ -1,8 +1,8 @@
-import "./nav-item.css";
+import styles from "./nav-item.module.css";
 
 const NavItem = ({ children, text }) => {
   return (
-    <li className="nav-item">
+    <li className={styles["nav-item"]}>
       {children}
       <span className="text text_type_main-small">{text}</span>
     </li>

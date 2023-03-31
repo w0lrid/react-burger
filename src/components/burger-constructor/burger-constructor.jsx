@@ -1,14 +1,14 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import data from "../data";
-import "./burger-constructor.css";
+import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 
 const BurgerConstructor = ({isLocked}) => {
   return (
     <div>
-      <div className="constructor">
+      <div className={styles.constructor}>
         {data.map(({_id, name, image, price}, index) => (
-            <div className="element">
+            <div className={styles.element}>
               {!isLocked && (
                 <DragIcon type="primary"/>
               )}
@@ -28,7 +28,7 @@ const BurgerConstructor = ({isLocked}) => {
           )
         )}
       </div>
-      <div className="order">
+      <div className={styles.order}>
         <p className="text text_type_main-large">610 <CurrencyIcon type="primary"/></p>
         <Button
           htmlType="button"

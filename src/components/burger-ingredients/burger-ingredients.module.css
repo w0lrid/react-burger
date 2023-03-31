@@ -2,7 +2,7 @@
   max-width: calc(600px + 8px);
 }
 
-.ingredients__nav {
+.nav {
   display: flex;
 }
 .sections {
