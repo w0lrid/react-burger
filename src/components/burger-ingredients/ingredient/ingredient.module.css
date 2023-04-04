@@ -1,9 +1,13 @@
-.ingredient-card {
+.ingredientCard {
   position: relative;
   text-align: center;
 }
 
-.card-counter {
+.ingredientCard:hover {
+  cursor: pointer;
+}
+
+.cardCounter {
   position: absolute;
   top: 0;
   right: 15px;

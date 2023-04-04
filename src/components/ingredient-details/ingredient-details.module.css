@@ -1,0 +1,42 @@
+.ingredientDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 40px 60px 40px;
+}
+
+.heading {
+  align-self: flex-start;
+  line-height: 64px;
+}
+
+.img {
+  max-width: 480px;
+  height: 240px;
+  margin-bottom: 16px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+.descriptionHeading {
+  text-align: center;
+}
+
+.properties {
+  min-width: 520px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.property {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 8px;
+}

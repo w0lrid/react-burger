@@ -2,8 +2,12 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 // import data from "../data";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
+import Modal from "../modal/modal";
+import { useState } from "react";
 
 const BurgerConstructor = ({data, isLocked}) => {
+  const [activeModal, setActiveModal] = useState(false)
+
   return (
     <div>
       <div className={styles.constructor}>
@@ -36,10 +40,16 @@ const BurgerConstructor = ({data, isLocked}) => {
           htmlType="button"
           type="primary"
           size="large"
+          onClick={() => setActiveModal(true)}
         >
           Оформить заказ
         </Button>
       </div>
+      <Modal
+        type='order'
+        active={activeModal}
+        handleClose={() => setActiveModal(false)}
+       />
     </div>
   )
 }
