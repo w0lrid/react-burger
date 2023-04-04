@@ -1,10 +1,10 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import data from "../data";
+// import data from "../data";
 import IngredientsSection from "./ingredients-section/ingredients-section";
 import { useState } from "react";
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({data}) => {
   const [current, setCurrent] = useState('Булки')
 
   const buns = data.filter(({type}) => type === 'bun')

@@ -1,9 +1,9 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import data from "../data";
+// import data from "../data";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 
-const BurgerConstructor = ({isLocked}) => {
+const BurgerConstructor = ({data, isLocked}) => {
   return (
     <div>
       <div className={styles.constructor}>
