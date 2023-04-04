@@ -26,6 +26,10 @@
   column-gap: 8px;
 }
 
+.element:first-of-type, .element:last-of-type {
+  margin-left: 32px;
+}
+
 .order {
   display: flex;
   align-items: center;

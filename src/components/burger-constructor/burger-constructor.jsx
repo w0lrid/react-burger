@@ -7,6 +7,15 @@ import { useState } from "react";
 
 const BurgerConstructor = ({data, isLocked}) => {
   const [activeModal, setActiveModal] = useState(false)
+  const checkFirstLastIngredient = (index) => {
+    if (index === 0) {
+      return "top"
+    } else if (index === data.length - 1) {
+      return "bottom"
+    } else {
+      return ""
+    }
+  }
 
   return (
     <div>
@@ -16,16 +25,11 @@ const BurgerConstructor = ({data, isLocked}) => {
               className={styles.element}
               key={_id}
             >
-              {!isLocked && (
+              {!isLocked && !checkFirstLastIngredient(index) && (
                 <DragIcon type="primary"/>
               )}
               <ConstructorElement
-                type={index === 0
-                  ? "top"
-                  : index === data.length - 1
-                    ? "bottom"
-                    : ""
-                }
+                type={checkFirstLastIngredient(index)}
                 text={name}
                 thumbnail={image}
                 price={price}

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {ingredientsURL} from "./config/constants";
-import './App.css';
-import AppHeader from "./components/app-header/app-header";
-import BurgerIngredients from "./components/burger-ingredients/burger-ingredients";
-import BurgerConstructor from "./components/burger-constructor/burger-constructor";
+import {ingredientsURL} from "../../config/constants";
+import styles from './app.module.css';
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 function App() {
     const [ingredients, setIngredients] = useState(null)
@@ -16,10 +16,10 @@ function App() {
         fetchData().then(({data}) => setIngredients(data));
     }, [])
     return (
-        <div className="App">
+        <div className={styles.app}>
             <AppHeader/>
-            <main className="main">
-                <h2 className="main-title text text_type_main-large pb-5">Соберите бургер</h2>
+            <main className={styles.main}>
+                <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
                 {ingredients && (
                     <>
                         <BurgerIngredients data={ingredients}/>
