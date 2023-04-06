@@ -1,23 +1,15 @@
 .constructor {
   max-width: calc(600px + 8px);
   height: 696px;
-  overflow-y: scroll;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   row-gap: 16px;
   margin-bottom: 20px;
 }
 
-.constructor::-webkit-scrollbar {
-  width: 8px;
-}
-
-.constructor::-webkit-scrollbar-thumb {
-  background: #8585AD;
-}
-
-.constructor::-webkit-scrollbar-track {
-  background: #2F2F37;
+.bun {
+  margin-left: 32px;
 }
 
 .element {
@@ -26,8 +18,24 @@
   column-gap: 8px;
 }
 
-.element:first-of-type, .element:last-of-type {
-  margin-left: 32px;
+.scrollableIngredients {
+  height: 464px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.scrollableIngredients::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollableIngredients::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.scrollableIngredients::-webkit-scrollbar-track {
+  background: #2F2F37;
 }
 
 .order {

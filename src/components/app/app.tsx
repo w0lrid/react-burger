@@ -4,9 +4,14 @@ import styles from './app.module.css';
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
 
 function App() {
     const [ingredients, setIngredients] = useState(null)
+    const [activeOrderModal, setActiveOrderModal] = useState(false)
+    const [activeIngredientModal, setActiveIngredientModal] = useState(false)
 
     useEffect(() => {
         const fetchData = () =>
@@ -31,9 +36,15 @@ function App() {
                 {ingredients && (
                     <>
                         <BurgerIngredients data={ingredients}/>
-                        <BurgerConstructor data={ingredients}/>
+                        <BurgerConstructor data={ingredients} handleOpenModal={() => setActiveOrderModal(true)}/>
                     </>
                 )}
+                <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
+                    <OrderDetails/>
+                </Modal>
+                <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
+                    {/*<IngredientDetails img={img} name={name} properties={properties}/>*/}
+                </Modal>
             </main>
         </div>
     );
