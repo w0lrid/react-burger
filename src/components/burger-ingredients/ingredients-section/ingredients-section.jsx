@@ -1,6 +1,7 @@
-import Ingredient from "../ingredient/ingredient";
+import { TypeIngredient } from "../../../utils/types";
 import styles from "./ingredients-section.module.css"
 import PropTypes from "prop-types";
+import Ingredient from "../ingredient/ingredient";
 
 const IngredientsSection = ({heading, ingredients}) => {
   return (
@@ -40,20 +41,7 @@ const IngredientsSection = ({heading, ingredients}) => {
 
 IngredientsSection.propTypes = {
   heading: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number,
-  })).isRequired,
+  ingredients: PropTypes.arrayOf(TypeIngredient).isRequired,
 }
 
 export default IngredientsSection;

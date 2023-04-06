@@ -3,6 +3,7 @@ import styles from "./ingredient.module.css";
 import PropTypes from "prop-types";
 import Modal from "../../modal/modal";
 import { useState } from "react";
+import { TypeIngredientProperty } from "../../../utils/types";
 
 const Ingredient = ({img, price, title, properties}) => {
   const [activeModal, setActiveModal] = useState(false)
@@ -31,6 +32,7 @@ Ingredient.propTypes = {
   img: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  properties: PropTypes.arrayOf(TypeIngredientProperty).isRequired,
 }
 
 export default Ingredient;
