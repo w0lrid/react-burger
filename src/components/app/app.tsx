@@ -9,11 +9,19 @@ function App() {
     const [ingredients, setIngredients] = useState(null)
 
     useEffect(() => {
-        const fetchData = () => fetch(ingredientsURL)
-            .then((response) => response.json())
-            .catch((error) => console.error(error));
+        const fetchData = () =>
+            fetch(ingredientsURL)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json()
+                    }
 
-        fetchData().then(({data}) => setIngredients(data));
+                    return Promise.reject(`Ошибка ${response.status}`);
+                })
+                .then(({data}) => setIngredients(data))
+                .catch((error) => console.error(error));
+
+        fetchData();
     }, [])
     return (
         <div className={styles.app}>
