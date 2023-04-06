@@ -5,7 +5,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { TypeIngredient } from "../../utils/types";
 
-const BurgerIngredients = ({data}) => {
+const BurgerIngredients = ({data, handleIngredientInfo}) => {
   const [current, setCurrent] = useState('Булки')
 
   const buns = data.filter(({type}) => type === 'bun')
@@ -23,14 +23,17 @@ const BurgerIngredients = ({data}) => {
         <IngredientsSection
           heading="Булки"
           ingredients={buns}
+          handleIngredientInfo={handleIngredientInfo}
         />
         <IngredientsSection
           heading="Соусы"
           ingredients={sauces}
+          handleIngredientInfo={handleIngredientInfo}
         />
         <IngredientsSection
           heading="Начинки"
           ingredients={filling}
+          handleIngredientInfo={handleIngredientInfo}
         />
       </div>
     </div>
