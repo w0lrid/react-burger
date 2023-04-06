@@ -23,7 +23,7 @@ const Modal = ({children, active, handleClose}) => {
 
   return (
     <div className={`${styles.overlay} ${active && styles.overlayActive}`} onClick={handleClose}>
-      <div className={styles.modal}>
+      <div className={styles.modal} onClick={event => event.stopPropagation()}>
         <div className={styles.closeIcon}>
           <CloseIcon type="primary" onClick={handleClose}/>
         </div>
