@@ -1,9 +1,6 @@
-// import OrderDetails from "../order-details/order-details";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./modal.module.css";
 import { useEffect } from "react";
-import OrderDetails from "../order-details/order-details";
-// import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const Modal = ({children, active, handleClose}) => {
   const isOpen = active
@@ -15,7 +12,7 @@ const Modal = ({children, active, handleClose}) => {
       }
     }
 
-    if (isOpen) { // навешиваем только при открытии
+    if (isOpen) {
       document.addEventListener('keydown', closeByEscape);
 
       return () => {
@@ -31,8 +28,6 @@ const Modal = ({children, active, handleClose}) => {
           <CloseIcon type="primary" onClick={handleClose}/>
         </div>
         {children}
-        {/*<OrderDetails/>
-        <IngredientDetails img={img} name={name} properties={properties}/>*/}
       </div>
     </div>
   )
