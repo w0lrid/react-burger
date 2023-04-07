@@ -70,7 +70,8 @@ const BurgerConstructor = ({data, handleOpenModal}) => (
 )
 
 BurgerConstructor.propTypes = {
-  isLocked: PropTypes.bool
+  isLocked: PropTypes.bool,
+  handleOpenModal: PropTypes.func,
 }
 
 export default BurgerConstructor

@@ -49,14 +49,14 @@ function App() {
         <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
           <OrderDetails/>
         </Modal>
-        {modalIngredientData && (
-          <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
+        <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
+          {modalIngredientData && (
             <IngredientDetails
               img={modalIngredientData.img}
               title={modalIngredientData.title}
               properties={modalIngredientData.properties}/>
-          </Modal>
-        )}
+          )}
+        </Modal>
       </main>
     </div>
   );

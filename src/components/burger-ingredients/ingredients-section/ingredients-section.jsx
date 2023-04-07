@@ -41,6 +41,7 @@ const IngredientsSection = ({heading, ingredients, handleIngredientInfo}) => (
 IngredientsSection.propTypes = {
   heading: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(TypeIngredient).isRequired,
+  handleIngredientInfo: PropTypes.func,
 }
 
 export default IngredientsSection;

@@ -1,6 +1,7 @@
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./modal.module.css";
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const Modal = ({children, active, handleClose}) => {
   const isOpen = active
@@ -31,6 +32,12 @@ const Modal = ({children, active, handleClose}) => {
       </div>
     </div>
   )
+}
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  active: PropTypes.bool,
+  handleClose: PropTypes.func,
 }
 
 export default Modal;

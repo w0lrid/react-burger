@@ -19,6 +19,7 @@ Ingredient.propTypes = {
   price: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   properties: PropTypes.arrayOf(TypeIngredientProperty).isRequired,
+  handleOpenModal: PropTypes.func,
 }
 
 export default Ingredient;

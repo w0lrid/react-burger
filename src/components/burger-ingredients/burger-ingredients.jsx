@@ -41,7 +41,8 @@ const BurgerIngredients = ({data, handleIngredientInfo}) => {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(TypeIngredient).isRequired
+  data: PropTypes.arrayOf(TypeIngredient).isRequired,
+  handleIngredientInfo: PropTypes.func,
 }
 
 export default BurgerIngredients
