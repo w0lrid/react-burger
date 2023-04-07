@@ -7,10 +7,10 @@ import {
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 
-const BurgerConstructor = ({data, handleOpenModal}) => (
+const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => (
   <div>
     <div className={styles.constructor}>
-      {data.slice(0, 1).map(({_id, name, image, price}, index) => (
+      {buns.slice(0, 1).map(({_id, name, image, price}, index) => (
         <div
           className={styles.bun}
           key={_id}
@@ -25,7 +25,7 @@ const BurgerConstructor = ({data, handleOpenModal}) => (
         </div>
       ))}
       <div className={styles.scrollableIngredients}>
-        {data.slice(1).map(({_id, name, image, price}, index) => (
+        {saucesAndFilling.map(({_id, name, image, price}, index) => (
             <div
               className={styles.element}
               key={_id}
@@ -40,7 +40,7 @@ const BurgerConstructor = ({data, handleOpenModal}) => (
           )
         )}
       </div>
-      {data.slice(0, 1).map(({_id, name, image, price}, index) => (
+      {buns.slice(0, 1).map(({_id, name, image, price}, index) => (
         <div
           className={styles.bun}
           key={_id}

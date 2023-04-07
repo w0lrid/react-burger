@@ -9,7 +9,9 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
 function App() {
-  const [ingredients, setIngredients] = useState(null)
+  const [ingredients, setIngredients] = useState([])
+  const [buns, setBuns] = useState([])
+  const [saucesAndFilling, setSaucesAndFilling] = useState([])
   const [activeOrderModal, setActiveOrderModal] = useState(false)
   const [activeIngredientModal, setActiveIngredientModal] = useState(false)
   const [modalIngredientData, setModalIngredientData] = useState(null)
@@ -24,7 +26,11 @@ function App() {
 
           return Promise.reject(`Ошибка ${response.status}`);
         })
-        .then(({data}) => setIngredients(data))
+        .then(({data}) => {
+          setIngredients(data)
+          setBuns(filterBuns(data))
+          setSaucesAndFilling(filterSaucesAndFilling(data))
+        })
         .catch((error) => console.error(error));
 
     fetchData();
@@ -34,6 +40,8 @@ function App() {
     setActiveIngredientModal(true)
     setModalIngredientData(ingredientInfo)
   }
+  const filterBuns = (ingredients) => ingredients.filter((ingredient) => ingredient.type === 'bun')
+  const filterSaucesAndFilling = (ingredients) => ingredients.filter((ingredient) => ingredient.type !== 'bun')
 
   return (
     <div className={styles.app}>
@@ -43,7 +51,11 @@ function App() {
         {ingredients && (
           <>
             <BurgerIngredients data={ingredients} handleIngredientInfo={handleIngredientInfo}/>
-            <BurgerConstructor data={ingredients} handleOpenModal={() => setActiveOrderModal(true)}/>
+            <BurgerConstructor
+              buns={buns}
+              saucesAndFilling={saucesAndFilling}
+              handleOpenModal={() => setActiveOrderModal(true)}
+            />
           </>
         )}
         <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
