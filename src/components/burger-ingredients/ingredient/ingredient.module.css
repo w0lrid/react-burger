@@ -1,0 +1,14 @@
+.ingredientCard {
+  position: relative;
+  text-align: center;
+}
+
+.ingredientCard:hover {
+  cursor: pointer;
+}
+
+.cardCounter {
+  position: absolute;
+  top: 0;
+  right: 15px;
+}

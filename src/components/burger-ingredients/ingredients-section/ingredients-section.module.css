@@ -1,0 +1,14 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  margin: 0;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 32px 24px;
+}

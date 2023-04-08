@@ -1,0 +1,27 @@
+.orderDetails {
+  padding: 120px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.orderNumber {
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  margin-bottom: 60px;
+}
+
+.tickContainer {
+  margin-bottom: 60px;
+}
+
+.orderText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 8px;
+}

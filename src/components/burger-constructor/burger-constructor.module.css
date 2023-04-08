@@ -1,0 +1,46 @@
+.constructor {
+  max-width: calc(600px + 8px);
+  height: 696px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  margin-bottom: 20px;
+}
+
+.bun {
+  margin-left: 32px;
+}
+
+.element {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.scrollableIngredients {
+  height: 464px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.scrollableIngredients::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollableIngredients::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.scrollableIngredients::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 40px;
+}

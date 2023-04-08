@@ -1,0 +1,42 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  background-color: rgba(19, 19, 22, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.4s, opacity 0.4s ease-out;
+}
+
+.overlayActive {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  width: 720px;
+  position: relative;
+  background-color: #1C1C21;
+  border: 1px solid rgba(76, 76, 255, 0.2);
+  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+}
+
+.closeIcon {
+  z-index: 100;
+  position: absolute;
+  top: 60px;
+  right: 40px;
+}
+
+.closeIcon:hover {
+  cursor: pointer;
+}

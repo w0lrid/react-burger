@@ -1,0 +1,16 @@
+.app {
+  padding: 40px;
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+.main {
+  display: grid;
+  grid-template-areas:
+    "heading heading"
+    "ingredients constructor";
+}
+
+.mainTitle {
+  grid-area: heading;
+}
