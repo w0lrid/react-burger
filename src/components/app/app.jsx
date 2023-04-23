@@ -50,7 +50,7 @@ function App() {
         <main className={styles.main}>
           <IngredientsContext.Provider value={{ingredients, setIngredients}}>
             <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
-            {ingredients && (
+            {ingredients && buns && saucesAndFilling && (
                 <>
                   <BurgerIngredients data={ingredients} handleIngredientInfo={handleIngredientInfo}/>
                   <BurgerConstructor
