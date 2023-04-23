@@ -39,6 +39,9 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
     handleOpenModal()
     fetch('https://norma.nomoreparties.space/api/orders', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
       body: JSON.stringify({ ingredients: orderIngredientsIds }),
     }).then((response) => {
       console.log(response)
