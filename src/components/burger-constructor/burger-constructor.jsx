@@ -14,7 +14,7 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
 
   useEffect(() => {
     if (typeof buns !== 'null' && typeof saucesAndFilling !== 'null')
-    setTotalPrice(getPriceSum(saucesAndFilling) + getPriceSum(buns.slice(0, 1)) * 2)
+      setTotalPrice(getPriceSum(saucesAndFilling) + getPriceSum(buns.slice(0, 1)) * 2)
     setOrderIngredientsIds(getIds(saucesAndFilling))
   }, [buns, saucesAndFilling])
 
@@ -42,12 +42,17 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify({ ingredients: orderIngredientsIds }),
-    }).then((response) => {
-      console.log(response)
-    }).catch((error) => {
-      console.error(error)
+      body: JSON.stringify({ingredients: orderIngredientsIds}),
     })
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+
+          return Promise.reject(`Ошибка ${response.status}`);
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.error(error))
   }
 
   return (
