@@ -8,11 +8,13 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from "../../services/burgerContext";
+import { OrderContext } from "../../services/orderContext";
 
 function App() {
   const [ingredients, setIngredients] = useState([])
   const [buns, setBuns] = useState([])
   const [saucesAndFilling, setSaucesAndFilling] = useState([])
+  const [orderNumber, setOrderNumber] = useState(null)
   const [activeOrderModal, setActiveOrderModal] = useState(false)
   const [activeIngredientModal, setActiveIngredientModal] = useState(false)
   const [modalIngredientData, setModalIngredientData] = useState(null)
@@ -49,28 +51,30 @@ function App() {
         <AppHeader/>
         <main className={styles.main}>
           <IngredientsContext.Provider value={{ingredients, setIngredients}}>
-            <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
-            {ingredients && buns && saucesAndFilling && (
-                <>
-                  <BurgerIngredients data={ingredients} handleIngredientInfo={handleIngredientInfo}/>
-                  <BurgerConstructor
-                      buns={buns}
-                      saucesAndFilling={saucesAndFilling}
-                      handleOpenModal={() => setActiveOrderModal(true)}
-                  />
-                </>
-            )}
-            <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
-              <OrderDetails/>
-            </Modal>
-            <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
-              {modalIngredientData && (
-                  <IngredientDetails
-                      img={modalIngredientData.img}
-                      title={modalIngredientData.title}
-                      properties={modalIngredientData.properties}/>
+            <OrderContext.Provider value={{orderNumber, setOrderNumber}}>
+              <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
+              {ingredients && buns && saucesAndFilling && (
+                  <>
+                    <BurgerIngredients data={ingredients} handleIngredientInfo={handleIngredientInfo}/>
+                    <BurgerConstructor
+                        buns={buns}
+                        saucesAndFilling={saucesAndFilling}
+                        handleOpenModal={() => setActiveOrderModal(true)}
+                    />
+                  </>
               )}
-            </Modal>
+              <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
+                <OrderDetails/>
+              </Modal>
+              <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
+                {modalIngredientData && (
+                    <IngredientDetails
+                        img={modalIngredientData.img}
+                        title={modalIngredientData.title}
+                        properties={modalIngredientData.properties}/>
+                )}
+              </Modal>
+            </OrderContext.Provider>
           </IngredientsContext.Provider>
         </main>
       </div>

@@ -6,9 +6,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { OrderContext } from "../../services/orderContext";
 
 const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
+  const {setOrderNumber} = useContext(OrderContext)
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
 
@@ -51,7 +53,9 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
 
           return Promise.reject(`Ошибка ${response.status}`);
         })
-        .then((response) => console.log(response))
+        .then(({order}) => {
+          setOrderNumber(order.number)
+        })
         .catch((error) => console.error(error))
   }
 
