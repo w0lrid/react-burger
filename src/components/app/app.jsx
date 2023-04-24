@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ingredientsURL } from "../../config/constants";
 import styles from './app.module.css';
 import AppHeader from "../app-header/app-header";
@@ -12,9 +12,15 @@ import { OrderContext } from "../../services/orderContext";
 
 function App() {
   const [ingredients, setIngredients] = useState([])
+  const ingredientsMemo = useMemo(() => ({
+    ingredients, setIngredients
+  }), [ingredients])
   const [buns, setBuns] = useState([])
   const [saucesAndFilling, setSaucesAndFilling] = useState([])
   const [orderNumber, setOrderNumber] = useState(null)
+  const orderNumberMemo = useMemo(() => ({
+    orderNumber, setOrderNumber
+  }), [orderNumber])
   const [activeOrderModal, setActiveOrderModal] = useState(false)
   const [activeIngredientModal, setActiveIngredientModal] = useState(false)
   const [modalIngredientData, setModalIngredientData] = useState(null)
@@ -50,8 +56,8 @@ function App() {
       <div className={styles.app}>
         <AppHeader/>
         <main className={styles.main}>
-          <IngredientsContext.Provider value={{ingredients, setIngredients}}>
-            <OrderContext.Provider value={{orderNumber, setOrderNumber}}>
+          <IngredientsContext.Provider value={ingredientsMemo}>
+            <OrderContext.Provider value={orderNumberMemo}>
               <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
               {ingredients && buns && saucesAndFilling && (
                   <>
