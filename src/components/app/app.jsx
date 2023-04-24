@@ -9,8 +9,10 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from "../../services/burgerContext";
 import { OrderContext } from "../../services/orderContext";
+import { createPortal } from "react-dom";
 
 function App() {
+  const modalsRoot = document.getElementById('modals')
   const [ingredients, setIngredients] = useState([])
   const ingredientsMemo = useMemo(() => ({
     ingredients, setIngredients
@@ -24,6 +26,27 @@ function App() {
   const [activeOrderModal, setActiveOrderModal] = useState(false)
   const [activeIngredientModal, setActiveIngredientModal] = useState(false)
   const [modalIngredientData, setModalIngredientData] = useState(null)
+
+  /**
+   * Modals
+   * @type {React.ReactPortal}
+   */
+
+  const orderModal = createPortal((
+      <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
+        <OrderDetails/>
+      </Modal>
+  ), modalsRoot)
+  const ingredientModal = createPortal((
+      <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
+        {modalIngredientData && (
+            <IngredientDetails
+                img={modalIngredientData.img}
+                title={modalIngredientData.title}
+                properties={modalIngredientData.properties}/>
+        )}
+      </Modal>
+  ), modalsRoot)
 
   useEffect(() => {
     const fetchData = () =>
@@ -69,21 +92,8 @@ function App() {
                     />
                   </>
               )}
-              {activeOrderModal && (
-                  <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
-                    <OrderDetails/>
-                  </Modal>
-              )}
-              {activeIngredientModal && (
-                  <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
-                    {modalIngredientData && (
-                        <IngredientDetails
-                            img={modalIngredientData.img}
-                            title={modalIngredientData.title}
-                            properties={modalIngredientData.properties}/>
-                    )}
-                  </Modal>
-              )}
+              {activeOrderModal && orderModal}
+              {activeIngredientModal && ingredientModal}
             </OrderContext.Provider>
           </IngredientsContext.Provider>
         </main>
