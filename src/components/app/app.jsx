@@ -10,6 +10,7 @@ import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from "../../services/burgerContext";
 import { OrderContext } from "../../services/orderContext";
 import { createPortal } from "react-dom";
+import { checkResponse } from "../../utils/checkResponse";
 
 function App() {
   const modalsRoot = document.getElementById('modals')
@@ -51,13 +52,7 @@ function App() {
   useEffect(() => {
     const fetchData = () =>
         fetch(ingredientsURL)
-            .then((response) => {
-              if (response.ok) {
-                return response.json()
-              }
-
-              return Promise.reject(`Ошибка ${response.status}`);
-            })
+            .then(checkResponse)
             .then(({data}) => {
               setIngredients(data)
               setBuns(filterBuns(data))

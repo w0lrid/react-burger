@@ -8,6 +8,7 @@ import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../services/orderContext";
+import { checkResponse } from "../../utils/checkResponse";
 
 const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
   const {setOrderNumber} = useContext(OrderContext)
@@ -46,13 +47,7 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
       },
       body: JSON.stringify({ingredients: orderIngredientsIds}),
     })
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-          }
-
-          return Promise.reject(`Ошибка ${response.status}`);
-        })
+        .then(checkResponse)
         .then(({order}) => {
           setOrderNumber(order.number)
         })
