@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 const Modal = ({children, active, handleClose}) => {
-  const isOpen = active
-
   useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === 'Escape') {
@@ -13,14 +11,14 @@ const Modal = ({children, active, handleClose}) => {
       }
     }
 
-    if (isOpen) {
+    if (active) {
       document.addEventListener('keydown', closeByEscape);
 
       return () => {
         document.removeEventListener('keydown', closeByEscape);
       }
     }
-  }, [isOpen])
+  }, [active])
 
   return (
     <div className={`${styles.overlay} ${active && styles.overlayActive}`} onClick={handleClose}>

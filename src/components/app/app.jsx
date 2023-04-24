@@ -69,17 +69,21 @@ function App() {
                     />
                   </>
               )}
-              <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
-                <OrderDetails/>
-              </Modal>
-              <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
-                {modalIngredientData && (
-                    <IngredientDetails
-                        img={modalIngredientData.img}
-                        title={modalIngredientData.title}
-                        properties={modalIngredientData.properties}/>
-                )}
-              </Modal>
+              {activeOrderModal && (
+                  <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
+                    <OrderDetails/>
+                  </Modal>
+              )}
+              {activeIngredientModal && (
+                  <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
+                    {modalIngredientData && (
+                        <IngredientDetails
+                            img={modalIngredientData.img}
+                            title={modalIngredientData.title}
+                            properties={modalIngredientData.properties}/>
+                    )}
+                  </Modal>
+              )}
             </OrderContext.Provider>
           </IngredientsContext.Provider>
         </main>
