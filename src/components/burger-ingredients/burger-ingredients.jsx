@@ -1,16 +1,17 @@
+import { useState, useContext, useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsSection from "./ingredients-section/ingredients-section";
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { TypeIngredient } from "../../utils/types";
+import { IngredientsContext } from "../../services/burgerContext";
 
-const BurgerIngredients = ({data, handleIngredientInfo}) => {
+const BurgerIngredients = ({ handleIngredientInfo }) => {
+  const {ingredients} = useContext(IngredientsContext)
   const [current, setCurrent] = useState('Булки')
-
-  const buns = data.filter(({type}) => type === 'bun')
-  const filling = data.filter(({type}) => type === 'main')
-  const sauces = data.filter(({type}) => type === 'sauce')
+  const buns = useMemo(() => ingredients.filter(({type}) => type === 'bun'), [ingredients])
+  const filling = useMemo(() => ingredients.filter(({type}) => type === 'main'), [ingredients])
+  const sauces = useMemo(() => ingredients.filter(({type}) => type === 'sauce'), [ingredients])
 
   return (
     <div className={styles.ingredients}>
