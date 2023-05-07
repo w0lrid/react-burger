@@ -3,7 +3,7 @@ import styles from "./ingredients-section.module.css"
 import PropTypes from "prop-types";
 import Ingredient from "../ingredient/ingredient";
 
-const IngredientsSection = ({heading, ingredients, handleIngredientInfo}) => (
+const IngredientsSection = ({heading, ingredients}) => (
   <section className={styles.section}>
     <h3 className={`${styles.heading} text text_type_main-medium pb-6`}>{heading}</h3>
     <div className={styles.list}>
@@ -31,7 +31,6 @@ const IngredientsSection = ({heading, ingredients, handleIngredientInfo}) => (
               value: carbohydrates,
             },
           ]}
-          handleOpenModal={handleIngredientInfo}
         />
       ))}
     </div>
@@ -41,7 +40,6 @@ const IngredientsSection = ({heading, ingredients, handleIngredientInfo}) => (
 IngredientsSection.propTypes = {
   heading: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(TypeIngredient).isRequired,
-  handleIngredientInfo: PropTypes.func,
 }
 
 export default IngredientsSection;

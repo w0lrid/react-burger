@@ -1,13 +1,13 @@
-import { useState, useContext, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsSection from "./ingredients-section/ingredients-section";
 import PropTypes from "prop-types";
 import { TypeIngredient } from "../../utils/types";
-import { IngredientsContext } from "../../services/burgerContext";
+import { useSelector } from "react-redux";
 
-const BurgerIngredients = ({ handleIngredientInfo }) => {
-  const {ingredients} = useContext(IngredientsContext)
+const BurgerIngredients = () => {
+  const {ingredients} = useSelector(store => store.ingredients)
   const [current, setCurrent] = useState('Булки')
   const buns = useMemo(() => ingredients.filter(({type}) => type === 'bun'), [ingredients])
   const filling = useMemo(() => ingredients.filter(({type}) => type === 'main'), [ingredients])
@@ -23,27 +23,16 @@ const BurgerIngredients = ({ handleIngredientInfo }) => {
       <div className={styles.sections}>
         <IngredientsSection
           heading="Булки"
-          ingredients={buns}
-          handleIngredientInfo={handleIngredientInfo}
-        />
+          ingredients={buns} />
         <IngredientsSection
           heading="Соусы"
-          ingredients={sauces}
-          handleIngredientInfo={handleIngredientInfo}
-        />
+          ingredients={sauces} />
         <IngredientsSection
           heading="Начинки"
-          ingredients={filling}
-          handleIngredientInfo={handleIngredientInfo}
-        />
+          ingredients={filling} />
       </div>
     </div>
   )
-}
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(TypeIngredient).isRequired,
-  handleIngredientInfo: PropTypes.func,
 }
 
 export default BurgerIngredients

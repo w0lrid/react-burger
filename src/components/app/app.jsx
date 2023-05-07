@@ -11,9 +11,12 @@ import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from "../../services/burgerContext";
 import { OrderContext } from "../../services/orderContext";
 import { createPortal } from "react-dom";
+import { closeIngredient } from "../../services/actions/ingredient";
 
 function App() {
-  const {ingredients} = useSelector(state => state.ingredients)
+  const {ingredients} = useSelector(({ingredients}) => ingredients)
+  const {ingredient, opened: activeIngredientModal} = useSelector(({ ingredient }) => ingredient)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -29,8 +32,6 @@ function App() {
     orderNumber, setOrderNumber
   }), [orderNumber])
   const [activeOrderModal, setActiveOrderModal] = useState(false)
-  const [activeIngredientModal, setActiveIngredientModal] = useState(false)
-  const [modalIngredientData, setModalIngredientData] = useState(null)
 
   /**
    * Modals
@@ -43,12 +44,12 @@ function App() {
       </Modal>
   ), modalsRoot)
   const ingredientModal = createPortal((
-      <Modal active={activeIngredientModal} handleClose={() => setActiveIngredientModal(false)}>
-        {modalIngredientData && (
+      <Modal active={activeIngredientModal} handleClose={() => dispatch(closeIngredient())}>
+        {ingredient && (
             <IngredientDetails
-                img={modalIngredientData.img}
-                title={modalIngredientData.title}
-                properties={modalIngredientData.properties}/>
+                img={ingredient.img}
+                title={ingredient.title}
+                properties={ingredient.properties}/>
         )}
       </Modal>
   ), modalsRoot)
@@ -58,10 +59,6 @@ function App() {
     setSaucesAndFilling(filterSaucesAndFilling(ingredients))
   }, [ingredients])
 
-  const handleIngredientInfo = (ingredientInfo) => {
-    setActiveIngredientModal(true)
-    setModalIngredientData(ingredientInfo)
-  }
   const filterBuns = (ingredients) => ingredients.filter((ingredient) => ingredient.type === 'bun')
   const filterSaucesAndFilling = (ingredients) => ingredients.filter((ingredient) => ingredient.type !== 'bun')
 
@@ -74,7 +71,7 @@ function App() {
               <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
               {ingredients && buns && saucesAndFilling && (
                   <>
-                    <BurgerIngredients data={ingredients} handleIngredientInfo={handleIngredientInfo}/>
+                    <BurgerIngredients />
                     <BurgerConstructor
                         buns={buns}
                         saucesAndFilling={saucesAndFilling}

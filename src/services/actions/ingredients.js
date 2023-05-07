@@ -1,6 +1,10 @@
-import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from "../constants";
+
 import { ingredientsURL } from "../../config/constants";
 import { checkResponse } from "../../utils/checkResponse";
+
+export const GET_INGREDIENTS = 'GET_INGREDIENTS';
+export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
+export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
 export function getIngredients() {
   return function (dispatch) {
