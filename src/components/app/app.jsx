@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ingredientsURL } from "../../config/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
 import styles from './app.module.css';
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -10,14 +11,17 @@ import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from "../../services/burgerContext";
 import { OrderContext } from "../../services/orderContext";
 import { createPortal } from "react-dom";
-import { checkResponse } from "../../utils/checkResponse";
 
 function App() {
+  const {ingredients} = useSelector(state => state.ingredients)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [])
+
   const modalsRoot = document.getElementById('modals')
-  const [ingredients, setIngredients] = useState([])
-  const ingredientsMemo = useMemo(() => ({
-    ingredients, setIngredients
-  }), [ingredients])
+  const ingredientsMemo = useMemo(() => ({ingredients}), [ingredients])
   const [buns, setBuns] = useState([])
   const [saucesAndFilling, setSaucesAndFilling] = useState([])
   const [orderNumber, setOrderNumber] = useState(null)
@@ -50,18 +54,9 @@ function App() {
   ), modalsRoot)
 
   useEffect(() => {
-    const fetchData = () =>
-        fetch(ingredientsURL)
-            .then(checkResponse)
-            .then(({data}) => {
-              setIngredients(data)
-              setBuns(filterBuns(data))
-              setSaucesAndFilling(filterSaucesAndFilling(data))
-            })
-            .catch((error) => console.error(error));
-
-    fetchData();
-  }, [])
+    setBuns(filterBuns(ingredients))
+    setSaucesAndFilling(filterSaucesAndFilling(ingredients))
+  }, [ingredients])
 
   const handleIngredientInfo = (ingredientInfo) => {
     setActiveIngredientModal(true)
