@@ -6,12 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useState } from "react";
-import { OrderContext } from "../../services/orderContext";
-import { checkResponse } from "../../utils/checkResponse";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getOrder } from "../../services/actions/order";
 
 const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
-  const {setOrderNumber} = useContext(OrderContext)
+  const dispatch = useDispatch()
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
 
@@ -40,18 +40,7 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
 
   const createOrder = () => {
     handleOpenModal()
-    fetch('https://norma.nomoreparties.space/api/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({ingredients: orderIngredientsIds}),
-    })
-        .then(checkResponse)
-        .then(({order}) => {
-          setOrderNumber(order.number)
-        })
-        .catch((error) => console.error(error))
+    dispatch(getOrder(orderIngredientsIds))
   }
 
   return (
