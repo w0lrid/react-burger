@@ -10,6 +10,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import { createPortal } from "react-dom";
 import { closeIngredient } from "../../services/actions/ingredient";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const {ingredients} = useSelector(({ingredients}) => ingredients)
@@ -45,9 +47,9 @@ function App() {
       <Modal active={activeIngredientModal} handleClose={() => dispatch(closeIngredient())}>
         {ingredient && (
             <IngredientDetails
-                img={ingredient.img}
-                title={ingredient.title}
-                properties={ingredient.properties}/>
+              img={ingredient.img}
+              title={ingredient.title}
+              properties={ingredient.properties}/>
         )}
       </Modal>
   ), modalsRoot)
@@ -67,12 +69,14 @@ function App() {
         <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
         {ingredients && buns && saucesAndFilling && (
           <>
-            <BurgerIngredients />
-            <BurgerConstructor
-              buns={buns}
-              saucesAndFilling={saucesAndFilling}
-              handleOpenModal={() => setActiveOrderModal(true)}
-            />
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
+              <BurgerConstructor
+                buns={buns}
+                saucesAndFilling={saucesAndFilling}
+                handleOpenModal={() => setActiveOrderModal(true)}
+              />
+            </DndProvider>
           </>
         )}
         {activeOrderModal && orderModal}

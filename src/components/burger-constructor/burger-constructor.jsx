@@ -7,13 +7,25 @@ import {
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getOrder } from "../../services/actions/order";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_INGREDIENT, getOrder } from "../../services/actions/order";
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
   const dispatch = useDispatch()
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
+  const {ingredients: orderIngredients} = useSelector(store => store.order)
+  const [, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop(ingredient) {
+      dispatch({
+        type: ADD_INGREDIENT,
+        ingredient
+      })
+
+    }
+  })
 
   useEffect(() => {
     if (typeof buns !== 'null' && typeof saucesAndFilling !== 'null')
@@ -45,7 +57,7 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
 
   return (
       <div>
-        <div className={styles.constructor}>
+        <div className={styles.constructor} ref={dropRef}>
           {buns.slice(0, 1).map(({_id, name, image, price}) => (
               <div className={styles.bun} key={_id}>
                 <ConstructorElement
@@ -58,16 +70,16 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
               </div>
           ))}
           <div className={styles.scrollableIngredients}>
-            {saucesAndFilling.map(({_id, name, image, price}) => (
-                    <div className={styles.element} key={_id}>
-                      <DragIcon type="primary"/>
-                      <ConstructorElement
-                          text={name}
-                          thumbnail={image}
-                          price={price}
-                      />
-                    </div>
-                )
+            {orderIngredients.map(({_id, name, image, price}) => (
+                <div className={styles.element} key={_id}>
+                  <DragIcon type="primary"/>
+                  <ConstructorElement
+                      text={name}
+                      thumbnail={image}
+                      price={price}
+                  />
+                </div>
+              )
             )}
           </div>
           {buns.slice(0, 1).map(({_id, name, image, price}) => (

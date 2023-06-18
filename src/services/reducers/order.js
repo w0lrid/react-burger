@@ -1,9 +1,11 @@
-import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS } from "../actions/order";
+import { ADD_INGREDIENT, GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS } from "../actions/order";
+import ingredient from "../../components/burger-ingredients/ingredient/ingredient";
 
 const initialState = {
   orderRequest: false,
   orderFailed: false,
   order: null,
+  ingredients: [],
 }
 
 export const orderReducer = (state = initialState, action) => {
@@ -27,6 +29,12 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         orderRequest: false,
         orderFailed: true,
+      }
+    }
+    case ADD_INGREDIENT: {
+      return {
+        ...state,
+        ingredients: [...state.ingredients, action.ingredient],
       }
     }
     default: {
