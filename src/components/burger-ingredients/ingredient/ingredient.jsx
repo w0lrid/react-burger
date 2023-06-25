@@ -8,7 +8,7 @@ import { useDrag } from "react-dnd";
 import { useEffect, useState } from "react";
 
 const Ingredient = ({ingredient, properties}) => {
-  const {_id, image, price, name, type } = ingredient
+  const { image, price, name, type } = ingredient
   const {ingredients: orderIngredients} = useSelector(store => store.order)
   const [count, setCount] = useState(0)
   const dispatch = useDispatch();
@@ -21,14 +21,12 @@ const Ingredient = ({ingredient, properties}) => {
   })
 
   useEffect(() => {
-    let count = 0
-
     orderIngredients.forEach(orderIngredient => {
       if (ingredient._id === orderIngredient._id) {
-        setCount(++count)
+        setCount(orderIngredient.count)
       }
     })
-  }, [isDrag])
+  })
 
   return (
     <div

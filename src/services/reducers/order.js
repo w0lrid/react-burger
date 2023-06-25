@@ -1,5 +1,4 @@
-import { ADD_INGREDIENT, GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS } from "../actions/order";
-import ingredient from "../../components/burger-ingredients/ingredient/ingredient";
+import { ADD_INGREDIENT, GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, REMOVE_INGREDIENT } from "../actions/order";
 
 const initialState = {
   orderRequest: false,
@@ -34,7 +33,36 @@ export const orderReducer = (state = initialState, action) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingredients: [...state.ingredients, action.ingredient],
+        ingredients: (() => {
+          let isNewIngredient = true
+
+          state.ingredients.forEach(ingredient => {
+            if (ingredient._id === action.ingredient._id) {
+              isNewIngredient = false
+              ingredient.count = action.ingredient.count
+              return
+            }
+          })
+          if (isNewIngredient) {
+            return [...state.ingredients, action.ingredient]
+          } else {
+            return [...state.ingredients]
+          }
+        })(),
+      }
+    }
+    case REMOVE_INGREDIENT: {
+      return {
+        ...state,
+        ingredients: (() => {
+          state.ingredients.forEach(ingredient => {
+            if (ingredient._id === action._id) {
+              --ingredient.count
+            }
+          })
+
+          return state.ingredients
+        })(),
       }
     }
     default: {
