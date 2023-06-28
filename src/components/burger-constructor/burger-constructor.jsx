@@ -16,6 +16,7 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
   const {ingredients: orderIngredients} = useSelector(store => store.order)
+  const [bun, setBun] = useState(null)
   const [, dropRef] = useDrop({
     accept: 'ingredient',
     drop(ingredient) {
@@ -44,12 +45,29 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
 
     }
   })
+  const [, dropBunRef] = useDrop({
+    accept: 'bun',
+    drop(ingredient) {
+      dispatch({
+        type: ADD_INGREDIENT,
+        ingredient,
+      })
+    }
+  })
 
   useEffect(() => {
     if (typeof buns !== 'null' && typeof saucesAndFilling !== 'null')
       setTotalPrice(getPriceSum(saucesAndFilling) + getPriceSum(buns.slice(0, 1)) * 2)
     setOrderIngredientsIds(getIds(saucesAndFilling))
   }, [buns, saucesAndFilling])
+
+  useEffect(() => {
+    orderIngredients.forEach(ingredient => {
+     if (ingredient.type === 'bun') {
+       setBun(ingredient)
+     }
+    })
+  }, [orderIngredients])
 
   const getPriceSum = (ingredients) => {
     let sum = 0
@@ -75,19 +93,19 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
 
   return (
       <div>
-        <div className={styles.constructor} ref={dropRef}>
-          {buns.slice(0, 1).map(({_id, name, image, price}) => (
-              <div className={styles.bun} key={_id}>
-                <ConstructorElement
-                  isLocked
-                  type="top"
-                  text={`${name} (верх)`}
-                  thumbnail={image}
-                  price={price}
-                />
-              </div>
-          ))}
-          <div className={styles.scrollableIngredients}>
+        <div className={styles.constructor} ref={dropBunRef}>
+          <div className={styles.bun}>
+            {bun && (
+              <ConstructorElement
+                isLocked
+                type="top"
+                text={`${bun.name} (верх)`}
+                thumbnail={bun.image}
+                price={bun.price}
+              />
+            )}
+          </div>
+          <div className={styles.scrollableIngredients} ref={dropRef}>
             {orderIngredients.map(({_id, name, image, price, count}) => {
               if (count > 1) {
                 return [...Array(count).keys()].map(() => (
@@ -116,7 +134,10 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
                       thumbnail={image}
                       price={price}
                       handleClose={() => {
-                        dispatch({type: REMOVE_INGREDIENT, _id})
+                        dispatch({
+                          type: REMOVE_INGREDIENT,
+                          _id,
+                        })
                       }}
                     />
                   </div>
@@ -125,17 +146,17 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
               }
             )}
           </div>
-          {buns.slice(0, 1).map(({_id, name, image, price}) => (
-            <div className={styles.bun} key={_id}>
+          <div className={styles.bun}>
+            {bun && (
               <ConstructorElement
                 isLocked
                 type="bottom"
-                text={`${name} (низ)`}
-                thumbnail={image}
-                price={price}
+                text={`${bun.name} (низ)`}
+                thumbnail={bun.image}
+                price={bun.price}
               />
-            </div>
-          ))}
+            )}
+          </div>
         </div>
         <div className={styles.order}>
           <p className="text text_type_main-large">{totalPrice} <CurrencyIcon type="primary"/></p>
