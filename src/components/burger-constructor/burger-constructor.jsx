@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ADD_INGREDIENT, getOrder, REMOVE_INGREDIENT } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 
-const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
+const BurgerConstructor = ({handleOpenModal}) => {
   const dispatch = useDispatch()
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
@@ -56,33 +56,34 @@ const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
   })
 
   useEffect(() => {
-    if (typeof buns !== 'null' && typeof saucesAndFilling !== 'null')
-      setTotalPrice(getPriceSum(saucesAndFilling) + getPriceSum(buns.slice(0, 1)) * 2)
-    setOrderIngredientsIds(getIds(saucesAndFilling))
-  }, [buns, saucesAndFilling])
-
-  useEffect(() => {
     orderIngredients.forEach(ingredient => {
-     if (ingredient.type === 'bun') {
-       setBun(ingredient)
-     }
+      if (ingredient.type === 'bun') {
+        setBun(ingredient)
+      }
     })
   }, [orderIngredients])
 
-  const getPriceSum = (ingredients) => {
-    let sum = 0
-
-    ingredients.forEach((ingredient) => {
-      sum += ingredient.price
+  useEffect(() => {
+    orderIngredients.forEach(ingredient => {
+      setTotalPrice(totalPrice + getIngredientPrice(ingredient))
     })
 
-    return sum
+    setOrderIngredientsIds(getIds(orderIngredients))
+  }, [orderIngredients])
+
+  const getIngredientPrice = (ingredient) => {
+    if (ingredient.type === 'bun') return ingredient.price * 2
+
+    if (ingredient.count) {
+      return ingredient.price * ingredient.count
+    }
+
+    return ingredient.price
   }
+
   const getIds = (ingredients) => {
     const ids = ingredients.map((ingredient) => ingredient._id)
-    if (buns[0]) {
-      ids.push(buns[0]._id, buns[0]._id)
-    }
+
     return ids
   }
 
