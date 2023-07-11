@@ -3,35 +3,32 @@ import styles from "./ingredients-section.module.css"
 import PropTypes from "prop-types";
 import Ingredient from "../ingredient/ingredient";
 
-const IngredientsSection = ({heading, ingredients, handleIngredientInfo}) => (
-  <section className={styles.section}>
+const IngredientsSection = ({heading, ingredients, type}) => (
+  <section className={styles.section} data-section id={type}>
     <h3 className={`${styles.heading} text text_type_main-medium pb-6`}>{heading}</h3>
     <div className={styles.list}>
-      {ingredients.map(({_id, name, image, price, calories, proteins, fat, carbohydrates}) => (
+      {ingredients.map((ingredient) => (
         <Ingredient
-          key={_id}
-          title={name}
-          img={image}
-          price={price}
+          key={ingredient._id}
+          ingredient={ingredient}
           properties={[
             {
               name: 'Калорий, ккал',
-              value: calories,
+              value: ingredient.calories,
             },
             {
               name: 'Белки, г',
-              value: proteins,
+              value: ingredient.proteins,
             },
             {
               name: 'Жиры, г',
-              value: fat,
+              value: ingredient.fat,
             },
             {
               name: 'Углеводы, г',
-              value: carbohydrates,
+              value: ingredient.carbohydrates,
             },
           ]}
-          handleOpenModal={handleIngredientInfo}
         />
       ))}
     </div>
@@ -41,7 +38,7 @@ const IngredientsSection = ({heading, ingredients, handleIngredientInfo}) => (
 IngredientsSection.propTypes = {
   heading: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(TypeIngredient).isRequired,
-  handleIngredientInfo: PropTypes.func,
+  type: PropTypes.string.isRequired,
 }
 
 export default IngredientsSection;

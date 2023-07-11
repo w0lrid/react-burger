@@ -1,11 +1,8 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-details.module.css";
-import { useContext } from "react";
-import { OrderContext } from "../../services/orderContext";
+import { useSelector } from "react-redux";
 
-const OrderDetails = () => {
-  const {orderNumber} = useContext(OrderContext)
-
+const OrderDetails = ({orderNumber}) => {
   return (
     <div className={styles.orderDetails}>
       <p className={`${styles.orderNumber} text text_type_digits-large`}>{orderNumber}</p>
