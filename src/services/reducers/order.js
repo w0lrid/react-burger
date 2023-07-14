@@ -3,7 +3,8 @@ import {
   GET_ORDER,
   GET_ORDER_FAILED,
   GET_ORDER_SUCCESS,
-  REMOVE_INGREDIENT
+  REMOVE_INGREDIENT,
+  SORT_INGREDIENTS,
 } from "../actions/order";
 
 const initialState = {
@@ -82,6 +83,12 @@ export const orderReducer = (state = initialState, action) => {
 
           return state.ingredients
         })(),
+      }
+    }
+    case SORT_INGREDIENTS: {
+      return {
+        ...state,
+        ingredients: action.ingredients
       }
     }
     default: {

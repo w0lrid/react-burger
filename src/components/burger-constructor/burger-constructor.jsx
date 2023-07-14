@@ -2,14 +2,14 @@ import {
   Button,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_INGREDIENT, getOrder, REMOVE_INGREDIENT } from "../../services/actions/order";
+import { ADD_INGREDIENT, getOrder, SORT_INGREDIENTS } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
+import Ingredient from "./ingredient/ingredient";
 
 const BurgerConstructor = ({handleOpenModal}) => {
   const dispatch = useDispatch()
@@ -91,6 +91,18 @@ const BurgerConstructor = ({handleOpenModal}) => {
     handleOpenModal()
     dispatch(getOrder(orderIngredientsIds))
   }
+  const moveIngredient = (draggingIngredient, hoverIngredient) => {
+    const dragIngredientIndex = orderIngredients.findIndex(el => el._id === draggingIngredient._id)
+    const hoverIngredientIndex = orderIngredients.findIndex(el => el._id === hoverIngredient._id)
+    const sortedIngredients = [...orderIngredients];
+
+    sortedIngredients.splice(dragIngredientIndex, 1);
+    sortedIngredients.splice(hoverIngredientIndex, 0, draggingIngredient);
+    dispatch({
+      type: SORT_INGREDIENTS,
+      ingredients: sortedIngredients
+    })
+  }
 
   return (
       <div>
@@ -107,42 +119,14 @@ const BurgerConstructor = ({handleOpenModal}) => {
             )}
           </div>
           <div className={styles.scrollableIngredients} ref={dropRef}>
-            {orderIngredients.map(({_id, name, image, price, count}) => {
+            {orderIngredients.map((ingredient) => {
+              const {count} = ingredient;
+
               if (count > 1) {
-                return [...Array(count).keys()].map(() => (
-                  <div className={styles.element} key={_id}>
-                    <DragIcon type="primary"/>
-                    <ConstructorElement
-                      text={name}
-                      thumbnail={image}
-                      price={price}
-                      handleClose={() => {
-                        dispatch({
-                          type: REMOVE_INGREDIENT,
-                          _id,
-                        })
-                      }}
-                    />
-                  </div>
-                ))
+                return [...Array(count).keys()].map(() => <Ingredient ingredient={ingredient} moveIngredient={moveIngredient} />)
               }
               if (count === 1) {
-                return (
-                  <div className={styles.element} key={_id}>
-                    <DragIcon type="primary"/>
-                    <ConstructorElement
-                      text={name}
-                      thumbnail={image}
-                      price={price}
-                      handleClose={() => {
-                        dispatch({
-                          type: REMOVE_INGREDIENT,
-                          _id,
-                        })
-                      }}
-                    />
-                  </div>
-                )
+                return <Ingredient ingredient={ingredient} moveIngredient={moveIngredient} />
               }
               }
             )}
