@@ -1,13 +1,9 @@
-import {
-  Button,
-  ConstructorElement,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, ConstructorElement, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_INGREDIENT, getOrder, SORT_INGREDIENTS } from "../../services/actions/order";
+import { ADD_INGREDIENT, getOrder, SET_BUN, SORT_INGREDIENTS } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import Ingredient from "./ingredient/ingredient";
 
@@ -15,8 +11,11 @@ const BurgerConstructor = ({handleOpenModal}) => {
   const dispatch = useDispatch()
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
-  const {ingredients: orderIngredients} = useSelector(store => store.order)
-  const [bun, setBun] = useState(null)
+  const {
+    ingredients: orderIngredients,
+    bun,
+  } = useSelector(store => store.order)
+  const [ingredientsCount, setIngredientsCount] = useState(null)
   const [, dropRef] = useDrop({
     accept: 'ingredient',
     drop(ingredient) {
@@ -47,20 +46,22 @@ const BurgerConstructor = ({handleOpenModal}) => {
   })
   const [, dropBunRef] = useDrop({
     accept: 'bun',
-    drop(ingredient) {
+    drop(bun) {
       dispatch({
-        type: ADD_INGREDIENT,
-        ingredient,
+        type: SET_BUN,
+        bun,
       })
     }
   })
 
   useEffect(() => {
-    orderIngredients.forEach(ingredient => {
-      if (ingredient.type === 'bun') {
-        setBun(ingredient)
-      }
-    })
+    const ingredientsCount = orderIngredients.reduce((prevIngredient, ingredient) => {
+      prevIngredient[ingredient._id] = (prevIngredient[ingredient._id] || 0) + 1;
+
+      return prevIngredient;
+    }, {})
+
+    setIngredientsCount(ingredientsCount)
   }, [orderIngredients])
 
   useEffect(() => {
@@ -81,11 +82,7 @@ const BurgerConstructor = ({handleOpenModal}) => {
     return ingredient.price
   }
 
-  const getIds = (ingredients) => {
-    const ids = ingredients.map((ingredient) => ingredient._id)
-
-    return ids
-  }
+  const getIds = (ingredients) => ingredients.map(ingredient => ingredient._id)
 
   const createOrder = () => {
     handleOpenModal()
@@ -119,17 +116,11 @@ const BurgerConstructor = ({handleOpenModal}) => {
             )}
           </div>
           <div className={styles.scrollableIngredients} ref={dropRef}>
-            {orderIngredients.map((ingredient) => {
-              const {count} = ingredient;
-
-              if (count > 1) {
-                return [...Array(count).keys()].map(() => <Ingredient ingredient={ingredient} moveIngredient={moveIngredient} />)
-              }
-              if (count === 1) {
-                return <Ingredient ingredient={ingredient} moveIngredient={moveIngredient} />
-              }
-              }
-            )}
+            {orderIngredients.map((ingredient) => [...Array(ingredientsCount).keys()].map(() => (
+              <Ingredient
+                ingredient={ingredient}
+                moveIngredient={moveIngredient} />
+            )))}
           </div>
           <div className={styles.bun}>
             {bun && (

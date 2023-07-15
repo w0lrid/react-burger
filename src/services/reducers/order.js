@@ -1,8 +1,9 @@
 import {
-  ADD_INGREDIENT,
   GET_ORDER,
   GET_ORDER_FAILED,
   GET_ORDER_SUCCESS,
+  SET_BUN,
+  ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   SORT_INGREDIENTS,
 } from "../actions/order";
@@ -11,6 +12,7 @@ const initialState = {
   orderRequest: false,
   orderFailed: false,
   order: null,
+  bun: null,
   ingredients: [],
 }
 
@@ -37,51 +39,29 @@ export const orderReducer = (state = initialState, action) => {
         orderFailed: true,
       }
     }
+    case SET_BUN: {
+      return {
+        ...state,
+        bun: action.bun,
+      }
+    }
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingredients: (() => {
-
-          if (action.ingredient.type === 'bun') {
-            const foundIndex = state.ingredients.findIndex(ingredient => ingredient.type === 'bun')
-
-            if (foundIndex >= 0) {
-              state.ingredients[foundIndex] = action.ingredient
-
-              return [...state.ingredients]
-            } else {
-              return [...state.ingredients, action.ingredient]
-            }
-          }
-
-          let isNewIngredient = true
-
-          state.ingredients.forEach(ingredient => {
-            if (ingredient._id === action.ingredient._id) {
-              isNewIngredient = false
-              ingredient.count = action.ingredient.count
-            }
-          })
-
-          if (isNewIngredient) {
-            return [...state.ingredients, action.ingredient]
-          } else {
-            return [...state.ingredients]
-          }
-        })(),
+        ingredients: [...state.ingredients, action.ingredient],
       }
     }
     case REMOVE_INGREDIENT: {
       return {
         ...state,
         ingredients: (() => {
-          state.ingredients.forEach(ingredient => {
-            if (ingredient._id === action._id) {
-              --ingredient.count
-            }
-          })
+          const indexOfIngredientToRemove = state.ingredients.findIndex(ingredient => ingredient._id === action._id)
+          const firstHalf = state.ingredients.slice(0, indexOfIngredientToRemove)
+          const secondHalf = state.ingredients.slice(indexOfIngredientToRemove + 1)
 
-          return state.ingredients
+          const orderWithoutRemovedIngredient = firstHalf.concat(secondHalf)
+
+          return orderWithoutRemovedIngredient
         })(),
       }
     }

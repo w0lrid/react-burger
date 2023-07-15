@@ -21,12 +21,9 @@ const Ingredient = ({ingredient, properties}) => {
   })
 
   useEffect(() => {
-    orderIngredients.forEach(orderIngredient => {
-      if (ingredient._id === orderIngredient._id) {
-        setCount(orderIngredient.count)
-      }
-    })
-  })
+    const ingredientsCount = orderIngredients.filter(orderIngredient => ingredient._id === orderIngredient._id)
+    setCount(ingredientsCount.length)
+  }, [orderIngredients])
 
   return (
     <div

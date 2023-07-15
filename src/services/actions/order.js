@@ -4,6 +4,7 @@ import { checkResponse } from "../../utils/checkResponse";
 export const GET_ORDER  = 'GET_ORDER';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
+export const SET_BUN = 'SET_BUN';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
 export const SORT_INGREDIENTS = 'SORT_INGREDIENTS';
