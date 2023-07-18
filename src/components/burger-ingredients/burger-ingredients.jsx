@@ -6,10 +6,23 @@ import { useSelector } from "react-redux";
 
 const BurgerIngredients = () => {
   const {ingredients} = useSelector(store => store.ingredients)
+  const {ingredients: orderIngredients} = useSelector(store => store.order)
   const [current, setCurrent] = useState('buns')
-  const buns = useMemo(() => ingredients.filter(({type}) => type === 'bun'), [ingredients])
-  const filling = useMemo(() => ingredients.filter(({type}) => type === 'main'), [ingredients])
-  const sauces = useMemo(() => ingredients.filter(({type}) => type === 'sauce'), [ingredients])
+  const buns = useMemo(() => {
+    const buns = filterIngredientsByType('bun');
+    addCountToIngredient(buns);
+    return buns;
+  }, [ingredients, orderIngredients])
+  const filling = useMemo(() => {
+    const fillings = filterIngredientsByType('main')
+    addCountToIngredient(fillings);
+    return fillings;
+  }, [ingredients, orderIngredients])
+  const sauces = useMemo(() => {
+    const sauces = filterIngredientsByType('sauce');
+    addCountToIngredient(sauces);
+    return sauces
+  }, [ingredients, orderIngredients])
   const observer = useRef(null)
 
   useEffect(() => {
@@ -33,6 +46,16 @@ const BurgerIngredients = () => {
       });
     };
   }, []);
+
+  function addCountToIngredient (ingredients) {
+    ingredients.forEach(sauce => {
+      sauce.count = orderIngredients.filter(orderIngredient => sauce._id === orderIngredient._id).length
+    });
+  }
+
+  function filterIngredientsByType (incomingType) {
+    return ingredients.filter(({type}) => type === incomingType)
+  }
 
   return (
     <div className={styles.ingredients}>

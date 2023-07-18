@@ -2,15 +2,12 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import styles from "./ingredient.module.css";
 import PropTypes from "prop-types";
 import { TypeIngredientProperty } from "../../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { showIngredient } from "../../../services/actions/ingredient";
 import { useDrag } from "react-dnd";
-import { useEffect, useState } from "react";
 
 const Ingredient = ({ingredient, properties}) => {
-  const { image, price, name, type } = ingredient
-  const {ingredients: orderIngredients} = useSelector(store => store.order)
-  const [count, setCount] = useState(0)
+  const { image, price, name, type, count } = ingredient
   const dispatch = useDispatch();
   const [{isDrag}, dragRef] = useDrag({
     type: type === 'bun' ? 'bun' : 'ingredient',
@@ -19,11 +16,6 @@ const Ingredient = ({ingredient, properties}) => {
       isDrag: monitor.isDragging()
     })
   })
-
-  useEffect(() => {
-    const ingredientsCount = orderIngredients.filter(orderIngredient => ingredient._id === orderIngredient._id)
-    setCount(ingredientsCount.length)
-  }, [orderIngredients])
 
   return (
     <div
