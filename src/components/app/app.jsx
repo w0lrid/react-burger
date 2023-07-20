@@ -12,13 +12,14 @@ import { createPortal } from "react-dom";
 import { closeIngredient } from "../../services/actions/ingredient";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { getIngredientFromStore, getIngredientsFromStore, getOrderFromStore } from "../../services/selectors/order";
 
 function App() {
-  const {ingredients} = useSelector(({ingredients}) => ingredients)
-  const {ingredient, opened: activeIngredientModal} = useSelector(({ ingredient }) => ingredient)
-  const {order} = useSelector(({order}) => order)
+  const {ingredients} = useSelector(getIngredientsFromStore);
+  const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
+  const {order} = useSelector(getOrderFromStore);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients())

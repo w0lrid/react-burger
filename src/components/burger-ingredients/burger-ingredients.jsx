@@ -3,10 +3,11 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsSection from "./ingredients-section/ingredients-section";
 import { useSelector } from "react-redux";
+import { getIngredientsFromStore, getOrderFromStore } from "../../services/selectors/order";
 
 const BurgerIngredients = () => {
-  const {ingredients} = useSelector(store => store.ingredients)
-  const {ingredients: orderIngredients} = useSelector(store => store.order)
+  const {ingredients} = useSelector(getIngredientsFromStore)
+  const {ingredients: orderIngredients} = useSelector(getOrderFromStore)
   const [current, setCurrent] = useState('buns')
   const buns = useMemo(() => {
     const buns = filterIngredientsByType('bun');

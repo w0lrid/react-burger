@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ADD_INGREDIENT, getOrder, SET_BUN, SORT_INGREDIENTS } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import Ingredient from "./ingredient/ingredient";
+import { getOrderFromStore } from "../../services/selectors/order";
 
 const BurgerConstructor = ({handleOpenModal}) => {
   const dispatch = useDispatch()
@@ -14,7 +15,7 @@ const BurgerConstructor = ({handleOpenModal}) => {
   const {
     ingredients: orderIngredients,
     bun,
-  } = useSelector(store => store.order)
+  } = useSelector(getOrderFromStore)
   const [ingredientsCount, setIngredientsCount] = useState(null)
   const [, dropRef] = useDrop({
     accept: 'ingredient',
