@@ -1,4 +1,5 @@
 import LoginPage from './login';
 import BurgerConstructorPage from "./burgerConstructor";
+import RegisterPage from "./register";
 
-export { LoginPage, BurgerConstructorPage };
+export { BurgerConstructorPage, LoginPage, RegisterPage };
