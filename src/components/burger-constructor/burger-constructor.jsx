@@ -1,105 +1,147 @@
-import {
-  Button,
-  ConstructorElement,
-  CurrencyIcon,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, ConstructorElement, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useState } from "react";
-import { OrderContext } from "../../services/orderContext";
-import { checkResponse } from "../../utils/checkResponse";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_INGREDIENT, getOrder, SET_BUN, SORT_INGREDIENTS } from "../../services/actions/order";
+import { useDrop } from "react-dnd";
+import Ingredient from "./ingredient/ingredient";
+import { getOrderFromStore } from "../../services/selectors/order";
 
-const BurgerConstructor = ({buns, saucesAndFilling, handleOpenModal}) => {
-  const {setOrderNumber} = useContext(OrderContext)
+const BurgerConstructor = ({handleOpenModal}) => {
+  const dispatch = useDispatch()
   const [totalPrice, setTotalPrice] = useState(0)
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null)
+  const {
+    ingredients: orderIngredients,
+    bun,
+  } = useSelector(getOrderFromStore)
+  const [ingredientsCount, setIngredientsCount] = useState(null)
+  const [, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop(ingredient) {
+      dispatch({
+        type: ADD_INGREDIENT,
+        ingredient: {
+          ...ingredient,
+          count: (() => {
+            let count = 1
+            const currentIngredient = orderIngredients.find(orderIngredient => orderIngredient._id === ingredient._id)
+
+            if (currentIngredient) {
+              count = currentIngredient.count
+            }
+
+            orderIngredients.forEach(orderIngredient => {
+              if (ingredient._id === orderIngredient._id) {
+                ++count
+              }
+            })
+
+            return count
+          })()
+        }
+      })
+
+    }
+  })
+  const [, dropBunRef] = useDrop({
+    accept: 'bun',
+    drop(bun) {
+      dispatch({
+        type: SET_BUN,
+        bun,
+      })
+    }
+  })
 
   useEffect(() => {
-    if (typeof buns !== 'null' && typeof saucesAndFilling !== 'null')
-      setTotalPrice(getPriceSum(saucesAndFilling) + getPriceSum(buns.slice(0, 1)) * 2)
-    setOrderIngredientsIds(getIds(saucesAndFilling))
-  }, [buns, saucesAndFilling])
+    const ingredientsCount = orderIngredients.reduce((prevIngredient, ingredient) => {
+      prevIngredient[ingredient._id] = (prevIngredient[ingredient._id] || 0) + 1;
 
-  const getPriceSum = (ingredients) => {
-    let sum = 0
+      return prevIngredient;
+    }, {})
 
-    ingredients.forEach((ingredient) => {
-      sum += ingredient.price
+    setIngredientsCount(ingredientsCount)
+  }, [orderIngredients])
+
+  useEffect(() => {
+    orderIngredients.forEach(ingredient => {
+      setTotalPrice(totalPrice + getIngredientPrice(ingredient))
     })
 
-    return sum
-  }
-  const getIds = (ingredients) => {
-    const ids = ingredients.map((ingredient) => ingredient._id)
-    if (buns[0]) {
-      ids.push(buns[0]._id, buns[0]._id)
+    setOrderIngredientsIds(getIds(orderIngredients))
+  }, [orderIngredients])
+
+  const getIngredientPrice = (ingredient) => {
+    if (ingredient.type === 'bun') return ingredient.price * 2
+
+    if (ingredient.count) {
+      return ingredient.price * ingredient.count
     }
-    return ids
+
+    return ingredient.price
   }
+
+  const getIds = (ingredients) => ingredients.map(ingredient => ingredient._id)
 
   const createOrder = () => {
     handleOpenModal()
-    fetch('https://norma.nomoreparties.space/api/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({ingredients: orderIngredientsIds}),
+    dispatch(getOrder(orderIngredientsIds))
+  }
+  const moveIngredient = (draggingIngredient, hoverIngredient) => {
+    const dragIngredientIndex = orderIngredients.findIndex(el => el._id === draggingIngredient._id)
+    const hoverIngredientIndex = orderIngredients.findIndex(el => el._id === hoverIngredient._id)
+    const sortedIngredients = [...orderIngredients];
+
+    sortedIngredients.splice(dragIngredientIndex, 1);
+    sortedIngredients.splice(hoverIngredientIndex, 0, draggingIngredient);
+    dispatch({
+      type: SORT_INGREDIENTS,
+      ingredients: sortedIngredients
     })
-        .then(checkResponse)
-        .then(({order}) => {
-          setOrderNumber(order.number)
-        })
-        .catch((error) => console.error(error))
   }
 
   return (
       <div>
-        <div className={styles.constructor}>
-          {buns.slice(0, 1).map(({_id, name, image, price}) => (
-              <div className={styles.bun} key={_id}>
-                <ConstructorElement
-                    isLocked
-                    type="top"
-                    text={`${name} (верх)`}
-                    thumbnail={image}
-                    price={price}
-                />
-              </div>
-          ))}
-          <div className={styles.scrollableIngredients}>
-            {saucesAndFilling.map(({_id, name, image, price}) => (
-                    <div className={styles.element} key={_id}>
-                      <DragIcon type="primary"/>
-                      <ConstructorElement
-                          text={name}
-                          thumbnail={image}
-                          price={price}
-                      />
-                    </div>
-                )
+        <div className={styles.constructor} ref={dropBunRef}>
+          <div className={styles.bun}>
+            {bun && (
+              <ConstructorElement
+                isLocked
+                type="top"
+                text={`${bun.name} (верх)`}
+                thumbnail={bun.image}
+                price={bun.price}
+              />
             )}
           </div>
-          {buns.slice(0, 1).map(({_id, name, image, price}) => (
-              <div className={styles.bun} key={_id}>
-                <ConstructorElement
-                    isLocked
-                    type="bottom"
-                    text={`${name} (низ)`}
-                    thumbnail={image}
-                    price={price}
-                />
-              </div>
-          ))}
+          <div className={styles.scrollableIngredients} ref={dropRef}>
+            {orderIngredients.map((ingredient) => [...Array(ingredientsCount).keys()].map(() => (
+              <Ingredient
+                ingredient={ingredient}
+                moveIngredient={moveIngredient} />
+            )))}
+          </div>
+          <div className={styles.bun}>
+            {bun && (
+              <ConstructorElement
+                isLocked
+                type="bottom"
+                text={`${bun.name} (низ)`}
+                thumbnail={bun.image}
+                price={bun.price}
+              />
+            )}
+          </div>
         </div>
         <div className={styles.order}>
           <p className="text text_type_main-large">{totalPrice} <CurrencyIcon type="primary"/></p>
           <Button
-              htmlType="button"
-              type="primary"
-              size="large"
-              onClick={createOrder}
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={createOrder}
           >
             Оформить заказ
           </Button>

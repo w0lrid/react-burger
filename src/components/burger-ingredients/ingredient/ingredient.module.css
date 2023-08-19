@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+.ingredientCardDragging {
+  opacity: 0.5;
+}
+
 .cardCounter {
   position: absolute;
   top: 0;

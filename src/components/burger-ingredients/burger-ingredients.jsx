@@ -1,49 +1,86 @@
-import { useState, useContext, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsSection from "./ingredients-section/ingredients-section";
-import PropTypes from "prop-types";
-import { TypeIngredient } from "../../utils/types";
-import { IngredientsContext } from "../../services/burgerContext";
+import { useSelector } from "react-redux";
+import { getIngredientsFromStore, getOrderFromStore } from "../../services/selectors/order";
 
-const BurgerIngredients = ({ handleIngredientInfo }) => {
-  const {ingredients} = useContext(IngredientsContext)
-  const [current, setCurrent] = useState('Булки')
-  const buns = useMemo(() => ingredients.filter(({type}) => type === 'bun'), [ingredients])
-  const filling = useMemo(() => ingredients.filter(({type}) => type === 'main'), [ingredients])
-  const sauces = useMemo(() => ingredients.filter(({type}) => type === 'sauce'), [ingredients])
+const BurgerIngredients = () => {
+  const {ingredients} = useSelector(getIngredientsFromStore)
+  const {ingredients: orderIngredients} = useSelector(getOrderFromStore)
+  const [current, setCurrent] = useState('buns')
+  const buns = useMemo(() => {
+    const buns = filterIngredientsByType('bun');
+    addCountToIngredient(buns);
+    return buns;
+  }, [ingredients, orderIngredients])
+  const filling = useMemo(() => {
+    const fillings = filterIngredientsByType('main')
+    addCountToIngredient(fillings);
+    return fillings;
+  }, [ingredients, orderIngredients])
+  const sauces = useMemo(() => {
+    const sauces = filterIngredientsByType('sauce');
+    addCountToIngredient(sauces);
+    return sauces
+  }, [ingredients, orderIngredients])
+  const observer = useRef(null)
+
+  useEffect(() => {
+    observer.current = new IntersectionObserver(entries => {
+      const visibleSection = entries.find(entry => entry.isIntersecting)?.target;
+
+      if (visibleSection) {
+        setCurrent(visibleSection.id);
+      }
+    });
+
+    const sections = document.querySelectorAll('[data-section]');
+
+    sections.forEach((section) => {
+      observer.current.observe(section);
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        observer.current.unobserve(section);
+      });
+    };
+  }, []);
+
+  function addCountToIngredient (ingredients) {
+    ingredients.forEach(sauce => {
+      sauce.count = orderIngredients.filter(orderIngredient => sauce._id === orderIngredient._id).length
+    });
+  }
+
+  function filterIngredientsByType (incomingType) {
+    return ingredients.filter(({type}) => type === incomingType)
+  }
 
   return (
     <div className={styles.ingredients}>
       <nav className={styles.nav}>
-        <Tab active={current === 'Булки'} value="Булки" onClick={setCurrent}>Булки</Tab>
-        <Tab active={current === 'Соусы'} value="Соусы" onClick={setCurrent}>Соусы</Tab>
-        <Tab active={current === 'Начинки'} value="Начинки" onClick={setCurrent}>Начинки</Tab>
+        <Tab active={current === 'buns'} value="Булки" onClick={setCurrent}>Булки</Tab>
+        <Tab active={current === 'sauces'} value="Соусы" onClick={setCurrent}>Соусы</Tab>
+        <Tab active={current === 'main'} value="Начинки" onClick={setCurrent}>Начинки</Tab>
       </nav>
       <div className={styles.sections}>
         <IngredientsSection
           heading="Булки"
           ingredients={buns}
-          handleIngredientInfo={handleIngredientInfo}
-        />
+          type='buns' />
         <IngredientsSection
           heading="Соусы"
           ingredients={sauces}
-          handleIngredientInfo={handleIngredientInfo}
-        />
+          type='sauces' />
         <IngredientsSection
           heading="Начинки"
           ingredients={filling}
-          handleIngredientInfo={handleIngredientInfo}
-        />
+          type='main' />
       </div>
     </div>
   )
-}
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(TypeIngredient).isRequired,
-  handleIngredientInfo: PropTypes.func,
 }
 
 export default BurgerIngredients

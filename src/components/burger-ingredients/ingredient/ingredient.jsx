@@ -2,17 +2,34 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import styles from "./ingredient.module.css";
 import PropTypes from "prop-types";
 import { TypeIngredientProperty } from "../../../utils/types";
+import { useDispatch } from "react-redux";
+import { showIngredient } from "../../../services/actions/ingredient";
+import { useDrag } from "react-dnd";
 
-const Ingredient = ({img, price, title, properties, handleOpenModal}) => (
-  <>
-    <div className={styles.ingredientCard} onClick={() => handleOpenModal({img, title, properties})}>
-      <Counter count={1} extraClass={styles.cardCounter}/>
-      <img src={img} alt={title} className="img"/>
+const Ingredient = ({ingredient, properties}) => {
+  const { image, price, name, type, count } = ingredient
+  const dispatch = useDispatch();
+  const [{isDrag}, dragRef] = useDrag({
+    type: type === 'bun' ? 'bun' : 'ingredient',
+    item: ingredient,
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+    })
+  })
+
+  return (
+    <div
+      className={`${styles.ingredientCard} ${isDrag ? styles.ingredientCardDragging : ''}`}
+      onClick={() => dispatch(showIngredient({image, name, properties}))}
+      ref={dragRef}
+    >
+      {count > 0 && <Counter count={count} extraClass={styles.cardCounter}/>}
+      <img src={image} alt={name} className="img"/>
       <p className="text text_type_main-medium">{price} <CurrencyIcon type="primary"/></p>
-      <p className="text text_type_main-default">{title}</p>
+      <p className="text text_type_main-default">{name}</p>
     </div>
-  </>
-)
+  )
+}
 
 Ingredient.propTypes = {
   img: PropTypes.string.isRequired,
