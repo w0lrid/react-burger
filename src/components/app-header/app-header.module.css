@@ -1,4 +1,6 @@
 .header {
+  position: relative;
+  justify-content: space-between;
   margin-bottom: 56px;
   padding: 16px 0;
   display: flex;
@@ -18,8 +20,18 @@
   justify-content: flex-end;
 }
 
+.nav-link {
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.nav-link__active {
+  color: #F2F2F3;;
+}
+
 .logo {
-  flex-basis: 100%;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
