@@ -1,6 +1,6 @@
 import LoginPage from './login';
 import BurgerConstructorPage from "./burgerConstructor";
 import RegisterPage from "./register";
-import ForgotPasswordPage from "./forgotPassword";
+import ForgotAndResetPasswordPage from "./forgotAndResetPassword";
 
-export { BurgerConstructorPage, LoginPage, RegisterPage, ForgotPasswordPage };
+export { BurgerConstructorPage, LoginPage, RegisterPage, ForgotAndResetPasswordPage };
