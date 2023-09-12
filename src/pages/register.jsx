@@ -4,21 +4,18 @@ import AppHeader from "../components/app-header/app-header";
 import React, { useState } from "react";
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { checkResponse } from "../utils/checkResponse";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../services/actions/user";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const sendRequestRegister = () => {
-    fetch('https://norma.nomoreparties.space/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({ email, password, name })
-    }).then(checkResponse).then((response) => { console.log(response) })
+    dispatch(registerUser({ email, password, name }))
   }
 
   return (

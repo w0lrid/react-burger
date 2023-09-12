@@ -4,9 +4,18 @@ import AppHeader from "../components/app-header/app-header";
 import {EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useState} from "react";
 import {NavLink} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {logoutUser} from "../services/actions/user";
 
 const Profile = () => {
+    const dispatch = useDispatch();
+
     const [disabledNameInput, setDisabledNameInput] = useState(true);
+
+    const sendRequestLogout = () => {
+        dispatch(logoutUser());
+    }
+
     return (
         <div className={commonStyles.app}>
             <AppHeader />
@@ -32,7 +41,8 @@ const Profile = () => {
                             </li>
                             <li className={`${styles['nav-item']} text text_type_main-medium`}>
                                 <NavLink
-                                    to={{ pathname: `/profile/orders/:id` }}
+                                    onClick={sendRequestLogout}
+                                    to={{ pathname: `/` }}
                                     className={({ isActive }) => `${styles['nav-link']} ${isActive && styles['nav-link__active']}`}
                                 >
                                     Выход
