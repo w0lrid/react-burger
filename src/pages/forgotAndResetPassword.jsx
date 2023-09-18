@@ -2,14 +2,16 @@ import commonStyles from "../components/app/app.module.css";
 import AppHeader from "../components/app-header/app-header";
 import styles from "./login.module.css";
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import { checkResponse } from "../utils/checkResponse";
+import { getCookie } from "../utils/cookies";
 
 const ForgotAndResetPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [token, setToken] = useState('');
+  const accessToken = getCookie('accessToken');
 
   const isForgotPasswordForm = useLocation().pathname.includes('forgot')
 
@@ -29,6 +31,12 @@ const ForgotAndResetPasswordPage = () => {
     })
       .then(checkResponse)
       .then((response) => { console.log(response) })
+  }
+
+  if (accessToken.length > 0) {
+    return (
+      <Navigate to='/' replace/>
+    )
   }
 
   return (

@@ -16,6 +16,14 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
 export const LOGOUT_USER_FAILED = 'LOGOUT_USER_FAILED';
 
+// PROFILE
+export const GET_USER = 'GET_USER';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED = 'GET_USER_FAILED';
+export const UPDATE_USER = 'UPDATE_USER';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+
 export const registerUser = ({ email, password, name }) => {
   return function (dispatch) {
     dispatch({
@@ -90,7 +98,7 @@ export const logoutUser = () => {
       body: JSON.stringify({ token: getCookie('refreshToken') })
     })
       .then(checkResponse)
-      .then(({ user, accessToken, refreshToken }) => {
+      .then(({ user }) => {
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken')
 
@@ -102,6 +110,62 @@ export const logoutUser = () => {
       .catch(() => {
         dispatch({
           type: LOGOUT_USER_FAILED,
+        })
+      })
+  }
+}
+export const getUser = () => {
+  return function (dispatch) {
+    dispatch({
+      type: GET_USER,
+    })
+
+    fetch('https://norma.nomoreparties.space/api/auth/user', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'authorization': `Bearer ${getCookie('accessToken')}`
+      }
+    })
+      .then(checkResponse)
+      .then(({ user }) => {
+        dispatch({
+          type: GET_USER_SUCCESS,
+          user,
+        })
+      })
+      .catch(() => {
+        dispatch({
+          type: GET_USER_FAILED
+        })
+      })
+  }
+}
+
+export const updateUser = (dataToUpdate) => {
+  return function (dispatch) {
+    dispatch({
+      type: UPDATE_USER,
+    })
+
+    fetch('https://norma.nomoreparties.space/api/auth/user', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'authorization': `Bearer ${getCookie('accessToken')}`
+      },
+      body: JSON.stringify(dataToUpdate)
+    })
+      .then(checkResponse)
+      .then(({ user }) => {
+        dispatch({
+          type: UPDATE_USER_SUCCESS,
+          user,
+        })
+      })
+      .catch(() => {
+        dispatch({
+          type: UPDATE_USER_FAILED
         })
       })
   }
