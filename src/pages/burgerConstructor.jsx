@@ -44,16 +44,6 @@ const BurgerConstructorPage = () => {
       )}
     </>
   ), modalsRoot)
-  const ingredientModal = createPortal((
-    <Modal active={activeIngredientModal} handleClose={() => dispatch(closeIngredient())}>
-      {ingredient && (
-        <IngredientDetails
-          img={ingredient.img}
-          title={ingredient.title}
-          properties={ingredient.properties}/>
-      )}
-    </Modal>
-  ), modalsRoot)
 
   useEffect(() => {
     setBuns(filterBuns(ingredients))
@@ -81,7 +71,6 @@ const BurgerConstructorPage = () => {
         </>
       )}
       {activeOrderModal && orderModal}
-      {activeIngredientModal && ingredientModal}
       </main>
     </div>
   )

@@ -2,11 +2,11 @@ import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { TypeIngredientProperty } from "../../utils/types";
 
-const IngredientDetails = ({img, name, properties}) => {
+const IngredientDetails = ({image, name, properties}) => {
   return (
     <div className={styles.ingredientDetails}>
       <h2 className={`${styles.heading} text text_type_main-large`}>Детали ингредиента</h2>
-      <img src={img} alt={name} className={styles.img}/>
+      <img src={image} alt={name} className={styles.img}/>
       <div className={styles.description}>
         <h3 className={`${styles.descriptionHeading} text text_type_main-medium`}>{name}</h3>
         <div className={styles.properties}>
