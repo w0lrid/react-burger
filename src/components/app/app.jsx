@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { BurgerConstructorPage, LoginPage, RegisterPage, ForgotAndResetPasswordPage, Profile } from "../../pages";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
@@ -8,6 +8,9 @@ import { createPortal } from "react-dom";
 import { closeIngredient } from "../../services/actions/ingredient";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredientFromStore } from "../../services/selectors/order";
+import AppHeader from "../app-header/app-header";
+import styles from './app.module.css'
+import { getIngredients } from "../../services/actions/ingredients";
 
 function App() {
   const location = useLocation();
@@ -17,6 +20,10 @@ function App() {
 
   const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
   const modalsRoot = document.getElementById('modals')
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [])
 
   const ingredientModal = createPortal((
     <Modal active={activeIngredientModal} handleClose={() => {
@@ -37,17 +44,11 @@ function App() {
   };
 
   return (
-    <>
+    <div className={styles.app}>
+      <AppHeader/>
       <Routes location={background || location}>
         <Route path="/" element={<BurgerConstructorPage />} />
-        <Route
-          path='/ingredients/:ingredientId'
-          element={ingredient && (
-            <IngredientDetails
-              image={ingredient.image}
-              name={ingredient.name}
-              properties={ingredient.properties} />
-          )} />
+        <Route path='/ingredients/:ingredientId' element={<IngredientDetails/>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
@@ -63,7 +64,7 @@ function App() {
           />
         </Routes>
       )}
-    </>
+    </div>
   );
 }
 

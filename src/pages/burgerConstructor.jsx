@@ -7,23 +7,12 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "../components/modal/modal";
 import OrderDetails from "../components/order-details/order-details";
-import { closeIngredient } from "../services/actions/ingredient";
-import IngredientDetails from "../components/ingredient-details/ingredient-details";
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredientFromStore, getIngredientsFromStore, getOrderFromStore } from "../services/selectors/order";
-import { getIngredients } from "../services/actions/ingredients";
-import AppHeader from "../components/app-header/app-header";
+import { useSelector } from "react-redux";
+import { getIngredientsFromStore, getOrderFromStore } from "../services/selectors/order";
 
 const BurgerConstructorPage = () => {
   const {ingredients} = useSelector(getIngredientsFromStore);
-  const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
   const {order} = useSelector(getOrderFromStore);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [])
 
   const modalsRoot = document.getElementById('modals')
   const [buns, setBuns] = useState([])
@@ -54,9 +43,7 @@ const BurgerConstructorPage = () => {
   const filterSaucesAndFilling = (ingredients) => ingredients.filter((ingredient) => ingredient.type !== 'bun')
 
   return (
-    <div className={styles.app}>
-      <AppHeader/>
-      <main className={styles.main}>
+    <main className={styles.main}>
       <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
       {ingredients && buns && saucesAndFilling && (
         <>
@@ -71,8 +58,7 @@ const BurgerConstructorPage = () => {
         </>
       )}
       {activeOrderModal && orderModal}
-      </main>
-    </div>
+    </main>
   )
 }
 
