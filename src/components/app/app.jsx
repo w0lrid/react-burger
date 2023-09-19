@@ -4,12 +4,9 @@ import { BurgerConstructorPage, LoginPage, RegisterPage, ForgotAndResetPasswordP
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 
 function App() {
-  const location = useLocation()
-  const background = location.state && location.state.background;
-
   return (
     <Router>
-      <Routes location={background || location}>
+      <Routes>
         <Route path="/" element={<BurgerConstructorPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

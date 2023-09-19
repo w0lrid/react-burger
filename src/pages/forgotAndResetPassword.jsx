@@ -43,20 +43,20 @@ const ForgotAndResetPasswordPage = () => {
     <div className={commonStyles.app}>
       <AppHeader/>
       <main className={styles.main}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={isForgotPasswordForm ? sendRequestRecoverPassword : sendRequestResetPassword}>
           <h2 className="text text_type_main-medium">Восстановление пароля</h2>
           {isForgotPasswordForm ?
             (
               <>
                 <EmailInput placeholder="Укажите e-mail" value={email} onChange={(event) => setEmail(event.target.value)} />
-                <Button htmlType="button" type="primary" size="medium" onClick={sendRequestRecoverPassword}>Восстановить</Button>
+                <Button htmlType="button" type="primary" size="medium">Восстановить</Button>
               </>
             ) :
             (
               <>
                 <PasswordInput placeholder="Введите новый пароль" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
                 <Input placeholder="Введите код из письма" value={token} onChange={(event) => setToken(event.target.value)} />
-                <Button htmlType="button" type="primary" size="medium" onClick={sendRequestResetPassword}>Сохранить</Button>
+                <Button htmlType="button" type="primary" size="medium">Сохранить</Button>
               </>
             )}
         </form>

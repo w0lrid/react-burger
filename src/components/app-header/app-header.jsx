@@ -22,7 +22,9 @@ const AppHeader = () => {
         </NavItem>
       </nav>
       <div className={styles.logo}>
-        <Logo/>
+          <NavLink to={{ pathname: '/'}}>
+              <Logo/>
+          </NavLink>
       </div>
       <nav className={styles.nav}>
         <NavLink

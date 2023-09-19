@@ -1,5 +1,6 @@
 import { checkResponse } from "../../utils/checkResponse";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookies";
+import {fetchWithRefresh} from "../../utils/fetchWithRefresh";
 
 // REGISTER
 export const REGISTER_USER = 'REGISTER_USER';
@@ -120,14 +121,15 @@ export const getUser = () => {
       type: GET_USER,
     })
 
-    fetch('https://norma.nomoreparties.space/api/auth/user', {
+    const options = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'authorization': `Bearer ${getCookie('accessToken')}`
       }
-    })
-      .then(checkResponse)
+    }
+
+    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', options)
       .then(({ user }) => {
         dispatch({
           type: GET_USER_SUCCESS,
@@ -148,15 +150,16 @@ export const updateUser = (dataToUpdate) => {
       type: UPDATE_USER,
     })
 
-    fetch('https://norma.nomoreparties.space/api/auth/user', {
+    const options = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'authorization': `Bearer ${getCookie('accessToken')}`
       },
       body: JSON.stringify(dataToUpdate)
-    })
-      .then(checkResponse)
+    }
+
+    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', options)
       .then(({ user }) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,

@@ -41,7 +41,6 @@ const Profile = () => {
                             </li>
                             <li className={`${styles['nav-item']} text text_type_main-medium`}>
                                 <NavLink
-                                    onClick={sendRequestLogout}
                                     to={{ pathname: `/` }}
                                     className={({ isActive }) => `${styles['nav-link']} ${isActive && styles['nav-link__active']}`}
                                 >
@@ -52,7 +51,7 @@ const Profile = () => {
                     </nav>
                     <p className="text text_type_main-default text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
                 </section>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={sendRequestLogout}>
                     <Input placeholder="Имя" value={'test'} onChange={(event) => {}} disabled={disabledNameInput} icon="EditIcon" onIconClick={() => setDisabledNameInput((prevState) => !prevState)} />
                     <EmailInput value={'email'} onChange={(event) => {}} isIcon />
                     <PasswordInput value={'password'} onChange={(event) => {}} icon="EditIcon" />
