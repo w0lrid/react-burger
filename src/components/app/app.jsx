@@ -1,88 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
-import styles from './app.module.css';
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import Modal from "../modal/modal";
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { BurgerConstructorPage, LoginPage, RegisterPage, ForgotAndResetPasswordPage, Profile } from "../../pages";
+import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal";
 import { createPortal } from "react-dom";
 import { closeIngredient } from "../../services/actions/ingredient";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { getIngredientFromStore, getIngredientsFromStore, getOrderFromStore } from "../../services/selectors/order";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredientFromStore } from "../../services/selectors/order";
+import AppHeader from "../app-header/app-header";
+import styles from './app.module.css'
+import { getIngredients } from "../../services/actions/ingredients";
 
 function App() {
-  const {ingredients} = useSelector(getIngredientsFromStore);
-  const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
-  const {order} = useSelector(getOrderFromStore);
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
   const dispatch = useDispatch();
+
+  const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
+  const modalsRoot = document.getElementById('modals')
 
   useEffect(() => {
     dispatch(getIngredients())
   }, [])
 
-  const modalsRoot = document.getElementById('modals')
-  const [buns, setBuns] = useState([])
-  const [saucesAndFilling, setSaucesAndFilling] = useState([])
-  const [activeOrderModal, setActiveOrderModal] = useState(false)
-
-  /**
-   * Modals
-   * @type {React.ReactPortal}
-   */
-
-  const orderModal = createPortal((
-    <>
-      {order && (
-        <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
-          <OrderDetails orderNumber={order.number}/>
-        </Modal>
-      )}
-    </>
-  ), modalsRoot)
   const ingredientModal = createPortal((
-      <Modal active={activeIngredientModal} handleClose={() => dispatch(closeIngredient())}>
-        {ingredient && (
-            <IngredientDetails
-              img={ingredient.img}
-              title={ingredient.title}
-              properties={ingredient.properties}/>
-        )}
-      </Modal>
+    <Modal active={activeIngredientModal} handleClose={() => {
+      handleModalClose();
+      dispatch(closeIngredient());
+    }}>
+      {ingredient && (
+        <IngredientDetails
+          image={ingredient.image}
+          name={ingredient.name}
+          properties={ingredient.properties}/>
+      )}
+    </Modal>
   ), modalsRoot)
 
-  useEffect(() => {
-    setBuns(filterBuns(ingredients))
-    setSaucesAndFilling(filterSaucesAndFilling(ingredients))
-  }, [ingredients])
-
-  const filterBuns = (ingredients) => ingredients.filter((ingredient) => ingredient.type === 'bun')
-  const filterSaucesAndFilling = (ingredients) => ingredients.filter((ingredient) => ingredient.type !== 'bun')
+  const handleModalClose = () => {
+    navigate(-1);
+  };
 
   return (
     <div className={styles.app}>
       <AppHeader/>
-      <main className={styles.main}>
-        <h2 className={`${styles.mainTitle} text text_type_main-large pb-5`}>Соберите бургер</h2>
-        {ingredients && buns && saucesAndFilling && (
-          <>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor
-                buns={buns}
-                saucesAndFilling={saucesAndFilling}
-                handleOpenModal={() => setActiveOrderModal(true)}
-              />
-            </DndProvider>
-          </>
-        )}
-        {activeOrderModal && orderModal}
-        {activeIngredientModal && ingredientModal}
-      </main>
+      <Routes location={background || location}>
+        <Route path="/" element={<BurgerConstructorPage />} />
+        <Route path='/ingredients/:ingredientId' element={<IngredientDetails/>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
+        <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
+        <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />}/>} />
+      </Routes>
+
+      {background && (
+        <Routes>
+          <Route
+            path='/ingredients/:ingredientId'
+            element={<>{ingredientModal}</>}
+          />
+        </Routes>
+      )}
     </div>
   );
 }

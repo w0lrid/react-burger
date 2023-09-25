@@ -1,0 +1,43 @@
+.main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.nav-section {
+  top: 0;
+  left: 0;
+  position: absolute;
+  max-width: 320px;
+}
+
+.nav {
+  margin: 0;
+  padding-left: 0;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  height: 64px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.nav-link__active {
+  color: #F2F2F3;
+}
