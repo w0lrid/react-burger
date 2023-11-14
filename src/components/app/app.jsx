@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { BurgerConstructorPage, LoginPage, RegisterPage, ForgotAndResetPasswordPage, Profile } from "../../pages";
+import {
+  BurgerConstructorPage,
+  LoginPage,
+  RegisterPage,
+  ForgotAndResetPasswordPage,
+  Profile,
+  FeedPage
+} from "../../pages";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
@@ -54,6 +61,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
         <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
         <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />}/>} />
+        <Route path="/feed" element={<FeedPage />} />
       </Routes>
 
       {background && (
