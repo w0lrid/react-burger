@@ -3,16 +3,16 @@ import { ingredientsReducer } from './ingredients';
 import { ingredientReducer } from './ingredient';
 import { orderReducer } from './order';
 import { userReducer } from './user';
-import { socketReducer } from './socket';
+import { feedReducer } from './socket';
 import { userOrdersSocketReducer } from './user-orders-socket';
-import { selectedFeedReducer } from './selectedFeed';
+import { selectedFeedReducer } from './selected-feed';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   ingredient: ingredientReducer,
   order: orderReducer,
+  selectedOrder: selectedFeedReducer,
   user: userReducer,
-  socket: socketReducer,
-  userOrders: userOrdersSocketReducer,
-  feed: selectedFeedReducer,
+  feed: feedReducer,
+  userFeed: userOrdersSocketReducer,
 });

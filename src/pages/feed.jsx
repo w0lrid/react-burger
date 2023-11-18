@@ -3,20 +3,23 @@ import styles from './feed.module.css';
 import { useLocation } from 'react-router-dom';
 import { OrderCard } from '../components/order-card/order-card';
 import { useDispatch, useSelector } from 'react-redux';
-import { wsConnectionClosed, wsConnectionStart } from '../services/actions/socket';
+import { wsConnectionClosed, wsConnectionStart } from '../services/actions/feed-socket';
 
 const FeedPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector((state) => state.socket);
+  const { orders, total, totalToday } = useSelector((state) => state.feed);
 
   useEffect(() => {
     dispatch(wsConnectionStart());
+
     return () => {};
   }, []);
 
   useEffect(() => {
-    if (location.pathname !== '/feed') dispatch(wsConnectionClosed());
+    if (location.pathname !== '/feed') {
+      dispatch(wsConnectionClosed());
+    }
   }, [location, dispatch]);
 
   return (
@@ -26,7 +29,7 @@ const FeedPage = () => {
           <p className={`text text_type_main-large  ${styles.title} mb-6 ml-2`}>Лента заказов</p>
           <div className={styles.scroll}>
             {orders.map((order) => {
-              return <OrderCard element={order} key={order._id} />;
+              return <OrderCard order={order} key={order._id} />;
             })}
           </div>
         </section>

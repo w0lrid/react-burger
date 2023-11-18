@@ -1,1 +1,1 @@
-export const getFeedFromStore = state => state.feed;
+export const getSelectedOrderFromStore = (state) => state.selectedOrder;

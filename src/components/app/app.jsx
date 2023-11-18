@@ -11,16 +11,15 @@ import {
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { createPortal } from 'react-dom';
 import { closeIngredient } from '../../services/actions/ingredient';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientFromStore } from '../../services/selectors/order';
 import AppHeader from '../app-header/app-header';
 import styles from './app.module.css';
 import { getIngredients } from '../../services/actions/ingredients';
-import { getFeedFromStore } from '../../services/selectors/feed';
-import { closeFeed } from '../../services/actions/selectedFeed';
-import SelectedFeed from '../selected-feed/selected-feed';
+import { getSelectedOrderFromStore } from '../../services/selectors/feed';
+import { closeSelectedOrder } from '../../services/actions/selected-order';
+import SelectedOrder from '../selected-order/selected-order';
 
 function App() {
   window.history.replaceState({}, document.title);
@@ -32,7 +31,7 @@ function App() {
 
   const { opened: activeIngredientModal } = useSelector(getIngredientFromStore);
   const { ingredients } = useSelector((state) => state.ingredients);
-  const { feed, opened: activeFeedModel } = useSelector(getFeedFromStore);
+  const { selectedOrder, opened: activeFeedModel } = useSelector(getSelectedOrderFromStore);
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -55,10 +54,10 @@ function App() {
       active={activeFeedModel}
       handleClose={() => {
         navigate(-1);
-        dispatch(closeFeed());
+        dispatch(closeSelectedOrder());
       }}
     >
-      {feed && <SelectedFeed />}
+      {selectedOrder && <SelectedOrder />}
     </Modal>
   );
 
@@ -76,7 +75,7 @@ function App() {
             <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
             <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />} />} />
             <Route path="/feed" element={<FeedPage />} />
-            <Route path="/feed/:number" element={<SelectedFeed />} />
+            <Route path="/feed/:number" element={<SelectedOrder />} />
           </Routes>
 
           {background && (

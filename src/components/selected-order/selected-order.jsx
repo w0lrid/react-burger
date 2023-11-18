@@ -1,24 +1,47 @@
 import React, { useEffect } from 'react';
-import styles from './selected-feed.module.css';
+import styles from './selected-order.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams } from 'react-router-dom';
 import { includesIngredients, filterIngredients, getOrderDate, calculatePrice } from '../../utils/utils';
-import { wsConnectionStart } from '../../services/actions/socket';
+import { wsConnectionStart } from '../../services/actions/feed-socket';
 import { useDispatch, useSelector } from 'react-redux';
+import { getSelectedOrder } from '../../services/actions/order';
 
-const SelectedFeed = () => {
+const SelectedOrder = () => {
+  const { number } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(wsConnectionStart());
   }, []);
 
-  const { orders: data } = useSelector((state) => state.socket);
+  const order = useSelector((state) => {
+    let order = state.feed.orders.find((order) => order.number == number);
+
+    if (order) {
+      return order;
+    }
+
+    order = state.userFeed.orders.find((order) => order.number == number);
+
+    if (order) {
+      return order;
+    }
+
+    return state.order.selectedOrder;
+  });
+
+  useEffect(() => {
+    if (!order) {
+      dispatch(getSelectedOrder(number));
+    }
+  }, [order]);
+
   const { ingredients } = useSelector((state) => state.ingredients);
 
-  const { number } = useParams();
-
-  const order = React.useMemo(() => data.find((item) => item.number == number), [data, number]);
+  if (!order) {
+    return null;
+  }
 
   return (
     <main className={styles.card}>
@@ -59,4 +82,4 @@ const SelectedFeed = () => {
   );
 };
 
-export default SelectedFeed;
+export default SelectedOrder;

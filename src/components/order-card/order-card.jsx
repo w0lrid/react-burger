@@ -5,25 +5,25 @@ import { getOrderDate, filterIngredients, calculatePrice } from '../../utils/uti
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientsFromStore } from '../../services/selectors/order';
-import { showFeed } from '../../services/actions/selectedFeed';
+import { showSelectedOrder } from '../../services/actions/selected-order';
 
-export const OrderCard = ({ element }) => {
+export const OrderCard = ({ order }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { ingredients } = useSelector(getIngredientsFromStore);
-  const filter = filterIngredients(element.ingredients, ingredients);
+  const filter = filterIngredients(order.ingredients, ingredients);
 
   return (
-    <Link key={element._id} to={`/feed/${element.number}`} state={{ background: location }} className={styles.link}>
-      <li className={`${styles.card} ${styles.link}`} onClick={() => dispatch(showFeed(element))}>
+    <Link key={order._id} to={`/feed/${order.number}`} state={{ background: location }} className={styles.link}>
+      <li className={`${styles.card} ${styles.link}`} onClick={() => dispatch(showSelectedOrder(order))}>
         <div className={styles.header}>
-          <p className={`${styles.id} text text_type_digits-default`}>#{element.number}</p>
+          <p className={`${styles.id} text text_type_digits-default`}>#{order.number}</p>
 
           <p className={`${styles.timestamp} text text_type_main-default text_color_inactive`}>
-            {getOrderDate(element.createdAt)}
+            {getOrderDate(order.createdAt)}
           </p>
         </div>
-        <p className={`${styles.name} text text_type_main-medium`}>{element.name}</p>
+        <p className={`${styles.name} text text_type_main-medium`}>{order.name}</p>
         <div className={styles.ingredients}>
           <div className={styles.images}>
             {filter.map((item, index) => {
@@ -62,7 +62,7 @@ export const OrderCard = ({ element }) => {
           </div>
           <div className={styles.container}>
             <p className={`${styles.price} text text_type_digits-default`}>
-              {calculatePrice(element.ingredients, ingredients)}
+              {calculatePrice(order.ingredients, ingredients)}
             </p>
             <CurrencyIcon type="primary" />
           </div>
