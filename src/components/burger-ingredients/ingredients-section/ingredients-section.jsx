@@ -8,28 +8,7 @@ const IngredientsSection = ({ heading, ingredients, type }) => (
     <h3 className={`${styles.heading} text text_type_main-medium pb-6`}>{heading}</h3>
     <div className={styles.list}>
       {ingredients.map((ingredient) => (
-        <Ingredient
-          key={ingredient._id}
-          ingredient={ingredient}
-          properties={[
-            {
-              name: 'Калорий, ккал',
-              value: ingredient.calories,
-            },
-            {
-              name: 'Белки, г',
-              value: ingredient.proteins,
-            },
-            {
-              name: 'Жиры, г',
-              value: ingredient.fat,
-            },
-            {
-              name: 'Углеводы, г',
-              value: ingredient.carbohydrates,
-            },
-          ]}
-        />
+        <Ingredient key={ingredient._id} ingredient={ingredient} />
       ))}
     </div>
   </section>

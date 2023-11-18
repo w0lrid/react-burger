@@ -30,7 +30,8 @@ function App() {
   const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
-  const { ingredient, opened: activeIngredientModal } = useSelector(getIngredientFromStore);
+  const { opened: activeIngredientModal } = useSelector(getIngredientFromStore);
+  const { ingredients } = useSelector((state) => state.ingredients);
   const { feed, opened: activeFeedModel } = useSelector(getFeedFromStore);
   const modalsRoot = document.getElementById('modals');
 
@@ -46,9 +47,7 @@ function App() {
         dispatch(closeIngredient());
       }}
     >
-      {ingredient && (
-        <IngredientDetails image={ingredient.image} name={ingredient.name} properties={ingredient.properties} />
-      )}
+      <IngredientDetails />
     </Modal>,
     modalsRoot,
   );
@@ -69,23 +68,27 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes location={background || location}>
-        <Route path="/" element={<BurgerConstructorPage />} />
-        <Route path="/ingredients/:ingredientId" element={<IngredientDetails />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
-        <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
-        <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />} />} />
-        <Route path="/feed" element={<FeedPage />} />
-        <Route path="/feed/:number" element={<SelectedFeed />} />
-      </Routes>
+      {ingredients.length > 0 && (
+        <>
+          <Routes location={background || location}>
+            <Route path="/" element={<BurgerConstructorPage />} />
+            <Route path="/ingredients/:ingredientId" element={<IngredientDetails />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
+            <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
+            <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />} />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feed/:number" element={<SelectedFeed />} />
+          </Routes>
 
-      {background && (
-        <Routes>
-          <Route path="/ingredients/:ingredientId" element={<>{ingredientModal}</>} />
-          <Route path="/feed/:number" element={<>{selectedFeedModal}</>} />
-        </Routes>
+          {background && (
+            <Routes>
+              <Route path="/ingredients/:ingredientId" element={<>{ingredientModal}</>} />
+              <Route path="/feed/:number" element={<>{selectedFeedModal}</>} />
+            </Routes>
+          )}
+        </>
       )}
     </div>
   );
