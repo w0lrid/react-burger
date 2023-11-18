@@ -33,13 +33,12 @@ function App() {
   const { opened: activeIngredientModal } = useSelector(getIngredientFromStore);
   const { ingredients } = useSelector((state) => state.ingredients);
   const { feed, opened: activeFeedModel } = useSelector(getFeedFromStore);
-  const modalsRoot = document.getElementById('modals');
 
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
 
-  const ingredientModal = createPortal(
+  const ingredientModal = (
     <Modal
       active={activeIngredientModal}
       handleClose={() => {
@@ -48,11 +47,10 @@ function App() {
       }}
     >
       <IngredientDetails />
-    </Modal>,
-    modalsRoot,
+    </Modal>
   );
 
-  const selectedFeedModal = createPortal(
+  const selectedFeedModal = (
     <Modal
       active={activeFeedModel}
       handleClose={() => {
@@ -61,8 +59,7 @@ function App() {
       }}
     >
       {feed && <SelectedFeed />}
-    </Modal>,
-    modalsRoot,
+    </Modal>
   );
 
   return (
