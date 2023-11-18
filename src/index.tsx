@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/root-reducer';
 import { socketMiddleware } from './utils/socketMiddleware';
 import { wsActions } from './services/actions/feed-socket';
-import { userWsActions } from './services/actions/user-orders-socket';
+import { userWsActions } from './services/actions/user-feed-socket';
 import { configureStore } from '@reduxjs/toolkit';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
