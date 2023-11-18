@@ -23,6 +23,8 @@ import { closeFeed } from '../../services/actions/selectedFeed';
 import SelectedFeed from '../selected-feed/selected-feed';
 
 function App() {
+  window.history.replaceState({}, document.title);
+
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;

@@ -35,28 +35,26 @@ const SelectedFeed = () => {
             return (
               <li className={styles.ingredient} key={element._id}>
                 <img className={styles.image} src={element.image_mobile} alt={element.name} />
-                <p className={`${styles.name} text text_type_main-small ml-2`}>{element.name}</p>
-                <p className={`${styles.price} text text_type_digits-default`}>
+                <span className={`${styles.name} text text_type_main-small ml-2`}>{element.name}</span>
+                <span className={`${styles.price} text text_type_digits-default`}>
                   {filterIngredients(order.ingredients, ingredients).filter((i) => i._id === element._id).length}x
                   {element.price} <CurrencyIcon type="primary" />
-                </p>
+                </span>
               </li>
             );
           })}
       </ul>
-      <div className={`${styles.container} mb-6`}>
-        {order && (
-          <p className={`${styles.timestamp} text text_type_main-default text_color_inactive`}>
+      {order && (
+        <p className={`${styles.container} mb-6`}>
+          <span className={`${styles.timestamp} text text_type_main-default text_color_inactive`}>
             {getOrderDate(order.createdAt)}
-          </p>
-        )}
-        {order && (
-          <p className={`${styles.total} text text_type_digits-default ml-2`}>
+          </span>
+          <span className={`${styles.total} text text_type_digits-default ml-2`}>
             {calculatePrice(order.ingredients, ingredients)}
             <CurrencyIcon type="primary" />
-          </p>
-        )}
-      </div>
+          </span>
+        </p>
+      )}
     </main>
   );
 };
