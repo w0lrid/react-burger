@@ -1,12 +1,11 @@
-import { combineReducers } from "redux";
-import { ingredientsReducer } from "./ingredients";
-import { ingredientReducer } from "./ingredient";
-import { orderReducer } from "./order";
-import { userReducer } from "./user";
-import {socketReducer} from "./socket";
-import {userOrdersSocketReducer} from "./user-orders-socket";
-import {selectedFeedReducer} from "./selectedFeed";
-
+import { combineReducers } from 'redux';
+import { ingredientsReducer } from './ingredients';
+import { ingredientReducer } from './ingredient';
+import { orderReducer } from './order';
+import { userReducer } from './user';
+import { socketReducer } from './socket';
+import { userOrdersSocketReducer } from './user-orders-socket';
+import { selectedFeedReducer } from './selectedFeed';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -16,4 +15,4 @@ export const rootReducer = combineReducers({
   socket: socketReducer,
   userOrders: userOrdersSocketReducer,
   feed: selectedFeedReducer,
-})
+});
