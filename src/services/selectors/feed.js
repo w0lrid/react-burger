@@ -1,0 +1,1 @@
+export const getFeedFromStore = state => state.feed;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './feed.module.css';
 import { useLocation } from 'react-router-dom';
 import {OrderCard} from "../components/order-card/order-card";
@@ -13,13 +13,13 @@ const FeedPage = () => {
         total,
         totalToday
     } = useSelector(state => state.socket);
-    React.useEffect(() => {
+
+    useEffect(() => {
         dispatch(wsConnectionStart());
-        return () => {
-        }
+        return () => {}
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (location.pathname !== '/feed')
             dispatch(wsConnectionClosed())
     }, [location, dispatch])

@@ -5,6 +5,8 @@ import { orderReducer } from "./order";
 import { userReducer } from "./user";
 import {socketReducer} from "./socket";
 import {userOrdersSocketReducer} from "./user-orders-socket";
+import {selectedFeedReducer} from "./selectedFeed";
+
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -13,4 +15,5 @@ export const rootReducer = combineReducers({
   user: userReducer,
   socket: socketReducer,
   userOrders: userOrdersSocketReducer,
+  feed: selectedFeedReducer,
 })

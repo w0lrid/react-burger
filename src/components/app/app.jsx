@@ -6,7 +6,7 @@ import {
   RegisterPage,
   ForgotAndResetPasswordPage,
   Profile,
-  FeedPage
+  FeedPage,
 } from "../../pages";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -18,6 +18,9 @@ import { getIngredientFromStore } from "../../services/selectors/order";
 import AppHeader from "../app-header/app-header";
 import styles from './app.module.css'
 import { getIngredients } from "../../services/actions/ingredients";
+import {getFeedFromStore} from "../../services/selectors/feed";
+import {closeFeed} from "../../services/actions/selectedFeed";
+import SelectedFeed from "../selected-feed/selected-feed";
 
 function App() {
   const location = useLocation();
@@ -26,6 +29,7 @@ function App() {
   const dispatch = useDispatch();
 
   const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
+  const { feed, opened: activeFeedModel } = useSelector(getFeedFromStore)
   const modalsRoot = document.getElementById('modals')
 
   useEffect(() => {
@@ -46,6 +50,15 @@ function App() {
     </Modal>
   ), modalsRoot)
 
+  const selectedFeedModal = createPortal((
+      <Modal active={activeFeedModel} handleClose={() => {
+        handleModalClose();
+        dispatch(closeFeed());
+      }}>
+        {feed && <SelectedFeed />}
+      </Modal>
+  ), modalsRoot)
+
   const handleModalClose = () => {
     navigate(-1);
   };
@@ -62,6 +75,7 @@ function App() {
         <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
         <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />}/>} />
         <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:number" element={<SelectedFeed />} />
       </Routes>
 
       {background && (
@@ -69,6 +83,10 @@ function App() {
           <Route
             path='/ingredients/:ingredientId'
             element={<>{ingredientModal}</>}
+          />
+          <Route
+            path='/feed/:id'
+            element={<>{selectedFeedModal}</>}
           />
         </Routes>
       )}
