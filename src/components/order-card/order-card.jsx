@@ -61,9 +61,7 @@ export const OrderCard = ({ order }) => {
             ) : null}
           </div>
           <div className={styles.container}>
-            <p className={`${styles.price} text text_type_digits-default`}>
-              {calculatePrice(order.ingredients, ingredients)}
-            </p>
+            <p className="text text_type_digits-default">{calculatePrice(order.ingredients, ingredients)}</p>
             <CurrencyIcon type="primary" />
           </div>
         </div>
