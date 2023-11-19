@@ -4,6 +4,7 @@ import { Link, Navigate, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
 import { checkResponse } from '../utils/checkResponse';
 import { getCookie } from '../utils/cookies';
+import { passwordRecoveryURL, passwordResetURL } from '../config/constants';
 
 const ForgotAndResetPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const ForgotAndResetPasswordPage = () => {
 
   const sendRequestRecoverPassword = (e) => {
     e.preventDefault();
-    fetch('https://norma.nomoreparties.space/api/password-reset', {
+    fetch(passwordRecoveryURL, {
       method: 'POST',
       body: JSON.stringify({ email }),
     })
@@ -27,7 +28,7 @@ const ForgotAndResetPasswordPage = () => {
 
   const sendRequestResetPassword = (e) => {
     e.preventDefault();
-    fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+    fetch(passwordResetURL, {
       method: 'POST',
       body: JSON.stringify({ password: newPassword, token }),
     })

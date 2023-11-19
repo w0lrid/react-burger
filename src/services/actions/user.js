@@ -1,6 +1,7 @@
 import { checkResponse } from '../../utils/checkResponse';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookies';
 import { fetchWithRefresh } from '../../utils/fetchWithRefresh';
+import { authLoginURL, authLogoutURL, authRegisterURL, authUserURL } from '../../config/constants';
 
 // REGISTER
 export const REGISTER_USER = 'REGISTER_USER';
@@ -31,7 +32,7 @@ export const registerUser = ({ email, password, name }) => {
       type: REGISTER_USER,
     });
 
-    fetch('https://norma.nomoreparties.space/api/auth/register', {
+    fetch(authRegisterURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -61,7 +62,7 @@ export const loginUser = ({ email, password }) => {
       type: LOGIN_USER,
     });
 
-    fetch('https://norma.nomoreparties.space/api/auth/login', {
+    fetch(authLoginURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -91,7 +92,7 @@ export const logoutUser = () => {
       type: LOGOUT_USER,
     });
 
-    fetch('https://norma.nomoreparties.space/api/auth/logout', {
+    fetch(authLogoutURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -129,7 +130,7 @@ export const getUser = () => {
       },
     };
 
-    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', options)
+    fetchWithRefresh(authUserURL, options)
       .then(({ user }) => {
         dispatch({
           type: GET_USER_SUCCESS,
@@ -159,7 +160,7 @@ export const updateUser = (dataToUpdate) => {
       body: JSON.stringify(dataToUpdate),
     };
 
-    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', options)
+    fetchWithRefresh(authUserURL, options)
       .then(({ user }) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,

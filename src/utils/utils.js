@@ -1,6 +1,5 @@
 import { deleteCookie, getCookie, setCookie } from './cookies';
-
-const baseUrl = 'https://norma.nomoreparties.space/api';
+import { authTokenURL } from '../config/constants';
 
 export const request = async (url, options) => {
   const res = await fetch(url, options);
@@ -15,7 +14,6 @@ const checkResponse = (res) => {
 };
 
 export const refreshToken = () => {
-  const url = `${baseUrl}/auth/token`;
   const options = {
     method: 'POST',
     headers: {
@@ -25,7 +23,7 @@ export const refreshToken = () => {
       token: getCookie('refresh'),
     }),
   };
-  request(url, options)
+  request(authTokenURL, options)
     .then(({ success, accessToken }) => {
       if (success) {
         deleteCookie('access');
