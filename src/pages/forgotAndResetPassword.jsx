@@ -21,9 +21,7 @@ const ForgotAndResetPasswordPage = () => {
       body: JSON.stringify({ email }),
     })
       .then(checkResponse)
-      .then((response) => {
-        console.log(response);
-      });
+      .then(() => <Navigate to="/reset-password" replace />);
   };
 
   const sendRequestResetPassword = (e) => {
@@ -33,8 +31,8 @@ const ForgotAndResetPasswordPage = () => {
       body: JSON.stringify({ password: newPassword, token }),
     })
       .then(checkResponse)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        return <Navigate to="/login" replace />;
       });
   };
 

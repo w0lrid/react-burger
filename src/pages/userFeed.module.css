@@ -7,7 +7,8 @@
 
 .section {
     display: flex;
-    min-width: 870px;
+    max-width: 870px;
+    margin-left: 380px;
 }
 
 .status {
@@ -16,7 +17,7 @@
 
 .title {
     display: block;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .feed {
@@ -48,7 +49,7 @@
     height: 64px;
     border-radius: 50%;
     border: 3px solid rgba(76, 76, 255, 0.8);
-    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
     margin: 0;
     padding: 0;
     background: no-repeat;
@@ -65,7 +66,7 @@
     width: 531px;
     height: 171px;
     background: #1C1C21;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
     border-radius: 40px;
 }
 

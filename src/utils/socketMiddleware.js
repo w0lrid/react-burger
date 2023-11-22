@@ -1,3 +1,5 @@
+import { getUser, updateUser } from '../services/actions/user';
+
 export const socketMiddleware = (url, actions) => {
   return (store) => {
     let socket = null;

@@ -7,11 +7,16 @@ import { useSelector } from 'react-redux';
 
 export const UserOrderCard = ({ order }) => {
   const location = useLocation();
-  const { ingredientsList: ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector((state) => state.ingredients);
   const filter = filterIngredients(order.ingredients, ingredients);
 
   return (
-    <Link key={order._id} to={`/feed/${order.number}`} state={{ background: location }} className={styles.link}>
+    <Link
+      key={order._id}
+      to={`/profile/orders/${order.number}`}
+      state={{ background: location }}
+      className={styles.link}
+    >
       <li className={`${styles.card} ${styles.link}`}>
         <div className={styles.header}>
           <p className={`${styles.id} text text_type_digits-default`}>#{order.number}</p>
@@ -20,7 +25,7 @@ export const UserOrderCard = ({ order }) => {
           </p>
         </div>
         <div className={styles.caption}>
-          <p className={`${styles.name} text text_type_main-medium`}>{order.name}</p>
+          <p className="text text_type_main-medium">{order.name}</p>
           <p className={`${styles.status} text text_type_main-small ${order.status === 'done' ? styles.done : null}`}>
             {order.status === 'done' ? `Выполнен` : `Готовится`}
           </p>

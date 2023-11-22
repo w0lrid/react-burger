@@ -2,7 +2,7 @@ import styles from './userEdit.module.css';
 import { EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutUser, updateUser } from '../services/actions/user';
+import { updateUser } from '../services/actions/user';
 import { UserNav } from '../components/user-nav/user-nav';
 
 const UserEdit = () => {

@@ -1,5 +1,6 @@
 import { orderURL } from '../../config/constants';
 import { checkResponse } from '../../utils/checkResponse';
+import { getCookie } from '../../utils/cookies';
 
 export const GET_ORDER = 'GET_ORDER';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -22,6 +23,7 @@ export const getOrder = (orderIngredientsIds) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
+        authorization: `Bearer ${getCookie('accessToken')}`,
       },
       body: JSON.stringify({ ingredients: orderIngredientsIds }),
     })

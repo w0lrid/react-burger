@@ -70,11 +70,6 @@
     opacity: .7;
 }
 
-.name {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .status {
     margin: 0;
 }
