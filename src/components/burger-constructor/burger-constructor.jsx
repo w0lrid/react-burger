@@ -7,13 +7,16 @@ import { ADD_INGREDIENT, getOrder, SET_BUN, SORT_INGREDIENTS } from '../../servi
 import { useDrop } from 'react-dnd';
 import Ingredient from './ingredient/ingredient';
 import { getOrderFromStore } from '../../services/selectors/order';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = ({ handleOpenModal }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null);
   const { ingredients: orderIngredients, bun } = useSelector(getOrderFromStore);
   const [ingredientsCount, setIngredientsCount] = useState(null);
+  const { user } = useSelector((state) => state.user);
   const [, dropRef] = useDrop({
     accept: 'ingredient',
     drop(ingredient) {
@@ -84,6 +87,10 @@ const BurgerConstructor = ({ handleOpenModal }) => {
   const getIds = (ingredients) => ingredients.map((ingredient) => ingredient._id);
 
   const createOrder = () => {
+    if (!user) {
+      navigate('/login');
+    }
+
     handleOpenModal();
     dispatch(getOrder(orderIngredientsIds));
   };

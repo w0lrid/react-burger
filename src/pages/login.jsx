@@ -1,12 +1,13 @@
 import styles from './login.module.css';
 import React, { useState } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/actions/user';
 import { getCookie } from '../utils/cookies';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ const LoginPage = () => {
   };
 
   if (accessToken?.length > 0) {
-    return <Navigate to="/" replace />;
+    navigate('/', { replace: true });
   }
 
   return (

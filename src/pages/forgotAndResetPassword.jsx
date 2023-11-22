@@ -1,12 +1,13 @@
 import styles from './login.module.css';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { checkResponse } from '../utils/checkResponse';
 import { getCookie } from '../utils/cookies';
 import { passwordRecoveryURL, passwordResetURL } from '../config/constants';
 
 const ForgotAndResetPasswordPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [token, setToken] = useState('');
@@ -21,7 +22,9 @@ const ForgotAndResetPasswordPage = () => {
       body: JSON.stringify({ email }),
     })
       .then(checkResponse)
-      .then(() => <Navigate to="/reset-password" replace />);
+      .then(() => {
+        navigate('/reset-password', { replace: true });
+      });
   };
 
   const sendRequestResetPassword = (e) => {
@@ -32,12 +35,12 @@ const ForgotAndResetPasswordPage = () => {
     })
       .then(checkResponse)
       .then(() => {
-        return <Navigate to="/login" replace />;
+        navigate('/login', { replace: true });
       });
   };
 
   if (accessToken && accessToken.length > 0) {
-    return <Navigate to="/" replace />;
+    navigate('/', { replace: true });
   }
 
   return (

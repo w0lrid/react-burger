@@ -1,12 +1,13 @@
 import styles from './login.module.css';
 import React, { useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../services/actions/user';
 import { getCookie } from '../utils/cookies';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -20,7 +21,7 @@ const RegisterPage = () => {
   };
 
   if (accessToken && accessToken.length > 0) {
-    return <Navigate to="/" replace />;
+    navigate('/', { replace: true });
   }
 
   return (

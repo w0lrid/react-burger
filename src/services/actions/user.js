@@ -100,13 +100,13 @@ export const logoutUser = () => {
       body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
     })
       .then(checkResponse)
-      .then(({ user }) => {
+      .then(() => {
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken');
 
         dispatch({
           type: LOGOUT_USER_SUCCESS,
-          user,
+          user: null,
         });
       })
       .catch(() => {
