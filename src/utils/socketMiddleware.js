@@ -1,17 +1,17 @@
-import { getUser, updateUser } from '../services/actions/user';
+import { getCookie } from './cookies';
 
 export const socketMiddleware = (url, actions) => {
   return (store) => {
     let socket = null;
     return (next) => {
       return (action) => {
-        const { dispatch, getState } = store;
+        const { dispatch } = store;
         const { type, payload } = action;
         const { wsConnect, onOpen, onClose, onError, onOrders } = actions;
-        const { user } = getState().user;
+        const accessToken = getCookie('accessToken');
 
         if (type === wsConnect) {
-          socket = new WebSocket(`${url}${type === wsConnect && payload && user ? `?token=${payload}` : ''}`);
+          socket = new WebSocket(`${url}${type === wsConnect && payload && accessToken ? `?token=${payload}` : ''}`);
         }
 
         if (socket) {

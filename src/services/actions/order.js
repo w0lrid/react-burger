@@ -54,10 +54,10 @@ export const getSelectedOrder = (number) => {
       },
     })
       .then(checkResponse)
-      .then(({ order }) => {
+      .then((response) => {
         dispatch({
           type: GET_SELECTED_ORDER_SUCCESS,
-          selectedOrder: order,
+          selectedOrder: response.orders[0],
         });
       })
       .catch(() => {

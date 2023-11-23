@@ -6,13 +6,18 @@ import { includesIngredients, filterIngredients, getOrderDate, calculatePrice } 
 import { wsConnectionStart } from '../../services/actions/feed-socket';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedOrder } from '../../services/actions/order';
+import { userWsConnectionStart } from '../../services/actions/user-feed-socket';
+import { getCookie } from '../../utils/cookies';
 
 const SelectedOrder = () => {
   const { number } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = getCookie('accessToken');
+
     dispatch(wsConnectionStart());
+    dispatch(userWsConnectionStart(token));
   }, []);
 
   const order = useSelector((state) => {
@@ -45,38 +50,39 @@ const SelectedOrder = () => {
 
   return (
     <main className={styles.card}>
-      <h5 className={`${styles.header} ${styles.id} text text_type_digits-default`}>#{order?.number}</h5>
-      <span className={`${styles.name} text text_type_main-medium mt-10`}>{order?.name}</span>
-      <span className={`${styles.status} text text_type_main-default mt-3`}>
-        {order?.status === 'done' ? `Выполнен` : `Готовится`}
-      </span>
-      <span className={`${styles.subtitle} text text_type_main-medium  mt-15`}>Cостав:</span>
-      <ul className={styles.scroll}>
-        {order &&
-          ingredients &&
-          includesIngredients(ingredients, order?.ingredients).map((element) => {
-            return (
-              <li className={styles.ingredient} key={element._id}>
-                <img className={styles.image} src={element.image_mobile} alt={element.name} />
-                <span className={`${styles.name} text text_type_main-small ml-2`}>{element.name}</span>
-                <span className={`${styles.price} text text_type_digits-default`}>
-                  {filterIngredients(order.ingredients, ingredients).filter((i) => i._id === element._id).length}x
-                  {element.price} <CurrencyIcon type="primary" />
-                </span>
-              </li>
-            );
-          })}
-      </ul>
       {order && (
-        <p className={`${styles.container} mb-6`}>
-          <span className={`${styles.timestamp} text text_type_main-default text_color_inactive`}>
-            {getOrderDate(order.createdAt)}
+        <>
+          <h5 className={`${styles.header} ${styles.id} text text_type_digits-default`}>#{order.number}</h5>
+          <span className={`${styles.name} text text_type_main-medium mt-10`}>{order.name}</span>
+          <span className={`${styles.status} text text_type_main-default mt-3`}>
+            {order.status === 'done' ? `Выполнен` : `Готовится`}
           </span>
-          <span className={`${styles.total} text text_type_digits-default ml-2`}>
-            {calculatePrice(order.ingredients, ingredients)}
-            <CurrencyIcon type="primary" />
-          </span>
-        </p>
+          <span className={`${styles.subtitle} text text_type_main-medium  mt-15`}>Cостав:</span>
+          <ul className={styles.scroll}>
+            {ingredients &&
+              includesIngredients(ingredients, order.ingredients).map((element) => {
+                return (
+                  <li className={styles.ingredient} key={element._id}>
+                    <img className={styles.image} src={element.image_mobile} alt={element.name} />
+                    <span className={`${styles.name} text text_type_main-small ml-2`}>{element.name}</span>
+                    <span className={`${styles.price} text text_type_digits-default`}>
+                      {filterIngredients(order.ingredients, ingredients).filter((i) => i._id === element._id).length}x
+                      {element.price} <CurrencyIcon type="primary" />
+                    </span>
+                  </li>
+                );
+              })}
+          </ul>
+          <p className={`${styles.container} mb-6`}>
+            <span className={`${styles.timestamp} text text_type_main-default text_color_inactive`}>
+              {getOrderDate(order.createdAt)}
+            </span>
+            <span className={`${styles.total} text text_type_digits-default ml-2`}>
+              {calculatePrice(order.ingredients, ingredients)}
+              <CurrencyIcon type="primary" />
+            </span>
+          </p>
+        </>
       )}
     </main>
   );
