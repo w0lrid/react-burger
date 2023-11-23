@@ -15,8 +15,10 @@ const BurgerConstructor = ({ handleOpenModal }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderIngredientsIds, setOrderIngredientsIds] = useState(null);
   const { ingredients: orderIngredients, bun } = useSelector(getOrderFromStore);
+  const [lockBunPrice, setLockBunPrice] = useState(false);
   const [ingredientsCount, setIngredientsCount] = useState(null);
   const { user } = useSelector((state) => state.user);
+  const { orderRequest } = useSelector(getOrderFromStore);
   const [, dropRef] = useDrop({
     accept: 'ingredient',
     drop(ingredient) {
@@ -71,14 +73,17 @@ const BurgerConstructor = ({ handleOpenModal }) => {
       setTotalPrice(totalPrice + getIngredientPrice(ingredient));
     });
 
+    if (bun && !lockBunPrice) {
+      setTotalPrice(totalPrice + getIngredientPrice(bun));
+      setLockBunPrice(true);
+    }
+
     setOrderIngredientsIds(getIds(orderIngredients));
-  }, [orderIngredients]);
+  }, [orderIngredients, bun]);
 
   const getIngredientPrice = (ingredient) => {
-    if (ingredient.type === 'bun') return ingredient.price * 2;
-
-    if (ingredient.count) {
-      return ingredient.price * ingredient.count;
+    if (ingredient.type === 'bun') {
+      return ingredient.price * 2;
     }
 
     return ingredient.price;
@@ -145,7 +150,7 @@ const BurgerConstructor = ({ handleOpenModal }) => {
           {totalPrice} <CurrencyIcon type="primary" />
         </p>
         <Button htmlType="button" type="primary" size="large" onClick={createOrder}>
-          Оформить заказ
+          {orderRequest ? 'Формируем заказ...' : 'Оформить заказ'}
         </Button>
       </div>
     </div>

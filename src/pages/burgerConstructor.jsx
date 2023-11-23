@@ -12,7 +12,7 @@ import { getIngredientsFromStore, getOrderFromStore } from '../services/selector
 
 const BurgerConstructorPage = () => {
   const { ingredients } = useSelector(getIngredientsFromStore);
-  const { order, orderRequest } = useSelector(getOrderFromStore);
+  const { order } = useSelector(getOrderFromStore);
 
   const modalsRoot = document.getElementById('modals');
   const [buns, setBuns] = useState([]);
@@ -26,16 +26,11 @@ const BurgerConstructorPage = () => {
 
   const orderModal = createPortal(
     <>
-      {
+      {order && (
         <Modal active={activeOrderModal} handleClose={() => setActiveOrderModal(false)}>
-          {orderRequest && (
-            <div className={styles.orderModal}>
-              <p>loading</p>
-            </div>
-          )}
-          {order && <OrderDetails orderNumber={order.number} />}
+          <OrderDetails orderNumber={order.number} />
         </Modal>
-      }
+      )}
     </>,
     modalsRoot,
   );
