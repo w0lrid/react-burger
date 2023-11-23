@@ -92,7 +92,10 @@ function App() {
             <Routes>
               <Route path="/ingredients/:ingredientId" element={<>{ingredientModal}</>} />
               <Route path="/feed/:number" element={<>{selectedOrderModal}</>} />
-              <Route path="/profile/orders/:number" element={<>{selectedUserOrderModal}</>} />
+              <Route
+                path="/profile/orders/:number"
+                element={<ProtectedRouteElement element={selectedUserOrderModal} />}
+              />
             </Routes>
           )}
         </>
