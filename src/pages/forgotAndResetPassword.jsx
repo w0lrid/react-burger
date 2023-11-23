@@ -1,16 +1,21 @@
 import styles from './login.module.css';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import { checkResponse } from '../utils/checkResponse';
 import { getCookie } from '../utils/cookies';
 import { passwordRecoveryURL, passwordResetURL } from '../config/constants';
+import { useForm } from '../hooks/useForm';
 
 const ForgotAndResetPasswordPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [token, setToken] = useState('');
+  const { values, handleChange } = useForm({
+    email: '',
+    newPassword: '',
+    token: '',
+  });
+
+  const { email, newPassword, token } = values;
   const accessToken = getCookie('accessToken');
 
   const isForgotPasswordForm = useLocation().pathname.includes('forgot');
@@ -52,7 +57,7 @@ const ForgotAndResetPasswordPage = () => {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         {isForgotPasswordForm ? (
           <>
-            <EmailInput placeholder="Укажите e-mail" value={email} onChange={(event) => setEmail(event.target.value)} />
+            <EmailInput placeholder="Укажите e-mail" name="email" value={email} onChange={handleChange} />
             <Button htmlType="submit" type="primary" size="medium">
               Восстановить
             </Button>
@@ -61,14 +66,11 @@ const ForgotAndResetPasswordPage = () => {
           <>
             <PasswordInput
               placeholder="Введите новый пароль"
+              name="newPassword"
               value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
+              onChange={handleChange}
             />
-            <Input
-              placeholder="Введите код из письма"
-              value={token}
-              onChange={(event) => setToken(event.target.value)}
-            />
+            <Input placeholder="Введите код из письма" name="token" value={token} onChange={handleChange} />
             <Button htmlType="button" type="primary" size="medium">
               Сохранить
             </Button>

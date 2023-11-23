@@ -89,10 +89,10 @@ const BurgerConstructor = ({ handleOpenModal }) => {
   const createOrder = () => {
     if (!user) {
       navigate('/login');
+    } else {
+      handleOpenModal();
+      dispatch(getOrder(orderIngredientsIds));
     }
-
-    handleOpenModal();
-    dispatch(getOrder(orderIngredientsIds));
   };
   const moveIngredient = (draggingIngredient, hoverIngredient) => {
     const dragIngredientIndex = orderIngredients.findIndex((el) => el._id === draggingIngredient._id);

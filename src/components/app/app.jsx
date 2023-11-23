@@ -83,7 +83,7 @@ function App() {
             <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
             <Route path="/profile" element={<ProtectedRouteElement element={<UserEdit />} />} />
             <Route path="/profile/orders" element={<ProtectedRouteElement element={<UserFeedPage />} />} />
-            <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={<SelectedOrder />} />} />
+            <Route path="/profile/orders/:number" element={<ProtectedRouteElement element={<SelectedOrder />} />} />
             <Route path="/feed" element={<FeedPage />} />
             <Route path="/feed/:number" element={<SelectedOrder />} />
           </Routes>

@@ -1,16 +1,21 @@
 import styles from './login.module.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/actions/user';
 import { getCookie } from '../utils/cookies';
+import { useForm } from '../hooks/useForm';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, handleChange } = useForm({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = values;
   const accessToken = getCookie('accessToken');
 
   const sendRequestLogin = (e) => {
@@ -26,8 +31,8 @@ const LoginPage = () => {
     <main className={styles.main}>
       <form className={styles.form} onSubmit={sendRequestLogin}>
         <h2 className="text text_type_main-medium">Вход</h2>
-        <EmailInput value={email} onChange={(event) => setEmail(event.target.value)} />
-        <PasswordInput value={password} onChange={(event) => setPassword(event.target.value)} />
+        <EmailInput name="email" value={email} onChange={handleChange} />
+        <PasswordInput name="password" value={password} onChange={handleChange} />
         <Button htmlType="submit" type="primary" size="medium">
           Войти
         </Button>
