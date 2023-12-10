@@ -1,6 +1,7 @@
-import { checkResponse } from "../../utils/checkResponse";
-import { deleteCookie, getCookie, setCookie } from "../../utils/cookies";
-import {fetchWithRefresh} from "../../utils/fetchWithRefresh";
+import { checkResponse } from '../../utils/checkResponse';
+import { deleteCookie, getCookie, setCookie } from '../../utils/cookies';
+import { fetchWithRefresh } from '../../utils/fetchWithRefresh';
+import { authLoginURL, authLogoutURL, authRegisterURL, authUserURL } from '../../config/constants';
 
 // REGISTER
 export const REGISTER_USER = 'REGISTER_USER';
@@ -29,147 +30,147 @@ export const registerUser = ({ email, password, name }) => {
   return function (dispatch) {
     dispatch({
       type: REGISTER_USER,
-    })
+    });
 
-    fetch('https://norma.nomoreparties.space/api/auth/register', {
+    fetch(authRegisterURL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ email, password, name })
+      body: JSON.stringify({ email, password, name }),
     })
       .then(checkResponse)
       .then(({ user, accessToken, refreshToken }) => {
-        setCookie('accessToken', accessToken.split("Bearer ")[1]);
+        setCookie('accessToken', accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', refreshToken);
 
         dispatch({
           type: REGISTER_USER_SUCCESS,
           user,
-        })
+        });
       })
       .catch(() => {
         dispatch({
-          type: REGISTER_USER_FAILED
-        })
-      })
-  }
-}
+          type: REGISTER_USER_FAILED,
+        });
+      });
+  };
+};
 export const loginUser = ({ email, password }) => {
   return function (dispatch) {
     dispatch({
       type: LOGIN_USER,
-    })
+    });
 
-    fetch('https://norma.nomoreparties.space/api/auth/login', {
+    fetch(authLoginURL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
     })
       .then(checkResponse)
       .then(({ user, accessToken, refreshToken }) => {
-        setCookie('accessToken', accessToken.split("Bearer ")[1]);
+        setCookie('accessToken', accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', refreshToken);
 
         dispatch({
           type: LOGIN_USER_SUCCESS,
           user,
-        })
+        });
       })
       .catch(() => {
         dispatch({
           type: LOGIN_USER_FAILED,
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 export const logoutUser = () => {
   return function (dispatch) {
     dispatch({
       type: LOGOUT_USER,
-    })
+    });
 
-    fetch('https://norma.nomoreparties.space/api/auth/logout', {
+    fetch(authLogoutURL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ token: getCookie('refreshToken') })
+      body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
     })
       .then(checkResponse)
-      .then(({ user }) => {
+      .then(() => {
         deleteCookie('accessToken');
-        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('refreshToken');
 
         dispatch({
           type: LOGOUT_USER_SUCCESS,
-          user,
-        })
+          user: null,
+        });
       })
       .catch(() => {
         dispatch({
           type: LOGOUT_USER_FAILED,
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 export const getUser = () => {
   return function (dispatch) {
     dispatch({
       type: GET_USER,
-    })
+    });
 
     const options = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'authorization': `Bearer ${getCookie('accessToken')}`
-      }
-    }
+        authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    };
 
-    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', options)
+    fetchWithRefresh(authUserURL, options)
       .then(({ user }) => {
         dispatch({
           type: GET_USER_SUCCESS,
           user,
-        })
+        });
       })
       .catch(() => {
         dispatch({
-          type: GET_USER_FAILED
-        })
-      })
-  }
-}
+          type: GET_USER_FAILED,
+        });
+      });
+  };
+};
 
 export const updateUser = (dataToUpdate) => {
   return function (dispatch) {
     dispatch({
       type: UPDATE_USER,
-    })
+    });
 
     const options = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'authorization': `Bearer ${getCookie('accessToken')}`
+        authorization: `Bearer ${getCookie('accessToken')}`,
       },
-      body: JSON.stringify(dataToUpdate)
-    }
+      body: JSON.stringify(dataToUpdate),
+    };
 
-    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', options)
+    fetchWithRefresh(authUserURL, options)
       .then(({ user }) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,
           user,
-        })
+        });
       })
       .catch(() => {
         dispatch({
-          type: UPDATE_USER_FAILED
-        })
-      })
-  }
-}
+          type: UPDATE_USER_FAILED,
+        });
+      });
+  };
+};

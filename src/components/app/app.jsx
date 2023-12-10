@@ -1,68 +1,104 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { BurgerConstructorPage, LoginPage, RegisterPage, ForgotAndResetPasswordPage, Profile } from "../../pages";
-import ProtectedRouteElement from "../protected-route-element/protected-route-element";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
-import { createPortal } from "react-dom";
-import { closeIngredient } from "../../services/actions/ingredient";
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredientFromStore } from "../../services/selectors/order";
-import AppHeader from "../app-header/app-header";
-import styles from './app.module.css'
-import { getIngredients } from "../../services/actions/ingredients";
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import {
+  BurgerConstructorPage,
+  LoginPage,
+  RegisterPage,
+  ForgotAndResetPasswordPage,
+  UserEdit,
+  FeedPage,
+  UserFeedPage,
+} from '../../pages';
+import ProtectedRouteElement from '../protected-route-element/protected-route-element';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
+import { closeIngredient } from '../../services/actions/ingredient';
+import { useDispatch, useSelector } from 'react-redux';
+import AppHeader from '../app-header/app-header';
+import styles from './app.module.css';
+import { getIngredients } from '../../services/actions/ingredients';
+import { closeSelectedOrder } from '../../services/actions/selected-order';
+import SelectedOrder from '../selected-order/selected-order';
+import { getUser } from '../../services/actions/user';
 
 function App() {
+  window.history.replaceState({}, document.title);
+
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
-  const {ingredient, opened: activeIngredientModal} = useSelector(getIngredientFromStore);
-  const modalsRoot = document.getElementById('modals')
+  const { ingredients } = useSelector((state) => state.ingredients);
 
   useEffect(() => {
-    dispatch(getIngredients())
-  }, [])
+    dispatch(getUser());
+    dispatch(getIngredients());
+  }, []);
 
-  const ingredientModal = createPortal((
-    <Modal active={activeIngredientModal} handleClose={() => {
-      handleModalClose();
-      dispatch(closeIngredient());
-    }}>
-      {ingredient && (
-        <IngredientDetails
-          image={ingredient.image}
-          name={ingredient.name}
-          properties={ingredient.properties}/>
-      )}
+  const ingredientModal = (
+    <Modal
+      handleClose={() => {
+        navigate(-1);
+        dispatch(closeIngredient());
+      }}
+    >
+      <IngredientDetails />
     </Modal>
-  ), modalsRoot)
+  );
 
-  const handleModalClose = () => {
-    navigate(-1);
-  };
+  const selectedOrderModal = (
+    <Modal
+      handleClose={() => {
+        navigate(-1);
+        dispatch(closeSelectedOrder());
+      }}
+    >
+      <SelectedOrder />
+    </Modal>
+  );
+
+  const selectedUserOrderModal = (
+    <Modal
+      handleClose={() => {
+        navigate(-1);
+        dispatch(closeSelectedOrder());
+      }}
+    >
+      <SelectedOrder />
+    </Modal>
+  );
 
   return (
     <div className={styles.app}>
-      <AppHeader/>
-      <Routes location={background || location}>
-        <Route path="/" element={<BurgerConstructorPage />} />
-        <Route path='/ingredients/:ingredientId' element={<IngredientDetails/>} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
-        <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
-        <Route path="/profile/*" element={<ProtectedRouteElement element={<Profile />}/>} />
-      </Routes>
+      <AppHeader />
+      {ingredients.length > 0 && (
+        <>
+          <Routes location={background || location}>
+            <Route path="/" element={<BurgerConstructorPage />} />
+            <Route path="/ingredients/:ingredientId" element={<IngredientDetails />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotAndResetPasswordPage />} />
+            <Route path="/reset-password" element={<ForgotAndResetPasswordPage />} />
+            <Route path="/profile" element={<ProtectedRouteElement element={<UserEdit />} />} />
+            <Route path="/profile/orders" element={<ProtectedRouteElement element={<UserFeedPage />} />} />
+            <Route path="/profile/orders/:number" element={<ProtectedRouteElement element={<SelectedOrder />} />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feed/:number" element={<SelectedOrder />} />
+          </Routes>
 
-      {background && (
-        <Routes>
-          <Route
-            path='/ingredients/:ingredientId'
-            element={<>{ingredientModal}</>}
-          />
-        </Routes>
+          {background && (
+            <Routes>
+              <Route path="/ingredients/:ingredientId" element={<>{ingredientModal}</>} />
+              <Route path="/feed/:number" element={<>{selectedOrderModal}</>} />
+              <Route
+                path="/profile/orders/:number"
+                element={<ProtectedRouteElement element={selectedUserOrderModal} />}
+              />
+            </Routes>
+          )}
+        </>
       )}
     </div>
   );
