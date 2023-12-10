@@ -1,27 +1,30 @@
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_INGREDIENT, getOrder, SET_BUN, SORT_INGREDIENTS } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import Ingredient from './ingredient/ingredient';
 import { getOrderFromStore } from '../../services/selectors/order';
 import { useNavigate } from 'react-router-dom';
+import { TIngredient, TStore, TStoreUser } from '../../types/types';
 
-const BurgerConstructor = ({ handleOpenModal }) => {
+type TBurgerConstructor = {
+  handleOpenModal: () => void;
+};
+const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [orderIngredientsIds, setOrderIngredientsIds] = useState(null);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [orderIngredientsIds, setOrderIngredientsIds] = useState<string[]>([]);
   const { ingredients: orderIngredients, bun } = useSelector(getOrderFromStore);
-  const [lockBunPrice, setLockBunPrice] = useState(false);
+  const [lockBunPrice, setLockBunPrice] = useState<boolean>(false);
   const [ingredientsCount, setIngredientsCount] = useState(null);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state: TStore): TStoreUser => state.user);
   const { orderRequest } = useSelector(getOrderFromStore);
   const [, dropRef] = useDrop({
     accept: 'ingredient',
-    drop(ingredient) {
+    drop(ingredient: TIngredient) {
       dispatch({
         type: ADD_INGREDIENT,
         ingredient: {
@@ -29,14 +32,14 @@ const BurgerConstructor = ({ handleOpenModal }) => {
           count: (() => {
             let count = 1;
             const currentIngredient = orderIngredients.find(
-              (orderIngredient) => orderIngredient._id === ingredient._id,
+              (orderIngredient: TIngredient) => orderIngredient._id === ingredient._id
             );
 
             if (currentIngredient) {
               count = currentIngredient.count;
             }
 
-            orderIngredients.forEach((orderIngredient) => {
+            orderIngredients.forEach((orderIngredient: TIngredient) => {
               if (ingredient._id === orderIngredient._id) {
                 ++count;
               }
@@ -59,6 +62,7 @@ const BurgerConstructor = ({ handleOpenModal }) => {
   });
 
   useEffect(() => {
+    // @ts-ignore
     const ingredientsCount = orderIngredients.reduce((prevIngredient, ingredient) => {
       prevIngredient[ingredient._id] = (prevIngredient[ingredient._id] || 0) + 1;
 
@@ -69,7 +73,7 @@ const BurgerConstructor = ({ handleOpenModal }) => {
   }, [orderIngredients]);
 
   useEffect(() => {
-    orderIngredients.forEach((ingredient) => {
+    orderIngredients.forEach((ingredient: TIngredient) => {
       setTotalPrice(totalPrice + getIngredientPrice(ingredient));
     });
 
@@ -81,7 +85,7 @@ const BurgerConstructor = ({ handleOpenModal }) => {
     setOrderIngredientsIds(getIds(orderIngredients));
   }, [orderIngredients, bun]);
 
-  const getIngredientPrice = (ingredient) => {
+  const getIngredientPrice = (ingredient: TIngredient) => {
     if (ingredient.type === 'bun') {
       return ingredient.price * 2;
     }
@@ -89,19 +93,20 @@ const BurgerConstructor = ({ handleOpenModal }) => {
     return ingredient.price;
   };
 
-  const getIds = (ingredients) => ingredients.map((ingredient) => ingredient._id);
+  const getIds = (ingredients: TIngredient[]) => ingredients.map((ingredient) => ingredient._id);
 
   const createOrder = () => {
     if (!user) {
       navigate('/login');
     } else {
       handleOpenModal();
+      // @ts-ignore
       dispatch(getOrder(orderIngredientsIds));
     }
   };
-  const moveIngredient = (draggingIngredient, hoverIngredient) => {
-    const dragIngredientIndex = orderIngredients.findIndex((el) => el._id === draggingIngredient._id);
-    const hoverIngredientIndex = orderIngredients.findIndex((el) => el._id === hoverIngredient._id);
+  const moveIngredient = (draggingIngredient: TIngredient, hoverIngredient: TIngredient) => {
+    const dragIngredientIndex = orderIngredients.findIndex((el: TIngredient) => el._id === draggingIngredient._id);
+    const hoverIngredientIndex = orderIngredients.findIndex((el: TIngredient) => el._id === hoverIngredient._id);
     const sortedIngredients = [...orderIngredients];
 
     sortedIngredients.splice(dragIngredientIndex, 1);
@@ -114,6 +119,7 @@ const BurgerConstructor = ({ handleOpenModal }) => {
 
   return (
     <div>
+      {/*@ts-ignore*/}
       <div className={styles.constructor} ref={dropBunRef}>
         <div className={styles.bun}>
           {bun && (
@@ -127,10 +133,11 @@ const BurgerConstructor = ({ handleOpenModal }) => {
           )}
         </div>
         <div className={styles.scrollableIngredients} ref={dropRef}>
-          {orderIngredients.map((ingredient) =>
+          {orderIngredients.map((ingredient: TIngredient) =>
+            // @ts-ignore
             [...Array(ingredientsCount).keys()].map(() => (
               <Ingredient key={ingredient._id} ingredient={ingredient} moveIngredient={moveIngredient} />
-            )),
+            ))
           )}
         </div>
         <div className={styles.bun}>
@@ -155,11 +162,6 @@ const BurgerConstructor = ({ handleOpenModal }) => {
       </div>
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  isLocked: PropTypes.bool,
-  handleOpenModal: PropTypes.func,
 };
 
 export default BurgerConstructor;

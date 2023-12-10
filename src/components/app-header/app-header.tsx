@@ -2,15 +2,8 @@ import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 import NavItem from './nav-item/nav-item';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
 
 const AppHeader = () => {
-  const [linkActive, setLinkActive] = useState({
-    constructor: false,
-    orders: false,
-    profile: false,
-  });
-
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>

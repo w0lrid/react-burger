@@ -20,6 +20,7 @@ import { getIngredients } from '../../services/actions/ingredients';
 import { closeSelectedOrder } from '../../services/actions/selected-order';
 import SelectedOrder from '../selected-order/selected-order';
 import { getUser } from '../../services/actions/user';
+import { TStore, TStoreIngredients } from '../../types/types';
 
 function App() {
   window.history.replaceState({}, document.title);
@@ -29,10 +30,12 @@ function App() {
   const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector((state: TStore): TStoreIngredients => state.ingredients);
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getUser());
+    // @ts-ignore
     dispatch(getIngredients());
   }, []);
 
