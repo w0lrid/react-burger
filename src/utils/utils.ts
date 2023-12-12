@@ -1,11 +1,14 @@
 import { deleteCookie, getCookie, setCookie } from './cookies';
 import { authTokenURL } from '../config/constants';
+import { TIngredient } from '../types/types';
 
+// @ts-ignore
 export const request = async (url, options) => {
   const res = await fetch(url, options);
   return checkResponse(res);
 };
 
+// @ts-ignore
 const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
@@ -33,11 +36,12 @@ export const refreshToken = () => {
     .catch(console.warn);
 };
 
+// @ts-ignore
 export const generateKey = (element, index) => {
   return `${element._id}${index}`;
 };
 
-export const filterIngredients = (arr, data) =>
+export const filterIngredients = (arr: string[], data: TIngredient[]): (TIngredient & { key: string })[] =>
   arr
     .map((item) => {
       return data.filter((i) => i._id === item);
@@ -47,14 +51,18 @@ export const filterIngredients = (arr, data) =>
     })
     .map((item, index) => ({ ...item, key: generateKey(item, index) }));
 
+// @ts-ignore
 export const calculatePrice = (arr, data) => {
   return filterIngredients(arr, data).reduce((acc, item) => acc + item.price, 0);
 };
 
+// @ts-ignore
 export const includesIngredients = (data, arr) => {
+  // @ts-ignore
   return data.filter((item) => arr.includes(item._id));
 };
 
+// @ts-ignore
 export const getOrderDate = (date) => {
   const options = {
     month: 'long',
@@ -65,5 +73,6 @@ export const getOrderDate = (date) => {
     timeZoneName: 'short',
   };
 
+  // @ts-ignore
   return new Date(Date.parse(date)).toLocaleString('ru', options);
 };

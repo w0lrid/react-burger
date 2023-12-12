@@ -6,8 +6,9 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientsFromStore } from '../../services/selectors/order';
 import { showSelectedOrder } from '../../services/actions/selected-order';
+import { TOrder } from '../../types/types';
 
-export const OrderCard = ({ order }) => {
+export const OrderCard = ({ order }: { order: TOrder }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { ingredients } = useSelector(getIngredientsFromStore);

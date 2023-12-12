@@ -4,6 +4,7 @@ import styles from './burger-ingredients.module.css';
 import IngredientsSection from './ingredients-section/ingredients-section';
 import { useSelector } from 'react-redux';
 import { getIngredientsFromStore, getOrderFromStore } from '../../services/selectors/order';
+import { TIngredient } from '../../types/types';
 
 const BurgerIngredients = () => {
   const { ingredients } = useSelector(getIngredientsFromStore);
@@ -16,6 +17,7 @@ const BurgerIngredients = () => {
   }, [ingredients, orderBun]);
   const filling = useMemo(() => {
     const fillings = filterIngredientsByType('main');
+    console.log(fillings);
     addCountToIngredient(fillings);
     return fillings;
   }, [ingredients, orderIngredients]);
@@ -24,7 +26,7 @@ const BurgerIngredients = () => {
     addCountToIngredient(sauces);
     return sauces;
   }, [ingredients, orderIngredients]);
-  const observer = useRef(null);
+  const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     observer.current = new IntersectionObserver((entries) => {
@@ -38,17 +40,21 @@ const BurgerIngredients = () => {
     const sections = document.querySelectorAll('[data-section]');
 
     sections.forEach((section) => {
-      observer.current.observe(section);
+      if (observer.current) {
+        observer.current.observe(section);
+      }
     });
 
     return () => {
       sections.forEach((section) => {
-        observer.current.unobserve(section);
+        if (observer.current) {
+          observer.current.unobserve(section);
+        }
       });
     };
   }, []);
 
-  function addCountToIngredient(ingredients) {
+  function addCountToIngredient(ingredients: TIngredient[]) {
     ingredients.forEach((ingredient) => {
       if (ingredient.type === 'bun' && orderBun && ingredient._id === orderBun._id) {
         ingredient.count = 2;
@@ -58,7 +64,7 @@ const BurgerIngredients = () => {
     });
   }
 
-  function filterIngredientsByType(incomingType) {
+  function filterIngredientsByType(incomingType: string) {
     return ingredients.filter(({ type }) => type === incomingType);
   }
 

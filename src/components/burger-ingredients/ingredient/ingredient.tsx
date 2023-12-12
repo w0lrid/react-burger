@@ -1,13 +1,13 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredient.module.css';
-import PropTypes from 'prop-types';
-import { TypeIngredient } from '../../../utils/types';
 import { useDispatch } from 'react-redux';
 import { showIngredient } from '../../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
 import { Link, useLocation } from 'react-router-dom';
+import { FC } from 'react';
+import { TIngredient } from '../../../types/types';
 
-const Ingredient = ({ ingredient }) => {
+const Ingredient: FC<{ ingredient: TIngredient }> = ({ ingredient }) => {
   const location = useLocation();
   const { _id, image, price, name, type, count } = ingredient;
   const dispatch = useDispatch();
@@ -35,11 +35,6 @@ const Ingredient = ({ ingredient }) => {
       </div>
     </Link>
   );
-};
-
-Ingredient.propTypes = {
-  ingredient: TypeIngredient.isRequired,
-  handleOpenModal: PropTypes.func,
 };
 
 export default Ingredient;

@@ -3,6 +3,7 @@ export type TIngredient = {
   _id: string;
   name: string;
   type: string;
+  count: number;
   proteins: number;
   fat: number;
   carbohydrates: number;
@@ -12,6 +13,13 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number;
+};
+export type TOrder = {
+  _id: number;
+  number: number;
+  createdAt: string;
+  name: string;
+  ingredients: string[];
 };
 export type TStoreIngredients = {
   ingredientsRequest: boolean;

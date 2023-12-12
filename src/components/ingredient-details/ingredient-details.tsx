@@ -1,13 +1,19 @@
 import styles from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { TStore, TStoreIngredients } from '../../types/types';
+
+type TIngredientProperty = {
+  name: string;
+  value?: number;
+};
 
 const IngredientDetails = () => {
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector((state: TStore): TStoreIngredients => state.ingredients);
   const { ingredientId } = useParams();
   const ingredient = ingredients.find((ingredient) => ingredient._id === ingredientId);
-  const { image, name, calories, proteins, fat, carbohydrates } = ingredient;
-  const ingredientProperties = [
+  const { image, name, calories, proteins, fat, carbohydrates } = ingredient || {};
+  const ingredientProperties: TIngredientProperty[] = [
     {
       name: 'Калорий, ккал',
       value: calories,

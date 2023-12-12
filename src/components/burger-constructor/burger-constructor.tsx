@@ -19,7 +19,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
   const [orderIngredientsIds, setOrderIngredientsIds] = useState<string[]>([]);
   const { ingredients: orderIngredients, bun } = useSelector(getOrderFromStore);
   const [lockBunPrice, setLockBunPrice] = useState<boolean>(false);
-  const [ingredientsCount, setIngredientsCount] = useState(null);
+  const [ingredientsCount, setIngredientsCount] = useState<Record<string, number>>({});
   const { user } = useSelector((state: TStore): TStoreUser => state.user);
   const { orderRequest } = useSelector(getOrderFromStore);
   const [, dropRef] = useDrop({
@@ -62,8 +62,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
   });
 
   useEffect(() => {
-    // @ts-ignore
-    const ingredientsCount = orderIngredients.reduce((prevIngredient, ingredient) => {
+    const ingredientsCount = orderIngredients.reduce<Record<string, number>>((prevIngredient, ingredient) => {
       prevIngredient[ingredient._id] = (prevIngredient[ingredient._id] || 0) + 1;
 
       return prevIngredient;

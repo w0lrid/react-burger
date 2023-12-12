@@ -1,9 +1,15 @@
-import { TypeIngredient } from '../../../utils/types';
 import styles from './ingredients-section.module.css';
-import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/ingredient';
+import { TIngredient } from '../../../types/types';
+import { FC } from 'react';
 
-const IngredientsSection = ({ heading, ingredients, type }) => (
+type TIngredientsSection = {
+  heading: string;
+  ingredients: TIngredient[];
+  type: string;
+};
+
+const IngredientsSection: FC<TIngredientsSection> = ({ heading, ingredients, type }) => (
   <section className={styles.section} data-section id={type}>
     <h3 className={`${styles.heading} text text_type_main-medium pb-6`}>{heading}</h3>
     <div className={styles.list}>
@@ -13,11 +19,5 @@ const IngredientsSection = ({ heading, ingredients, type }) => (
     </div>
   </section>
 );
-
-IngredientsSection.propTypes = {
-  heading: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf(TypeIngredient).isRequired,
-  type: PropTypes.string.isRequired,
-};
 
 export default IngredientsSection;
