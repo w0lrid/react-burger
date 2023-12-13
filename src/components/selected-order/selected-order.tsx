@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedOrder } from '../../services/actions/order';
 import { userWsConnectionStart } from '../../services/actions/user-feed-socket';
 import { getCookie } from '../../utils/cookies';
+import { TStore } from '../../types/types';
 
 const SelectedOrder = () => {
-  const { number } = useParams();
+  const { number: numberFromParams } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,14 +21,14 @@ const SelectedOrder = () => {
     dispatch(userWsConnectionStart(token));
   }, []);
 
-  const order = useSelector((state) => {
-    let order = state.feed.orders.find((order) => order.number == number);
+  const order = useSelector((state: TStore) => {
+    let order = state.feed.orders.find((order) => order.number === Number(numberFromParams));
 
     if (order) {
       return order;
     }
 
-    order = state.userFeed.orders.find((order) => order.number == number);
+    order = state.userFeed.orders.find((order) => order.number === Number(numberFromParams));
 
     if (order) {
       return order;
@@ -38,11 +39,12 @@ const SelectedOrder = () => {
 
   useEffect(() => {
     if (!order) {
+      // @ts-ignore
       dispatch(getSelectedOrder(number));
     }
   }, [order]);
 
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector((state: TStore) => state.ingredients);
 
   if (!order) {
     return null;

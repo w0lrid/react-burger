@@ -56,10 +56,8 @@ export const calculatePrice = (arr, data) => {
   return filterIngredients(arr, data).reduce((acc, item) => acc + item.price, 0);
 };
 
-// @ts-ignore
-export const includesIngredients = (data, arr) => {
-  // @ts-ignore
-  return data.filter((item) => arr.includes(item._id));
+export const includesIngredients = (ingredients: TIngredient[], ingredientsIds: string[]): TIngredient[] => {
+  return ingredients.filter((ingredient) => ingredientsIds.includes(ingredient._id));
 };
 
 // @ts-ignore

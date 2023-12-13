@@ -1,14 +1,18 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import React from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import styles from './user-nav.module.css';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../services/actions/user';
 
-export const UserNav = ({ pageDescription }) => {
+type TUserNav = {
+  pageDescription: string;
+};
+
+export const UserNav: FC<TUserNav> = ({ pageDescription }) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const sendRequestLogout = (e) => {
-    e.preventDefault();
+  const sendRequestLogout = () => {
+    // @ts-ignore
     dispatch(logoutUser());
   };
 

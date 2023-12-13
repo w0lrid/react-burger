@@ -19,6 +19,7 @@ export type TOrder = {
   number: number;
   createdAt: string;
   name: string;
+  status: string;
   ingredients: string[];
 };
 export type TStoreIngredients = {
@@ -29,7 +30,7 @@ export type TStoreIngredients = {
 export type TStoreOrder = {
   orderRequest: boolean;
   orderFailed: boolean;
-  order: any;
+  order: TOrder;
   selectedOrder: any;
   bun: any;
   ingredients: TIngredient[];
@@ -39,8 +40,12 @@ export type TStoreUser = {
   userFailed: boolean;
   user: any;
 };
-export type TStoreFeed = {};
-export type TStoreUserFeed = {};
+export type TStoreFeed = {
+  orders: TOrder[];
+};
+export type TStoreUserFeed = {
+  orders: TOrder[];
+};
 export type TStore = {
   ingredients: TStoreIngredients;
   order: TStoreOrder;

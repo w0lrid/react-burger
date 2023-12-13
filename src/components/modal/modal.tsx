@@ -1,6 +1,6 @@
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './modal.module.css';
-import { ReactNode, ReactPortal, useEffect } from 'react';
+import { FC, ReactNode, ReactPortal, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 type TModal = {
@@ -8,8 +8,8 @@ type TModal = {
   handleClose: () => void;
 };
 
-const Modal = ({ children, handleClose }: TModal): ReactPortal | undefined => {
-  const modalsRoot = document.getElementById('modals');
+const Modal: FC<TModal> = ({ children, handleClose }) => {
+  const modalsRoot = document.getElementById('modals') as HTMLDivElement;
 
   useEffect(() => {
     function closeByEscape(evt: KeyboardEvent) {
@@ -37,6 +37,8 @@ const Modal = ({ children, handleClose }: TModal): ReactPortal | undefined => {
       </div>,
       modalsRoot
     );
+  } else {
+    return <></>;
   }
 };
 

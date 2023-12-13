@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './user-order-card.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { getOrderDate, filterIngredients, calculatePrice } from '../../utils/utils';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { TOrder, TStore } from '../../types/types';
 
-export const UserOrderCard = ({ order }) => {
+type TUserOrderCard = { order: TOrder };
+
+export const UserOrderCard: FC<TUserOrderCard> = ({ order }) => {
   const location = useLocation();
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector((state: TStore) => state.ingredients);
   const filter = filterIngredients(order.ingredients, ingredients);
 
   return (
