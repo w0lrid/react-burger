@@ -13,7 +13,8 @@ export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
 export const SORT_INGREDIENTS = 'SORT_INGREDIENTS';
 
-export const getOrder = (orderIngredientsIds) => {
+export const getOrder = (orderIngredientsIds: string[]) => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: GET_ORDER,
@@ -41,7 +42,8 @@ export const getOrder = (orderIngredientsIds) => {
       });
   };
 };
-export const getSelectedOrder = (number) => {
+export const getSelectedOrder = (number: string) => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: GET_SELECTED_ORDER,

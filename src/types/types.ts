@@ -1,4 +1,8 @@
-export type TUser = {};
+export type TUser = {
+  email: string;
+  password: string;
+  name: string;
+};
 export type TIngredient = {
   _id: string;
   name: string;
@@ -42,6 +46,8 @@ export type TStoreUser = {
 };
 export type TStoreFeed = {
   orders: TOrder[];
+  total: number;
+  totalToday: number;
 };
 export type TStoreUserFeed = {
   orders: TOrder[];

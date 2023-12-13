@@ -1,11 +1,11 @@
-import styles from './login.module.css';
+import styles from '../login-page/login.module.css';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React from 'react';
-import { checkResponse } from '../utils/checkResponse';
-import { getCookie } from '../utils/cookies';
-import { passwordRecoveryURL, passwordResetURL } from '../config/constants';
-import { useForm } from '../hooks/useForm';
+import React, { FormEvent } from 'react';
+import { checkResponse } from '../../utils/checkResponse';
+import { getCookie } from '../../utils/cookies';
+import { passwordRecoveryURL, passwordResetURL } from '../../config/constants';
+import { useForm } from '../../hooks/useForm';
 
 const ForgotAndResetPasswordPage = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const ForgotAndResetPasswordPage = () => {
 
   const isForgotPasswordForm = useLocation().pathname.includes('forgot');
 
-  const sendRequestRecoverPassword = (e) => {
+  const sendRequestRecoverPassword = (e: FormEvent) => {
     e.preventDefault();
     fetch(passwordRecoveryURL, {
       method: 'POST',
@@ -32,7 +32,7 @@ const ForgotAndResetPasswordPage = () => {
       });
   };
 
-  const sendRequestResetPassword = (e) => {
+  const sendRequestResetPassword = (e: FormEvent) => {
     e.preventDefault();
     fetch(passwordResetURL, {
       method: 'POST',

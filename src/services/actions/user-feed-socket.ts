@@ -15,6 +15,7 @@ export const userWsActions = {
   onOrders: USER_WS_GET_ORDERS,
 };
 
+// @ts-ignore
 export const userWsConnectionStart = (payload) => {
   return {
     type: USER_WS_CONNECTION_START,
@@ -40,6 +41,7 @@ export const userWsConnectionClosed = () => {
   };
 };
 
+// @ts-ignore
 export const userWsGetOrders = (payload) => {
   return {
     type: USER_WS_GET_ORDERS,
@@ -47,6 +49,7 @@ export const userWsGetOrders = (payload) => {
   };
 };
 
+// @ts-ignore
 export const userWsSendMessage = (message) => {
   return {
     type: USER_WS_SEND_MESSAGE,
@@ -54,6 +57,7 @@ export const userWsSendMessage = (message) => {
   };
 };
 
+// @ts-ignore
 export const userWsUserNameUpdate = (userName) => {
   return {
     type: USER_WS_USER_NAME_UPDATE,

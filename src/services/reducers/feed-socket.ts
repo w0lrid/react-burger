@@ -1,11 +1,11 @@
 import {
-  USER_WS_CONNECTION_SUCCESS,
-  USER_WS_CONNECTION_ERROR,
-  USER_WS_CONNECTION_CLOSED,
-  USER_WS_GET_ORDERS,
-  USER_WS_SEND_MESSAGE,
-  USER_WS_USER_NAME_UPDATE,
-} from '../actions/user-feed-socket';
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSED,
+  WS_GET_ORDERS,
+  WS_SEND_MESSAGE,
+  WS_USER_NAME_UPDATE,
+} from '../actions/feed-socket';
 
 const initialState = {
   wsConnected: false,
@@ -14,27 +14,28 @@ const initialState = {
   totalToday: null,
 };
 
-export const userOrdersSocketReducer = (state = initialState, action) => {
+// @ts-ignore
+export const feedReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_WS_CONNECTION_SUCCESS: {
+    case WS_CONNECTION_SUCCESS: {
       return {
         ...state,
         wsConnected: true,
       };
     }
-    case USER_WS_CONNECTION_ERROR: {
+    case WS_CONNECTION_ERROR: {
       return {
         ...state,
         wsConnected: false,
       };
     }
-    case USER_WS_CONNECTION_CLOSED: {
+    case WS_CONNECTION_CLOSED: {
       return {
         ...state,
         wsConnected: false,
       };
     }
-    case USER_WS_GET_ORDERS: {
+    case WS_GET_ORDERS: {
       return {
         ...state,
         orders: state.orders.length < 10 ? [...state.orders, ...action.payload.orders] : [...state.orders],
@@ -42,12 +43,12 @@ export const userOrdersSocketReducer = (state = initialState, action) => {
         totalToday: action.payload.totalToday,
       };
     }
-    case USER_WS_SEND_MESSAGE: {
+    case WS_SEND_MESSAGE: {
       return {
         ...state,
       };
     }
-    case USER_WS_USER_NAME_UPDATE: {
+    case WS_USER_NAME_UPDATE: {
       return {
         ...state,
         // user: action.payload

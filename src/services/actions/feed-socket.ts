@@ -1,3 +1,5 @@
+import { TOrder } from '../../types/types';
+
 export const WS_CONNECTION_START = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS = 'WS_CONNECTION_SUCCESS';
 export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR';
@@ -39,21 +41,21 @@ export const wsConnectionClosed = () => {
   };
 };
 
-export const wsGetOrders = (payload) => {
+export const wsGetOrders = (payload: TOrder[]) => {
   return {
     type: WS_GET_ORDERS,
     payload,
   };
 };
 
-export const wsSendMessage = (message) => {
+export const wsSendMessage = (message: string) => {
   return {
     type: WS_SEND_MESSAGE,
     payload: message,
   };
 };
 
-export const wsUserNameUpdate = (userName) => {
+export const wsUserNameUpdate = (userName: string) => {
   return {
     type: WS_USER_NAME_UPDATE,
     payload: userName,

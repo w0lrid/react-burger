@@ -2,6 +2,7 @@ import { checkResponse } from '../../utils/checkResponse';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookies';
 import { fetchWithRefresh } from '../../utils/fetchWithRefresh';
 import { authLoginURL, authLogoutURL, authRegisterURL, authUserURL } from '../../config/constants';
+import { TUser } from '../../types/types';
 
 // REGISTER
 export const REGISTER_USER = 'REGISTER_USER';
@@ -26,7 +27,8 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
 
-export const registerUser = ({ email, password, name }) => {
+export const registerUser = ({ email, password, name }: TUser) => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: REGISTER_USER,
@@ -56,7 +58,8 @@ export const registerUser = ({ email, password, name }) => {
       });
   };
 };
-export const loginUser = ({ email, password }) => {
+export const loginUser = ({ email, password }: Omit<TUser, 'name'>) => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: LOGIN_USER,
@@ -87,6 +90,7 @@ export const loginUser = ({ email, password }) => {
   };
 };
 export const logoutUser = () => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: LOGOUT_USER,
@@ -117,6 +121,7 @@ export const logoutUser = () => {
   };
 };
 export const getUser = () => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: GET_USER,
@@ -145,7 +150,9 @@ export const getUser = () => {
   };
 };
 
+// @ts-ignore
 export const updateUser = (dataToUpdate) => {
+  // @ts-ignore
   return function (dispatch) {
     dispatch({
       type: UPDATE_USER,

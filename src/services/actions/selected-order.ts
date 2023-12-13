@@ -1,7 +1,9 @@
+import { TOrder } from '../../types/types';
+
 export const SHOW_SELECTED_ORDER = 'SHOW_SELECTED_ORDER';
 export const CLOSE_SELECTED_ORDER = 'CLOSE_SELECTED_ORDER';
 
-export const showSelectedOrder = (selectedOrder) => ({
+export const showSelectedOrder = (selectedOrder: TOrder) => ({
   type: SHOW_SELECTED_ORDER,
   selectedOrder,
 });

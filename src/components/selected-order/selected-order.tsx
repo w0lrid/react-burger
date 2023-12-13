@@ -40,7 +40,7 @@ const SelectedOrder = () => {
   useEffect(() => {
     if (!order) {
       // @ts-ignore
-      dispatch(getSelectedOrder(number));
+      dispatch(getSelectedOrder(numberFromParams));
     }
   }, [order]);
 

@@ -17,6 +17,7 @@ const initialState = {
   ingredients: [],
 };
 
+// @ts-ignore
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ORDER: {
@@ -56,6 +57,7 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: (() => {
+          // @ts-ignore
           const indexOfIngredientToRemove = state.ingredients.findIndex((ingredient) => ingredient._id === action._id);
           const firstHalf = state.ingredients.slice(0, indexOfIngredientToRemove);
           const secondHalf = state.ingredients.slice(indexOfIngredientToRemove + 1);

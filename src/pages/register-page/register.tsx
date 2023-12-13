@@ -1,11 +1,11 @@
-import styles from './login.module.css';
-import React from 'react';
+import styles from '../login-page/login.module.css';
+import React, { FormEvent } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../services/actions/user';
-import { getCookie } from '../utils/cookies';
-import { useForm } from '../hooks/useForm';
+import { registerUser } from '../../services/actions/user';
+import { getCookie } from '../../utils/cookies';
+import { useForm } from '../../hooks/useForm';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -20,8 +20,9 @@ const RegisterPage = () => {
   const { name, email, password } = values;
   const accessToken = getCookie('accessToken');
 
-  const sendRequestRegister = (e) => {
+  const sendRequestRegister = (e: FormEvent) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(registerUser({ email, password, name }));
   };
 
