@@ -1,21 +1,45 @@
 import { orderURL } from '../../config/constants';
 import { checkResponse } from '../../utils/checkResponse';
 import { getCookie } from '../../utils/cookies';
+import {
+  GET_ORDER,
+  GET_ORDER_FAILED,
+  GET_ORDER_SUCCESS,
+  GET_SELECTED_ORDER,
+  GET_SELECTED_ORDER_FAILED,
+  GET_SELECTED_ORDER_SUCCESS,
+} from '../constants/order';
+import { AppDispatch, AppThunk } from '../../types';
 
-export const GET_ORDER = 'GET_ORDER';
-export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
-export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
-export const GET_SELECTED_ORDER = 'GET_SELECTED_ORDER';
-export const GET_SELECTED_ORDER_SUCCESS = 'GET_SELECTED_ORDER_SUCCESS';
-export const GET_SELECTED_ORDER_FAILED = 'GET_SELECTED_ORDER_FAILED';
-export const SET_BUN = 'SET_BUN';
-export const ADD_INGREDIENT = 'ADD_INGREDIENT';
-export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
-export const SORT_INGREDIENTS = 'SORT_INGREDIENTS';
+type TGetOrder = {
+  readonly type: typeof GET_ORDER;
+};
 
-export const getOrder = (orderIngredientsIds: string[]) => {
-  // @ts-ignore
-  return function (dispatch) {
+type TGetOrderSuccess = {
+  readonly type: typeof GET_ORDER_SUCCESS;
+};
+
+type TGetOrderFailed = {
+  readonly type: typeof GET_ORDER_FAILED;
+};
+
+type TGetSelectedOrder = {
+  readonly type: typeof GET_SELECTED_ORDER;
+};
+
+type TGetSelectedOrderSuccess = {
+  readonly type: typeof GET_SELECTED_ORDER_SUCCESS;
+};
+
+type TGetSelectedOrderFailed = {
+  readonly type: typeof GET_SELECTED_ORDER_FAILED;
+};
+
+export type TOrderActions = TGetOrder | TGetOrderSuccess | TGetOrderFailed;
+export type TSelectedOrderActions = TGetSelectedOrder | TGetSelectedOrderSuccess | TGetSelectedOrderFailed;
+
+export const getOrder: AppThunk = (orderIngredientsIds: string[]) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_ORDER,
     });
@@ -42,9 +66,8 @@ export const getOrder = (orderIngredientsIds: string[]) => {
       });
   };
 };
-export const getSelectedOrder = (number: string) => {
-  // @ts-ignore
-  return function (dispatch) {
+export const getSelectedOrder: AppThunk = (number: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_SELECTED_ORDER,
     });

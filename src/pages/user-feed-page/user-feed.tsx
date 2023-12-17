@@ -15,7 +15,9 @@ const UserFeedPage = () => {
   useEffect(() => {
     const token = getCookie('accessToken');
 
-    dispatch(userWsConnectionStart(token));
+    if (token) {
+      dispatch(userWsConnectionStart(token));
+    }
   }, []);
 
   useEffect(() => {

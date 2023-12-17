@@ -3,33 +3,100 @@ import { deleteCookie, getCookie, setCookie } from '../../utils/cookies';
 import { fetchWithRefresh } from '../../utils/fetchWithRefresh';
 import { authLoginURL, authLogoutURL, authRegisterURL, authUserURL } from '../../config/constants';
 import { TUser } from '../../types/types';
+import {
+  GET_USER,
+  GET_USER_FAILED,
+  GET_USER_SUCCESS,
+  LOGIN_USER,
+  LOGIN_USER_FAILED,
+  LOGIN_USER_SUCCESS,
+  LOGOUT_USER,
+  LOGOUT_USER_FAILED,
+  LOGOUT_USER_SUCCESS,
+  REGISTER_USER,
+  REGISTER_USER_FAILED,
+  REGISTER_USER_SUCCESS,
+  UPDATE_USER,
+  UPDATE_USER_FAILED,
+  UPDATE_USER_SUCCESS,
+} from '../constants/user';
+import { AppDispatch, AppThunk } from '../../types';
 
-// REGISTER
-export const REGISTER_USER = 'REGISTER_USER';
-export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
-export const REGISTER_USER_FAILED = 'REGISTER_USER_FAILED';
+type TRegisterUser = {
+  readonly type: typeof REGISTER_USER;
+};
 
-// LOGIN
-export const LOGIN_USER = 'LOGIN_USER';
-export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
-export const LOGIN_USER_FAILED = 'LOGIN_USER_FAILED';
+type TRegisterUserSuccess = {
+  readonly type: typeof REGISTER_USER_SUCCESS;
+};
 
-// LOGOUT
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
-export const LOGOUT_USER_FAILED = 'LOGOUT_USER_FAILED';
+type TRegisterUserFailed = {
+  readonly type: typeof REGISTER_USER_FAILED;
+};
 
-// PROFILE
-export const GET_USER = 'GET_USER';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED = 'GET_USER_FAILED';
-export const UPDATE_USER = 'UPDATE_USER';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+type TLoginUser = {
+  readonly type: typeof LOGIN_USER;
+};
 
-export const registerUser = ({ email, password, name }: TUser) => {
-  // @ts-ignore
-  return function (dispatch) {
+type TLoginUserSuccess = {
+  readonly type: typeof LOGIN_USER_SUCCESS;
+};
+
+type TLoginUserFailed = {
+  readonly type: typeof LOGIN_USER_FAILED;
+};
+
+type TLogoutUser = {
+  readonly type: typeof LOGOUT_USER;
+};
+
+type TLogoutUserSuccess = {
+  readonly type: typeof LOGOUT_USER_SUCCESS;
+};
+
+type TLogoutUserFailed = {
+  readonly type: typeof LOGOUT_USER_FAILED;
+};
+
+type TGetUser = {
+  readonly type: typeof GET_USER;
+};
+
+type TGetUserSuccess = {
+  readonly type: typeof GET_USER_SUCCESS;
+};
+
+type TGetUserFailed = {
+  readonly type: typeof GET_USER_FAILED;
+};
+
+type TUpdateUser = {
+  readonly type: typeof UPDATE_USER;
+};
+
+type TUpdateUserSuccess = {
+  readonly type: typeof UPDATE_USER_SUCCESS;
+};
+
+type TUpdateUserFailed = {
+  readonly type: typeof UPDATE_USER_FAILED;
+};
+
+type TUserRegisterActions = TRegisterUser | TRegisterUserSuccess | TRegisterUserFailed;
+type TUserLoginActions = TLoginUser | TLoginUserSuccess | TLoginUserFailed;
+type TUserLogoutActions = TLogoutUser | TLogoutUserSuccess | TLogoutUserFailed;
+type TUserGetActions = TGetUser | TGetUserSuccess | TGetUserFailed;
+type TUserUpdateActions = TUpdateUser | TUpdateUserSuccess | TUpdateUserFailed;
+
+export type TUserActions =
+  | TUserRegisterActions
+  | TUserLoginActions
+  | TUserLogoutActions
+  | TUserGetActions
+  | TUserUpdateActions;
+
+export const registerUser: AppThunk = ({ email, password, name }: TUser) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: REGISTER_USER,
     });
@@ -58,9 +125,8 @@ export const registerUser = ({ email, password, name }: TUser) => {
       });
   };
 };
-export const loginUser = ({ email, password }: Omit<TUser, 'name'>) => {
-  // @ts-ignore
-  return function (dispatch) {
+export const loginUser: AppThunk = ({ email, password }: Omit<TUser, 'name'>) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: LOGIN_USER,
     });
@@ -89,9 +155,8 @@ export const loginUser = ({ email, password }: Omit<TUser, 'name'>) => {
       });
   };
 };
-export const logoutUser = () => {
-  // @ts-ignore
-  return function (dispatch) {
+export const logoutUser: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: LOGOUT_USER,
     });
@@ -120,9 +185,8 @@ export const logoutUser = () => {
       });
   };
 };
-export const getUser = () => {
-  // @ts-ignore
-  return function (dispatch) {
+export const getUser: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_USER,
     });
@@ -149,11 +213,8 @@ export const getUser = () => {
       });
   };
 };
-
-// @ts-ignore
-export const updateUser = (dataToUpdate) => {
-  // @ts-ignore
-  return function (dispatch) {
+export const updateUser: AppThunk = (dataToUpdate) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: UPDATE_USER,
     });

@@ -1,21 +1,30 @@
 import {
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_SUCCESS,
   WS_GET_ORDERS,
   WS_SEND_MESSAGE,
   WS_USER_NAME_UPDATE,
-} from '../actions/feed-socket';
+} from '../constants/feed-socket';
+import { TOrder } from '../../types/types';
+import { TWSActions } from '../actions/feed-socket';
+import { TAppActions } from '../../types';
 
-const initialState = {
+type TFeedInitialState = {
+  wsConnected: boolean;
+  orders: TOrder[];
+  total: number | null;
+  totalToday: number | null;
+};
+
+const initialState: TFeedInitialState = {
   wsConnected: false,
   orders: [],
   total: null,
   totalToday: null,
 };
 
-// @ts-ignore
-export const feedReducer = (state = initialState, action) => {
+export const feedReducer = (state: TFeedInitialState = initialState, action: TAppActions): TFeedInitialState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS: {
       return {

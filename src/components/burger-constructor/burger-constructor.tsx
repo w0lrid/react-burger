@@ -2,12 +2,13 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import styles from './burger-constructor.module.css';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_INGREDIENT, getOrder, SET_BUN, SORT_INGREDIENTS } from '../../services/actions/order';
+import { getOrder } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import Ingredient from './ingredient/ingredient';
 import { getOrderFromStore } from '../../services/selectors/order';
 import { useNavigate } from 'react-router-dom';
 import { TIngredient, TStore, TStoreUser } from '../../types/types';
+import { ADD_INGREDIENT, SET_BUN, SORT_INGREDIENTS } from '../../services/constants/order';
 
 type TBurgerConstructor = {
   handleOpenModal: () => void;

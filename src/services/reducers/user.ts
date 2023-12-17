@@ -11,16 +11,23 @@ import {
   UPDATE_USER,
   UPDATE_USER_FAILED,
   UPDATE_USER_SUCCESS,
-} from '../actions/user';
+} from '../constants/user';
+import { TUser } from '../../types/types';
 
-const initialState = {
+type TUserInitialState = {
+  userRequest: boolean;
+  userFailed: boolean;
+  user: TUser | null;
+};
+
+const initialState: TUserInitialState = {
   userRequest: false,
   userFailed: false,
   user: null,
 };
 
 // @ts-ignore
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state: TUserInitialState = initialState, action): TUserInitialState => {
   switch (action.type) {
     case REGISTER_USER: {
       return {

@@ -1,14 +1,24 @@
 import {
+  ADD_INGREDIENT,
   GET_ORDER,
   GET_ORDER_FAILED,
   GET_ORDER_SUCCESS,
-  SET_BUN,
-  ADD_INGREDIENT,
   REMOVE_INGREDIENT,
+  SET_BUN,
   SORT_INGREDIENTS,
-} from '../actions/order';
+} from '../constants/order';
+import { TIngredient, TOrder } from '../../types/types';
 
-const initialState = {
+type TOrderInitialState = {
+  orderRequest: boolean;
+  orderFailed: boolean;
+  order: TOrder | null;
+  selectedOrder: TOrder | null;
+  bun: TIngredient | null;
+  ingredients: TIngredient[];
+};
+
+const initialState: TOrderInitialState = {
   orderRequest: false,
   orderFailed: false,
   order: null,
@@ -18,7 +28,7 @@ const initialState = {
 };
 
 // @ts-ignore
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state: TOrderInitialState = initialState, action): TOrderInitialState => {
   switch (action.type) {
     case GET_ORDER: {
       return {

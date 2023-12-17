@@ -49,9 +49,7 @@ export type TStoreFeed = {
   total: number;
   totalToday: number;
 };
-export type TStoreUserFeed = {
-  orders: TOrder[];
-};
+export type TStoreUserFeed = TStoreFeed;
 export type TStore = {
   ingredients: TStoreIngredients;
   order: TStoreOrder;

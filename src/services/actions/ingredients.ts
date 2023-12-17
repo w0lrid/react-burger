@@ -1,29 +1,42 @@
 import { ingredientsURL } from '../../config/constants';
 import { checkResponse } from '../../utils/checkResponse';
+import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from '../constants/ingredients';
+import { AppDispatch, AppThunk } from '../../types';
 
-export const GET_INGREDIENTS = 'GET_INGREDIENTS';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+type TGetIngredients = {
+  readonly type: typeof GET_INGREDIENTS;
+};
 
-export function getIngredients() {
-  // @ts-ignore
-  return function (dispatch) {
-    dispatch({
-      type: GET_INGREDIENTS,
-    });
+type TGetIngredientsSuccess = {
+  readonly type: typeof GET_INGREDIENTS_SUCCESS;
+};
 
-    fetch(ingredientsURL)
-      .then(checkResponse)
-      .then(({ data }) => {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: data,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED,
-        });
+type TGetIngredientsFailed = {
+  readonly type: typeof GET_INGREDIENTS_FAILED;
+};
+
+export type TIngredientsActions = TGetIngredients | TGetIngredientsSuccess | TGetIngredientsFailed;
+
+export function getIngredients(): AppThunk {
+  return () => {
+    return function (dispatch: AppDispatch) {
+      dispatch({
+        type: GET_INGREDIENTS,
       });
+
+      fetch(ingredientsURL)
+        .then(checkResponse)
+        .then(({ data }) => {
+          dispatch({
+            type: GET_INGREDIENTS_SUCCESS,
+            ingredients: data,
+          });
+        })
+        .catch(() => {
+          dispatch({
+            type: GET_INGREDIENTS_FAILED,
+          });
+        });
+    };
   };
 }

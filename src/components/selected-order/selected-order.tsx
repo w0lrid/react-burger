@@ -18,7 +18,10 @@ const SelectedOrder = () => {
     const token = getCookie('accessToken');
 
     dispatch(wsConnectionStart());
-    dispatch(userWsConnectionStart(token));
+
+    if (token) {
+      dispatch(userWsConnectionStart(token));
+    }
   }, []);
 
   const order = useSelector((state: TStore) => {
