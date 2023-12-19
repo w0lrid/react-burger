@@ -13,7 +13,7 @@ import ProtectedRouteElement from '../protected-route-element/protected-route-el
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { closeIngredient } from '../../services/actions/ingredient';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AppHeader from '../app-header/app-header';
 import styles from './app.module.css';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -21,6 +21,7 @@ import { closeSelectedOrder } from '../../services/actions/selected-order';
 import SelectedOrder from '../selected-order/selected-order';
 import { getUser } from '../../services/actions/user';
 import { TStore, TStoreIngredients } from '../../types/types';
+import { useDispatch } from '../../utils/hooks';
 
 function App() {
   window.history.replaceState({}, document.title);
@@ -33,9 +34,7 @@ function App() {
   const { ingredients } = useSelector((state: TStore): TStoreIngredients => state.ingredients);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getUser());
-    // @ts-ignore
     dispatch(getIngredients());
   }, []);
 

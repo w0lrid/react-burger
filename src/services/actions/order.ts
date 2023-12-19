@@ -39,7 +39,7 @@ export type TOrderActions = TGetOrder | TGetOrderSuccess | TGetOrderFailed;
 export type TSelectedOrderActions = TGetSelectedOrder | TGetSelectedOrderSuccess | TGetSelectedOrderFailed;
 
 export const getOrder: AppThunk = (orderIngredientsIds: string[]) => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: GET_ORDER,
     });
@@ -66,8 +66,9 @@ export const getOrder: AppThunk = (orderIngredientsIds: string[]) => {
       });
   };
 };
+
 export const getSelectedOrder: AppThunk = (number: string) => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: GET_SELECTED_ORDER,
     });

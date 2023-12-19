@@ -20,7 +20,7 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_SUCCESS,
 } from '../constants/user';
-import { AppDispatch, AppThunk } from '../../types';
+import { AppThunk } from '../../types';
 
 type TRegisterUser = {
   readonly type: typeof REGISTER_USER;
@@ -96,7 +96,7 @@ export type TUserActions =
   | TUserUpdateActions;
 
 export const registerUser: AppThunk = ({ email, password, name }: TUser) => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: REGISTER_USER,
     });
@@ -126,7 +126,7 @@ export const registerUser: AppThunk = ({ email, password, name }: TUser) => {
   };
 };
 export const loginUser: AppThunk = ({ email, password }: Omit<TUser, 'name'>) => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: LOGIN_USER,
     });
@@ -156,7 +156,7 @@ export const loginUser: AppThunk = ({ email, password }: Omit<TUser, 'name'>) =>
   };
 };
 export const logoutUser: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: LOGOUT_USER,
     });
@@ -186,7 +186,7 @@ export const logoutUser: AppThunk = () => {
   };
 };
 export const getUser: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: GET_USER,
     });
@@ -214,7 +214,7 @@ export const getUser: AppThunk = () => {
   };
 };
 export const updateUser: AppThunk = (dataToUpdate) => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({
       type: UPDATE_USER,
     });

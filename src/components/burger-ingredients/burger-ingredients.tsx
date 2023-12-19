@@ -17,7 +17,6 @@ const BurgerIngredients = () => {
   }, [ingredients, orderBun]);
   const filling = useMemo(() => {
     const fillings = filterIngredientsByType('main');
-    console.log(fillings);
     addCountToIngredient(fillings);
     return fillings;
   }, [ingredients, orderIngredients]);
