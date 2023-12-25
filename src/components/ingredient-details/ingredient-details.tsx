@@ -1,7 +1,7 @@
 import styles from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { TStore, TStoreIngredients } from '../../types/types';
+import { useSelector } from '../../utils/hooks';
+import { getIngredientsFromStore } from '../../services/selectors/order';
 
 type TIngredientProperty = {
   name: string;
@@ -9,7 +9,7 @@ type TIngredientProperty = {
 };
 
 const IngredientDetails = () => {
-  const { ingredients } = useSelector((state: TStore): TStoreIngredients => state.ingredients);
+  const { ingredients } = useSelector(getIngredientsFromStore);
   const { ingredientId } = useParams();
   const ingredient = ingredients.find((ingredient) => ingredient._id === ingredientId);
   const { image, name, calories, proteins, fat, carbohydrates } = ingredient || {};

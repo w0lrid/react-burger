@@ -1,12 +1,12 @@
 import styles from './login.module.css';
-import React, { FormEvent, useMemo } from 'react';
+import React, { FormEvent, FormEventHandler, useMemo } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../utils/hooks';
 import { loginUser } from '../../services/actions/user';
 import { getCookie } from '../../utils/cookies';
 import { useForm } from '../../hooks/useForm';
-import { TStore } from '../../types/types';
+import { getUserFromStore } from '../../services/selectors/order';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -14,14 +14,13 @@ const LoginPage = () => {
     email: '',
     password: '',
   });
-  const { user } = useSelector((state: TStore) => state.user);
+  const { user } = useSelector(getUserFromStore);
 
   const { email, password } = values;
   const accessToken = useMemo(() => getCookie('accessToken'), [user]);
 
-  const sendRequestLogin = (e: FormEvent) => {
+  const sendRequestLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(loginUser({ email, password }));
   };
 

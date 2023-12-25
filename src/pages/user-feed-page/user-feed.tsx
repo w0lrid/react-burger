@@ -4,9 +4,9 @@ import styles from './user-feed.module.css';
 import { userWsConnectionStart, userWsConnectionClosed } from '../../services/actions/user-feed-socket';
 import { getCookie } from '../../utils/cookies';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { UserOrderCard } from '../../components/user-order-card/user-order-card';
-import { TStore } from '../../types/types';
+import { useDispatch, useSelector } from '../../utils/hooks';
+import { getUserFeedFromStore } from '../../services/selectors/order';
 
 const UserFeedPage = () => {
   const location = useLocation();
@@ -26,7 +26,7 @@ const UserFeedPage = () => {
     }
   }, [location, dispatch]);
 
-  const { orders } = useSelector((state: TStore) => state.userFeed);
+  const { orders } = useSelector(getUserFeedFromStore);
 
   return (
     orders && (

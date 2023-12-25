@@ -1,12 +1,11 @@
 import { getCookie } from '../../utils/cookies';
 import { Navigate } from 'react-router-dom';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 type TProtectedRouteElement = {
-  element: ReactNode;
+  element: JSX.Element;
 };
 
-// @ts-ignore
 const ProtectedRouteElement: FC<TProtectedRouteElement> = ({ element }) => {
   const accessToken = getCookie('accessToken');
 

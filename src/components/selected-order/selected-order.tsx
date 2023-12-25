@@ -4,11 +4,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useParams } from 'react-router-dom';
 import { includesIngredients, filterIngredients, getOrderDate, calculatePrice } from '../../utils/utils';
 import { wsConnectionStart } from '../../services/actions/feed-socket';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../utils/hooks';
 import { getSelectedOrder } from '../../services/actions/order';
 import { userWsConnectionStart } from '../../services/actions/user-feed-socket';
 import { getCookie } from '../../utils/cookies';
-import { TStore } from '../../types/types';
+import { getIngredientsFromStore } from '../../services/selectors/order';
 
 const SelectedOrder = () => {
   const { number: numberFromParams } = useParams();
@@ -24,7 +24,7 @@ const SelectedOrder = () => {
     }
   }, []);
 
-  const order = useSelector((state: TStore) => {
+  const order = useSelector((state) => {
     let order = state.feed.orders.find((order) => order.number === Number(numberFromParams));
 
     if (order) {
@@ -42,12 +42,11 @@ const SelectedOrder = () => {
 
   useEffect(() => {
     if (!order) {
-      // @ts-ignore
       dispatch(getSelectedOrder(numberFromParams));
     }
   }, [order]);
 
-  const { ingredients } = useSelector((state: TStore) => state.ingredients);
+  const { ingredients } = useSelector(getIngredientsFromStore);
 
   if (!order) {
     return null;

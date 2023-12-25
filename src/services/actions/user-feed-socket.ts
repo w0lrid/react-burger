@@ -41,6 +41,15 @@ export interface IUserWSUserNameUpdate {
   readonly payload: string;
 }
 
+export type TUserWSActionsConstants = {
+  readonly wsConnect: typeof USER_WS_CONNECTION_START;
+  readonly wsSendMessage: typeof USER_WS_SEND_MESSAGE;
+  readonly onOpen: typeof USER_WS_CONNECTION_SUCCESS;
+  readonly onClose: typeof USER_WS_CONNECTION_CLOSED;
+  readonly onError: typeof USER_WS_CONNECTION_ERROR;
+  readonly onOrders: typeof USER_WS_GET_ORDERS;
+};
+
 export type TUserWSActions =
   | IUserWSConnectionStart
   | IUserWSConnectionSuccess
@@ -50,7 +59,7 @@ export type TUserWSActions =
   | IUserWSSendMessage
   | IUserWSUserNameUpdate;
 
-export const userWsActions = {
+export const userWsActions: TUserWSActionsConstants = {
   wsConnect: USER_WS_CONNECTION_START,
   wsSendMessage: USER_WS_SEND_MESSAGE,
   onOpen: USER_WS_CONNECTION_SUCCESS,

@@ -40,6 +40,15 @@ export interface IWSUserNameUpdate {
   readonly payload: string;
 }
 
+export type TWSActionsConstants = {
+  readonly wsConnect: typeof WS_CONNECTION_START;
+  readonly wsSendMessage: typeof WS_SEND_MESSAGE;
+  readonly onOpen: typeof WS_CONNECTION_SUCCESS;
+  readonly onClose: typeof WS_CONNECTION_CLOSED;
+  readonly onError: typeof WS_CONNECTION_ERROR;
+  readonly onOrders: typeof WS_GET_ORDERS;
+};
+
 export type TWSActions =
   | IWSConnectionStart
   | IWSConnectionSuccess
@@ -49,7 +58,7 @@ export type TWSActions =
   | IWSSendMessage
   | IWSUserNameUpdate;
 
-export const wsActions = {
+export const wsActions: TWSActionsConstants = {
   wsConnect: WS_CONNECTION_START,
   wsSendMessage: WS_SEND_MESSAGE,
   onOpen: WS_CONNECTION_SUCCESS,

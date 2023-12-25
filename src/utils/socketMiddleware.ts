@@ -1,8 +1,14 @@
 import { getCookie } from './cookies';
+import { Middleware, MiddlewareAPI } from 'redux';
+import { AppDispatch, RootState } from '../types';
+import { TWSActionsConstants } from '../services/actions/feed-socket';
+import { TUserWSActionsConstants } from '../services/actions/user-feed-socket';
 
-export const socketMiddleware = (url, actions) => {
-  return (store) => {
-    let socket = null;
+export type TAllWSActions = TWSActionsConstants | TUserWSActionsConstants;
+
+export const socketMiddleware = (url: string, actions: TAllWSActions): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
     return (next) => {
       return (action) => {
         const { dispatch } = store;

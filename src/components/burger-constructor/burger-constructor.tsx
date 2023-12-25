@@ -1,14 +1,14 @@
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import { FC, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { getOrder } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import Ingredient from './ingredient/ingredient';
-import { getOrderFromStore } from '../../services/selectors/order';
 import { useNavigate } from 'react-router-dom';
-import { TIngredient, TStore, TStoreUser } from '../../types/types';
+import { TIngredient } from '../../types/types';
 import { ADD_INGREDIENT, SET_BUN, SORT_INGREDIENTS } from '../../services/constants/order';
+import { useDispatch, useSelector } from '../../utils/hooks';
+import { getOrderFromStore, getUserFromStore } from '../../services/selectors/order';
 
 type TBurgerConstructor = {
   handleOpenModal: () => void;
@@ -21,7 +21,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
   const { ingredients: orderIngredients, bun } = useSelector(getOrderFromStore);
   const [lockBunPrice, setLockBunPrice] = useState<boolean>(false);
   const [ingredientsCount, setIngredientsCount] = useState<Record<string, number>>({});
-  const { user } = useSelector((state: TStore): TStoreUser => state.user);
+  const { user } = useSelector(getUserFromStore);
   const { orderRequest } = useSelector(getOrderFromStore);
   const [, dropRef] = useDrop({
     accept: 'ingredient',
@@ -100,7 +100,6 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
       navigate('/login');
     } else {
       handleOpenModal();
-      // @ts-ignore
       dispatch(getOrder(orderIngredientsIds));
     }
   };
@@ -119,8 +118,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
 
   return (
     <div>
-      {/*@ts-ignore*/}
-      <div className={styles.constructor} ref={dropBunRef}>
+      <div className={styles.builder} ref={dropBunRef}>
         <div className={styles.bun}>
           {bun && (
             <ConstructorElement
@@ -133,8 +131,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ handleOpenModal }) => {
           )}
         </div>
         <div className={styles.scrollableIngredients} ref={dropRef}>
-          {orderIngredients.map((ingredient: TIngredient) =>
-            // @ts-ignore
+          {orderIngredients.map((ingredient) =>
             [...Array(ingredientsCount).keys()].map(() => (
               <Ingredient key={ingredient._id} ingredient={ingredient} moveIngredient={moveIngredient} />
             ))

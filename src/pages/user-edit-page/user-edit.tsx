@@ -1,7 +1,7 @@
 import styles from './user-edit.module.css';
 import { EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../utils/hooks';
 import { updateUser } from '../../services/actions/user';
 import { UserNav } from '../../components/user-nav/user-nav';
 
@@ -10,9 +10,8 @@ const UserEdit = () => {
 
   const [disabledNameInput, setDisabledNameInput] = useState(true);
 
-  const updateUserInfo = (e: FormEvent) => {
+  const updateUserInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(updateUser());
   };
 

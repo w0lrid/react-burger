@@ -20,7 +20,7 @@ const ForgotAndResetPasswordPage = () => {
 
   const isForgotPasswordForm = useLocation().pathname.includes('forgot');
 
-  const sendRequestRecoverPassword = (e: FormEvent) => {
+  const sendRequestRecoverPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetch(passwordRecoveryURL, {
       method: 'POST',
@@ -32,7 +32,7 @@ const ForgotAndResetPasswordPage = () => {
       });
   };
 
-  const sendRequestResetPassword = (e: FormEvent) => {
+  const sendRequestResetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetch(passwordResetURL, {
       method: 'POST',

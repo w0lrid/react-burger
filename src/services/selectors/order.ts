@@ -1,6 +1,9 @@
-import { TStore, TStoreIngredients, TStoreOrder } from '../../types/types';
+import { RootState } from '../../types';
 
-const getOrderFromStore = (state: TStore): TStoreOrder => state.order;
-const getIngredientsFromStore = (state: TStore): TStoreIngredients => state.ingredients;
+const getOrderFromStore = (state: RootState) => state.order;
+const getIngredientsFromStore = (state: RootState) => state.ingredients;
+const getFeedFromStore = (state: RootState) => state.feed;
+const getUserFromStore = (state: RootState) => state.user;
+const getUserFeedFromStore = (state: RootState) => state.userFeed;
 
-export { getOrderFromStore, getIngredientsFromStore };
+export { getOrderFromStore, getIngredientsFromStore, getFeedFromStore, getUserFromStore, getUserFeedFromStore };

@@ -13,6 +13,7 @@ import {
   UPDATE_USER_SUCCESS,
 } from '../constants/user';
 import { TUser } from '../../types/types';
+import { TAppActions } from '../../types';
 
 type TUserInitialState = {
   userRequest: boolean;
@@ -26,8 +27,7 @@ const initialState: TUserInitialState = {
   user: null,
 };
 
-// @ts-ignore
-export const userReducer = (state: TUserInitialState = initialState, action): TUserInitialState => {
+export const userReducer = (state: TUserInitialState = initialState, action: TAppActions): TUserInitialState => {
   switch (action.type) {
     case REGISTER_USER: {
       return {
@@ -40,7 +40,7 @@ export const userReducer = (state: TUserInitialState = initialState, action): TU
       return {
         ...state,
         userRequest: false,
-        user: action.user,
+        user: action.payload.user,
       };
     }
     case REGISTER_USER_FAILED: {
@@ -61,7 +61,7 @@ export const userReducer = (state: TUserInitialState = initialState, action): TU
       return {
         ...state,
         userRequest: false,
-        user: action.user,
+        user: action.payload.user,
       };
     }
     case LOGIN_USER_FAILED: {
@@ -82,7 +82,7 @@ export const userReducer = (state: TUserInitialState = initialState, action): TU
       return {
         ...state,
         userRequest: false,
-        user: action.user,
+        user: action.payload.user,
       };
     }
     case GET_USER_FAILED: {
@@ -103,7 +103,7 @@ export const userReducer = (state: TUserInitialState = initialState, action): TU
       return {
         ...state,
         userRequest: false,
-        user: action.user,
+        user: action.payload.user,
       };
     }
     case UPDATE_USER_FAILED: {

@@ -3,7 +3,7 @@ import { TWSActions } from '../services/actions/feed-socket';
 import { TIngredientActions } from '../services/actions/ingredient';
 import { TSelectedOrderModalActions } from '../services/actions/selected-order';
 import { TUserWSActions } from '../services/actions/user-feed-socket';
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { TIngredientsActions } from '../services/actions/ingredients';
 import { TOrderActions, TSelectedOrderActions } from '../services/actions/order';
@@ -20,4 +20,4 @@ export type TAppActions =
   | TUserActions
   | TUserWSActions;
 export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TAppActions>>;
-export type AppDispatch = Dispatch<TAppActions>;
+export type AppDispatch = typeof store.dispatch;

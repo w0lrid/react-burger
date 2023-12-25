@@ -3,10 +3,10 @@ import styles from './order-card.module.css';
 import { useLocation, Link } from 'react-router-dom';
 import { getOrderDate, filterIngredients, calculatePrice } from '../../utils/utils';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIngredientsFromStore } from '../../services/selectors/order';
 import { showSelectedOrder } from '../../services/actions/selected-order';
 import { TOrder } from '../../types/types';
+import { useDispatch, useSelector } from '../../utils/hooks';
+import { getIngredientsFromStore } from '../../services/selectors/order';
 
 export const OrderCard = ({ order }: { order: TOrder }) => {
   const location = useLocation();

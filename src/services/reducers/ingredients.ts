@@ -1,5 +1,6 @@
 import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from '../constants/ingredients';
 import { TIngredient } from '../../types/types';
+import { TIngredientsActions } from '../actions/ingredients';
 
 type TIngredientsInitialState = {
   ingredientsRequest: boolean;
@@ -15,8 +16,7 @@ const initialState: TIngredientsInitialState = {
 
 export const ingredientsReducer = (
   state: TIngredientsInitialState = initialState,
-  // @ts-ignore
-  action
+  action: any
 ): TIngredientsInitialState => {
   switch (action.type) {
     case GET_INGREDIENTS: {

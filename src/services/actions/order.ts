@@ -10,6 +10,12 @@ import {
   GET_SELECTED_ORDER_SUCCESS,
 } from '../constants/order';
 import { AppDispatch, AppThunk } from '../../types';
+import { TOrder } from '../../types/types';
+
+export type TOrderPayload = {
+  success: boolean;
+  order: TOrder;
+};
 
 type TGetOrder = {
   readonly type: typeof GET_ORDER;
@@ -17,6 +23,7 @@ type TGetOrder = {
 
 type TGetOrderSuccess = {
   readonly type: typeof GET_ORDER_SUCCESS;
+  readonly payload: TOrderPayload;
 };
 
 type TGetOrderFailed = {
@@ -29,6 +36,7 @@ type TGetSelectedOrder = {
 
 type TGetSelectedOrderSuccess = {
   readonly type: typeof GET_SELECTED_ORDER_SUCCESS;
+  readonly payload: TOrderPayload;
 };
 
 type TGetSelectedOrderFailed = {
@@ -56,7 +64,7 @@ export const getOrder: AppThunk = (orderIngredientsIds: string[]) => {
       .then(({ order }) => {
         dispatch({
           type: GET_ORDER_SUCCESS,
-          order,
+          payload: order,
         });
       })
       .catch(() => {
@@ -83,7 +91,7 @@ export const getSelectedOrder: AppThunk = (number: string) => {
       .then((response) => {
         dispatch({
           type: GET_SELECTED_ORDER_SUCCESS,
-          selectedOrder: response.orders[0],
+          payload: response.orders[0],
         });
       })
       .catch(() => {

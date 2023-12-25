@@ -22,12 +22,18 @@ import {
 } from '../constants/user';
 import { AppThunk } from '../../types';
 
+export type TUserPayload = {
+  success: boolean;
+  user: TUser;
+};
+
 type TRegisterUser = {
   readonly type: typeof REGISTER_USER;
 };
 
 type TRegisterUserSuccess = {
   readonly type: typeof REGISTER_USER_SUCCESS;
+  readonly payload: TUserPayload;
 };
 
 type TRegisterUserFailed = {
@@ -40,6 +46,7 @@ type TLoginUser = {
 
 type TLoginUserSuccess = {
   readonly type: typeof LOGIN_USER_SUCCESS;
+  readonly payload: TUserPayload;
 };
 
 type TLoginUserFailed = {
@@ -64,6 +71,7 @@ type TGetUser = {
 
 type TGetUserSuccess = {
   readonly type: typeof GET_USER_SUCCESS;
+  readonly payload: TUserPayload;
 };
 
 type TGetUserFailed = {
@@ -76,6 +84,7 @@ type TUpdateUser = {
 
 type TUpdateUserSuccess = {
   readonly type: typeof UPDATE_USER_SUCCESS;
+  readonly payload: TUserPayload;
 };
 
 type TUpdateUserFailed = {
@@ -115,7 +124,7 @@ export const registerUser: AppThunk = ({ email, password, name }: TUser) => {
 
         dispatch({
           type: REGISTER_USER_SUCCESS,
-          user,
+          payload: user,
         });
       })
       .catch(() => {
@@ -145,7 +154,7 @@ export const loginUser: AppThunk = ({ email, password }: Omit<TUser, 'name'>) =>
 
         dispatch({
           type: LOGIN_USER_SUCCESS,
-          user,
+          payload: user,
         });
       })
       .catch(() => {
@@ -203,7 +212,7 @@ export const getUser: AppThunk = () => {
       .then(({ user }) => {
         dispatch({
           type: GET_USER_SUCCESS,
-          user,
+          payload: user,
         });
       })
       .catch(() => {
@@ -232,7 +241,7 @@ export const updateUser: AppThunk = (dataToUpdate) => {
       .then(({ user }) => {
         dispatch({
           type: UPDATE_USER_SUCCESS,
-          user,
+          payload: user,
         });
       })
       .catch(() => {

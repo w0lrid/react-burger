@@ -1,3 +1,6 @@
+import { TWSActions } from '../services/actions/feed-socket';
+import { TUserWSActions } from '../services/actions/user-feed-socket';
+
 export type TUser = {
   email: string;
   password: string;
@@ -35,14 +38,14 @@ export type TStoreOrder = {
   orderRequest: boolean;
   orderFailed: boolean;
   order: TOrder;
-  selectedOrder: any;
-  bun: any;
+  selectedOrder: TOrder;
+  bun: TIngredient;
   ingredients: TIngredient[];
 };
 export type TStoreUser = {
   userRequest: boolean;
   userFailed: boolean;
-  user: any;
+  user: TUser;
 };
 export type TStoreFeed = {
   orders: TOrder[];
@@ -57,3 +60,13 @@ export type TStore = {
   feed: TStoreFeed;
   userFeed: TStoreUserFeed;
 };
+export type TRequest = {
+  method?: string;
+  headers: {
+    'Content-Type': string;
+    authorization?: string;
+  };
+  body?: string;
+};
+
+export type TAllWSActions = TWSActions | TUserWSActions;

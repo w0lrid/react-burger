@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import styles from './feed.module.css';
 import { useLocation } from 'react-router-dom';
 import { OrderCard } from '../../components/order-card/order-card';
-import { useDispatch, useSelector } from 'react-redux';
 import { wsConnectionClosed, wsConnectionStart } from '../../services/actions/feed-socket';
-import { TStore } from '../../types/types';
+import { useDispatch, useSelector } from '../../utils/hooks';
+import { getFeedFromStore } from '../../services/selectors/order';
 
 const FeedPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector((state: TStore) => state.feed);
+  const { orders, total, totalToday } = useSelector(getFeedFromStore);
 
   useEffect(() => {
     dispatch(wsConnectionStart());

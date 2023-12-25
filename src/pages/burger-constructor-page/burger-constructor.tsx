@@ -4,15 +4,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import React, { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
 import Modal from '../../components/modal/modal';
 import OrderDetails from '../../components/order-details/order-details';
-import { useSelector } from 'react-redux';
-import { getIngredientsFromStore, getOrderFromStore } from '../../services/selectors/order';
-import { closeIngredient } from '../../services/actions/ingredient';
-import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import { useNavigate } from 'react-router-dom';
 import { TIngredient } from '../../types/types';
+import { useSelector } from '../../utils/hooks';
+import { getIngredientsFromStore, getOrderFromStore } from '../../services/selectors/order';
 
 const BurgerConstructorPage = () => {
   const navigate = useNavigate();

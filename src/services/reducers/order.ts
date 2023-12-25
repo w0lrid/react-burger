@@ -1,13 +1,6 @@
-import {
-  ADD_INGREDIENT,
-  GET_ORDER,
-  GET_ORDER_FAILED,
-  GET_ORDER_SUCCESS,
-  REMOVE_INGREDIENT,
-  SET_BUN,
-  SORT_INGREDIENTS,
-} from '../constants/order';
+import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS } from '../constants/order';
 import { TIngredient, TOrder } from '../../types/types';
+import { TAppActions } from '../../types';
 
 type TOrderInitialState = {
   orderRequest: boolean;
@@ -27,8 +20,7 @@ const initialState: TOrderInitialState = {
   ingredients: [],
 };
 
-// @ts-ignore
-export const orderReducer = (state: TOrderInitialState = initialState, action): TOrderInitialState => {
+export const orderReducer = (state: TOrderInitialState = initialState, action: TAppActions): TOrderInitialState => {
   switch (action.type) {
     case GET_ORDER: {
       return {
@@ -41,7 +33,7 @@ export const orderReducer = (state: TOrderInitialState = initialState, action): 
       return {
         ...state,
         orderRequest: false,
-        order: action.order,
+        order: action.payload.order,
       };
     }
     case GET_ORDER_FAILED: {
@@ -49,39 +41,6 @@ export const orderReducer = (state: TOrderInitialState = initialState, action): 
         ...state,
         orderRequest: false,
         orderFailed: true,
-      };
-    }
-    case SET_BUN: {
-      return {
-        ...state,
-        bun: action.bun,
-      };
-    }
-    case ADD_INGREDIENT: {
-      return {
-        ...state,
-        ingredients: [...state.ingredients, action.ingredient],
-      };
-    }
-    case REMOVE_INGREDIENT: {
-      return {
-        ...state,
-        ingredients: (() => {
-          // @ts-ignore
-          const indexOfIngredientToRemove = state.ingredients.findIndex((ingredient) => ingredient._id === action._id);
-          const firstHalf = state.ingredients.slice(0, indexOfIngredientToRemove);
-          const secondHalf = state.ingredients.slice(indexOfIngredientToRemove + 1);
-
-          const orderWithoutRemovedIngredient = firstHalf.concat(secondHalf);
-
-          return orderWithoutRemovedIngredient;
-        })(),
-      };
-    }
-    case SORT_INGREDIENTS: {
-      return {
-        ...state,
-        ingredients: action.ingredients,
       };
     }
     default: {
