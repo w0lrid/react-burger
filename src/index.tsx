@@ -15,7 +15,7 @@ import { configureStore } from '@reduxjs/toolkit';
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 const userOrdersUrl = `wss://norma.nomoreparties.space/orders`;
 const middleware = [thunk, socketMiddleware(wsUrl, wsActions), socketMiddleware(userOrdersUrl, userWsActions)];
-const store = configureStore({ reducer: rootReducer, middleware: middleware });
+export const store = configureStore({ reducer: rootReducer, middleware: middleware });
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
@@ -24,7 +24,7 @@ root.render(
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
