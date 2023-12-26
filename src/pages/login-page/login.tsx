@@ -1,5 +1,5 @@
 import styles from './login.module.css';
-import React, { FormEvent, FormEventHandler, useMemo } from 'react';
+import React, { FormEvent, useMemo } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../utils/hooks';

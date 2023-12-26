@@ -6,13 +6,13 @@ import BurgerConstructor from '../../components/burger-constructor/burger-constr
 import React, { useEffect, useState } from 'react';
 import Modal from '../../components/modal/modal';
 import OrderDetails from '../../components/order-details/order-details';
-import { useNavigate } from 'react-router-dom';
 import { TIngredient } from '../../types/types';
-import { useSelector } from '../../utils/hooks';
+import { useDispatch, useSelector } from '../../utils/hooks';
 import { getIngredientsFromStore, getOrderFromStore } from '../../services/selectors/order';
+import { closeIngredient } from '../../services/actions/ingredient';
 
 const BurgerConstructorPage = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { ingredients } = useSelector(getIngredientsFromStore);
   const { order } = useSelector(getOrderFromStore);
 
@@ -30,7 +30,7 @@ const BurgerConstructorPage = () => {
       {order && (
         <Modal
           handleClose={() => {
-            navigate(-1);
+            dispatch(closeIngredient());
           }}
         >
           <OrderDetails orderNumber={order.number} />

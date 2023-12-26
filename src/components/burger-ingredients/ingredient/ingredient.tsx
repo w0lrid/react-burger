@@ -1,6 +1,6 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredient.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../../utils/hooks';
 import { showIngredient } from '../../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
 import { Link, useLocation } from 'react-router-dom';
